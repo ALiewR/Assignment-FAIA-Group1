@@ -118,6 +118,19 @@ public class BattleEngineUI extends UI {
         // display item info
         printItems(battleContext.getItems());
 
+        // display item effect turn lasting info
+        if (battleContext.getIsSmokeBombActive()) {
+            int durationLeft = 0;
+            // find smoke bomb & get its duration left
+            for (Item eachItem: battleContext.getActiveItems()) {
+                if (eachItem.itemType == ITEM_TYPE.SMOKE_BOMB &&
+                        durationLeft < eachItem.currentDurationLeft) { // eg 2 smoke bombs used, use the one with longest duration left
+                    durationLeft = eachItem.currentDurationLeft;
+                }
+            }
+            displayMessage("| Effect: " + durationLeft + " turn remaining ");
+        }
+
         // display cooldown info
         displayLineMessage("| Special Skills Cooldown: " + specialSkillsCooldown + " rounds ");
 
@@ -219,6 +232,7 @@ public class BattleEngineUI extends UI {
     }
     private void printItems(List<Item> items) {
         Map<String, Integer> nameCountMap = new HashMap<>();
+        Map<String, Boolean> nameConsumedThisTurnMap = new HashMap<>();
         for (int i = 0; i < items.size(); i++) {
             // put into a dict of item: quantity then individually print
             // TODO: adjust according to accessibility in Item class
@@ -226,19 +240,33 @@ public class BattleEngineUI extends UI {
                 int quantity = 0;
                 if (!(items.get(i).getIsUsed())) quantity = 1; // not yet used so should be 1
                 nameCountMap.put(items.get(i).name, quantity);
+
+                // check if item was consumed this turn
+                if (items.get(i).getIsUsed() &&
+                        items.get(i).currentDurationLeft == items.get(i).maxDuration) {
+                    nameConsumedThisTurnMap.put(items.get(i).name, true);
+                }
+                else nameConsumedThisTurnMap.put(items.get(i).name, false);
             }
             else { // add to count for said item
                 nameCountMap.replace(items.get(i).name, nameCountMap.get(items.get(i).name) + 1);
+                // check if item was consumed this turn
+                if (items.get(i).getIsUsed() &&
+                        items.get(i).currentDurationLeft == items.get(i).maxDuration) {
+                    nameConsumedThisTurnMap.replace(items.get(i).name, true);
+                } // no replacing else since don't want to override and old true with new false
             }
         }
 
         // print all items
         for (Map.Entry<String, Integer> entry: nameCountMap.entrySet()) {
-            printItem(entry.getKey(), entry.getValue());
+            printItem(entry.getKey(), entry.getValue(), nameConsumedThisTurnMap.get(entry.getKey()));
         }
     }
-    private void printItem(String itemName, int itemCount) {
+    private void printItem(String itemName, int itemCount, boolean isConsumedThisTurn) {
         displayMessage("| " + itemName + ": " + itemCount + " ");
+        if (isConsumedThisTurn)
+            displayMessage("<-- consumed ");
     }
     public void printStatusEffectExpires(String statusEffectName) {
         displayMessage("| " + statusEffectName + " expires ");
