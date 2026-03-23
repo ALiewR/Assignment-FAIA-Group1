@@ -149,6 +149,7 @@ public class BattleEngineUI extends UI {
                                    StatusEffect statusEffectAfflicted) {
         printTargetImpact(targetName, currentHP, attackerAtk, targetDef, isOnlyTarget);
         displayMessage("| " + targetName + " ");
+        if (statusEffectAfflicted == null) return;
         if (statusEffectAfflicted.statusEffectType == STATUS_EFFECT_TYPE.STUNNED) {
             displayMessage("STUNNED ");
         }
