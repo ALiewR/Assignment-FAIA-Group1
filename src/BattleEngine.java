@@ -1,0 +1,167 @@
+import java.util.ArrayList;
+import java.util.List;
+
+public class BattleEngine {
+    private BattleContext currentBattleContext;
+    private BattleEngineUI battleEngineUI;
+    private int roundCount = 0; // gets added to at the START of the round --> avoid ending round 1 with 2 as roundCount
+    //TEMP TODO: adjust how to check this based on how Items is done
+    private boolean isSmokeBombActive = false;
+
+
+    public BattleEngine(BattleContext battleContext) {
+        currentBattleContext = battleContext;
+        battleEngineUI = new BattleEngineUI(new Printer()); // use default printer
+    }
+    public BattleEngine(BattleContext battleContext, Printer printer) {
+        currentBattleContext = battleContext;
+        battleEngineUI = new BattleEngineUI(printer);
+    }
+
+    // called by main
+        // returns isVictory
+    public boolean executeBattle() {
+        resetBattle(); // called from the start to make sure starting with clean slate
+            // useful for "replay with same settings" since that goes straight to BattleEngine
+
+        while (!checkBattleComplete()) {
+            executeRound();
+        }
+
+        // battle complete. now figure out whose victory
+        return !currentBattleContext.isAllPlayersDefeated();
+    }
+
+    /*
+     * used in executeBattle to facilitate battle
+     */
+    private void resetBattle() {
+        roundCount = 0;
+        currentBattleContext.reset();
+    }
+    private void trySpawnBackup() {
+        // if no enemies left, try and spawn backup
+        boolean hasSuccessfullySpawnedBackup = false;
+        if (currentBattleContext.isAllEnemiesDefeated()) {
+            hasSuccessfullySpawnedBackup = currentBattleContext.spawnBackup();
+        }
+        // print that new enemies spawned if did spawn
+        if (hasSuccessfullySpawnedBackup)
+            battleEngineUI.displayBackupSpawnedInfo(currentBattleContext.getBackupEnemies());
+    }
+    private boolean checkBattleComplete() {
+        return currentBattleContext.isAllPlayersDefeated() || currentBattleContext.isAllEnemiesDefeated();
+    }
+    private void executeRound() {
+        roundCount++;
+        battleEngineUI.displayRoundHeader(roundCount);
+
+        // filter the dead out of the combatant lists
+        currentBattleContext.refreshCombatantList();
+
+        // every combatant gets a turn based on turn order strategy
+        for (Combatant eachCombatant: currentBattleContext.getCombatantsInTurnOrder()) {
+            executeTurn(eachCombatant);
+            // once turn is up, deplete duration of status effect
+            // TODO: adjust according to how to update duration and check if expired
+            for (String eachStatusEffectName: eachCombatant.updateStatusEffectDuration()) {
+                battleEngineUI.printStatusEffectExpires(eachStatusEffectName);
+            }
+            battleEngineUI.displayLineMessage(""); // to move on to next line in printing
+            // and reduce skill cooldown TODO: adjust according to how cooldown works
+            eachCombatant.depleteCooldown();
+        }
+        // once everyone has had a turn, deplete item duration
+        for (Item eachItem: currentBattleContext.getItems()) eachItem.depleteDuration();
+
+        // see if can spawn back up if needed (placed here for order of printing)
+        trySpawnBackup();
+
+        // display end of turn info
+        battleEngineUI.displayEndOfRoundInfo(currentBattleContext, roundCount,
+                currentBattleContext.getPlayers().getFirst().currentSkillMaxCooldown); // only takes first player's cooldown
+
+    }
+    private void executeTurn(Combatant actor) {
+        // if eliminated, turn skipped (different message printed)
+        // TODO: edit health check depending on how Combatant class is structured
+        if (actor.currentHP <= 0) {
+            battleEngineUI.displayTurnEliminated(actor.name);
+            return;
+        }
+        // if stunned, turn skipped
+        for (StatusEffect eachStatusEffect: actor.afflictedStatusEffects) {
+            if (eachStatusEffect.statusEffectType == STATUS_EFFECT_TYPE.STUNNED) {
+                battleEngineUI.displayTurnStunned(actor.name);
+                return;
+            }
+        }
+
+        // else, take turn
+            // TODO: only used if Combatant has tag to say whether it is player or enemy
+        switch(actor.combatantType) {
+            case PLAYER: {
+                executePlayerTurn(actor);
+                break;
+            }
+            case ENEMY: {
+                executeEnemyTurn(actor);
+                break;
+            }
+        }
+    }
+    private void executePlayerTurn(Combatant player) {
+        // user selects action to take
+        Action actionToTake = battleEngineUI.selectAction(player);
+        // TODO: check if the action is valid (eg no item but wanna use item)
+        //  -- ADJUST ACCORDING TO HOW OTHER PARTS ARE DONE
+
+        // selects targets
+        List<Combatant> targets = new ArrayList<>();
+        List<Combatant> possibleTargets = new ArrayList<>(currentBattleContext.getEnemies()); // copy so you won't edit original list
+        // if num of targets >= num of possible targets, auto use on possible targets (no need select)
+        if (actionToTake.numOfTargets >= possibleTargets.size()) targets = possibleTargets;
+        else {
+            // user selects targets
+            // TODO: adjust how to get num of targets based on how other parts are done
+            for (int i = 0; i < actionToTake.numOfTargets && !possibleTargets.isEmpty(); i++) {
+                Combatant target = battleEngineUI.selectTarget(actionToTake.name, possibleTargets);
+                targets.add(target);
+                possibleTargets.remove(target);
+            }
+        }
+
+        // for each target, execute action
+        if (!isSmokeBombActive) actionToTake.execute(player, targets);
+
+        // print turn outcome
+        // TODO: check if smoke bomb is active. if so, print different action msg
+        if (isSmokeBombActive) {
+            // TODO
+        }
+        else {
+            battleEngineUI.displayTurnOutcome(player, actionToTake, targets, actionToTake.doesInflictStatusEffectOnTarget);
+        }
+
+        // if action taken is special skill, print cooldown update
+        // TODO: adjust based on accessibility from other classes
+        if (actionToTake.actionType == ACTION_TYPE.SPECIAL_SKILL) battleEngineUI.printSpecialSkillCooldown(player.specialSkillMaxCooldown);
+    }
+    private void executeEnemyTurn(Combatant enemy) {
+        // TODO: change if using EnemyStrategy class
+        if (enemy.availableActions.isEmpty()) return;
+        Action actionToTake = enemy.availableActions.getFirst();
+
+        // auto pick targets based on first in player list
+        List<Combatant> targets = new ArrayList<>();
+        for (int i = 0; i < actionToTake.numOfTargets
+                && i < currentBattleContext.getPlayers().size(); i++) {
+            targets.add(currentBattleContext.getPlayers().get(i));
+        }
+
+        // execute action
+        actionToTake.execute(enemy, targets);
+        // print turn outcome
+        battleEngineUI.displayTurnOutcome(enemy, actionToTake, targets, actionToTake.doesInflictStatusEffectOnTarget);
+    }
+}
