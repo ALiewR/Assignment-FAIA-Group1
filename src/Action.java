@@ -10,6 +10,8 @@ public class Action {
     public Action() {};
     public Action(boolean inflictSE) {
         doesInflictStatusEffectOnTarget = inflictSE;
+        actionType = ACTION_TYPE.SPECIAL_SKILL;
+        name = "shield bash";
     }
     public Action(String name, String desc, ACTION_TYPE aType, int numT) {
         this.name = name;
