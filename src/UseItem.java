@@ -26,5 +26,13 @@ public class UseItem extends Action {
                 if (eachTarget.currentHP > eachTarget.baseHP) eachTarget.currentHP = eachTarget.baseHP;
             }
         }
+        if (actionType == ACTION_TYPE.USE_SMOKE_BOMB) {
+            battleContext.activateSmokeBomb();
+            for (Item eachItem: battleContext.getItems()) {
+                if (eachItem.itemType == ITEM_TYPE.SMOKE_BOMB) {
+                    eachItem.use();
+                }
+            }
+        }
     }
 }

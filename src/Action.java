@@ -25,13 +25,5 @@ public class Action {
             eachTarget.currentHP -= actor.atk - eachTarget.defence;
             if (doesInflictStatusEffectOnTarget) eachTarget.afflictedStatusEffects.add(new StatusEffect());
         }
-        if (actionType == ACTION_TYPE.USE_SMOKE_BOMB) {
-            battleContext.activateSmokeBomb();
-            for (Item eachItem: battleContext.getItems()) {
-                if (eachItem.itemType == ITEM_TYPE.SMOKE_BOMB) {
-                    eachItem.use();
-                }
-            }
-        }
     }
 }
