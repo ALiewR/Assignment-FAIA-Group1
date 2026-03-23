@@ -23,6 +23,6 @@ public class Main {
                 }
             }
         }
-        gameCompletion.handleGameResult(true, battleContext);
+        if (isGameWon) gameCompletion.handleGameResult(true, battleContext);
     }
 }

@@ -107,14 +107,34 @@ public class GameCompletionUI extends UI {
             userChoice = getUIInt();
 
             switch (userChoice) {
-                case 0: return NEXT_GAME_OPTION_TYPE.EXIT;
-                case 1: return NEXT_GAME_OPTION_TYPE.REPLAY;
-                case 2: return NEXT_GAME_OPTION_TYPE.START_NEW;
+                case 0: {
+                    displayExitMessage();
+                    return NEXT_GAME_OPTION_TYPE.EXIT;
+                }
+                case 1: {
+                    displayReplayMessage();
+                    return NEXT_GAME_OPTION_TYPE.REPLAY;
+                }
+                case 2: {
+                    displayRestartMessage();
+                    return NEXT_GAME_OPTION_TYPE.START_NEW;
+                }
                 default: {
                     displayLineMessage("Sorry, that's not one of the options. Try keying in a number corresponding to the options mentioned!");
                 }
             }
         }
         return NEXT_GAME_OPTION_TYPE.EXIT;
+    }
+    private void displayExitMessage() {
+        displayLineMessage("Thank you for playing! Exiting game...", true);
+    }
+    private void displayReplayMessage() {
+        displayLineMessage("Understood! Loading game with same settings...", true);
+        displayLineMessage("=======================================");
+    }
+    private void displayRestartMessage() {
+        displayLineMessage("Understood! Sending you back to home screen...", true);
+        displayLineMessage("=======================================");
     }
 }
