@@ -12,7 +12,11 @@ public class UseItem extends Action {
             associatedItem = new Item("potion");
             targetType = TARGET_TYPE.SELF;
         }
-    };
+        if (aType == ACTION_TYPE.USE_POWER_STONE) {
+            associatedItem = new Item("power stone");
+            targetType = TARGET_TYPE.ENEMIES;
+        }
+    }
 
     public void execute(Combatant actor, List<Combatant> targets, BattleContext battleContext) {
         if (actionType == ACTION_TYPE.USE_POTION) {

@@ -69,34 +69,17 @@ public class BattleEngineUI extends UI {
             case ATTACK:
             case SPECIAL_SKILL: { // TODO: print info of ATK bonus if ArcaneBlast used
                 printAttacking(action.name);
-                for (int i = 0; i < targets.size(); i++) {
-                    if (i > 0) displayMessage("| "); // if not first target hit
-                    if (isSmokeBombActive) {
-                        // attack doesn't even hit
-                        printTargetImpactSmokeBomb(targets.get(i).name, targets.get(i).currentHP, (targets.size() == 1), isSmokeBombExpiringThisTurn);
-                    }
-                    else if (hasInflictStatusEffectOnTargetThisTurn)
-                        if (targets.get(i).afflictedStatusEffects.size() <= 0) {
-
-                            printTargetImpact(targets.get(i).name, targets.get(i).oldHP, targets.get(i).currentHP,
-                                    actor.atk, targets.get(i).defence, (targets.size() == 1),
-                                    null);
-                        }
-                        else {
-                            printTargetImpact(targets.get(i).name, targets.get(i).oldHP, targets.get(i).currentHP,
-                                    actor.atk, targets.get(i).defence, (targets.size() == 1),
-                                    targets.get(i).afflictedStatusEffects.get(targets.get(i).afflictedStatusEffects.size() - 1)); // last status effect taken as most recently inflicted
-                        }
-                    else
-                        printTargetImpact(targets.get(i).name, targets.get(i).oldHP, targets.get(i).currentHP,
-                                actor.atk, targets.get(i).defence, (targets.size() == 1));
-                }
+                printingAttackImpacts(actor, targets,hasInflictStatusEffectOnTargetThisTurn, isSmokeBombActive, isSmokeBombExpiringThisTurn);
                 break;
             }
-            case USE_ITEM: {
-                // TODO
+            case USE_POWER_STONE: {
                 if (!(action instanceof UseItem useItemAction)) return;
                 printUsingItem(useItemAction.associatedItem.name);
+                displayMessage("--> " + actor.getSpecialSkill().name + " triggered --> ", true);
+                // call same printing functionality as special skill
+                printingAttackImpacts(actor, targets,hasInflictStatusEffectOnTargetThisTurn, isSmokeBombActive, isSmokeBombExpiringThisTurn);
+                displayMessage("Cooldown unchanged --> " + actor.currentSkillMaxCooldown + " (" +
+                        useItemAction.associatedItem.description + ") | " + useItemAction.associatedItem.name + " consumed ");
                 break;
             }
             case USE_SMOKE_BOMB: {
@@ -145,6 +128,32 @@ public class BattleEngineUI extends UI {
         displayMessage(attackName + " --> ", true);
     }
     // used for impact of ATTACKS
+    private void printingAttackImpacts(Combatant actor, List<Combatant> targets,
+                                       boolean hasInflictStatusEffectOnTargetThisTurn,
+                                       boolean isSmokeBombActive, boolean isSmokeBombExpiringThisTurn) {
+        for (int i = 0; i < targets.size(); i++) {
+            if (i > 0) displayMessage("| "); // if not first target hit
+            if (isSmokeBombActive) {
+                // attack doesn't even hit
+                printTargetImpactSmokeBomb(targets.get(i).name, targets.get(i).currentHP, (targets.size() == 1), isSmokeBombExpiringThisTurn);
+            }
+            else if (hasInflictStatusEffectOnTargetThisTurn)
+                if (targets.get(i).afflictedStatusEffects.size() <= 0) {
+
+                    printTargetImpact(targets.get(i).name, targets.get(i).oldHP, targets.get(i).currentHP,
+                            actor.atk, targets.get(i).defence, (targets.size() == 1),
+                            null);
+                }
+                else {
+                    printTargetImpact(targets.get(i).name, targets.get(i).oldHP, targets.get(i).currentHP,
+                            actor.atk, targets.get(i).defence, (targets.size() == 1),
+                            targets.get(i).afflictedStatusEffects.get(targets.get(i).afflictedStatusEffects.size() - 1)); // last status effect taken as most recently inflicted
+                }
+            else
+                printTargetImpact(targets.get(i).name, targets.get(i).oldHP, targets.get(i).currentHP,
+                        actor.atk, targets.get(i).defence, (targets.size() == 1));
+        }
+    }
     private void printTargetImpact(String targetName, int oldHP, int currentHP,
                                    int attackerAtk, int targetDef, boolean isOnlyTarget) {
         displayMessage(targetName + ": ", true);
