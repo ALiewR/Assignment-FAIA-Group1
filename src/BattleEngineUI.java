@@ -71,9 +71,17 @@ public class BattleEngineUI extends UI {
                 for (int i = 0; i < targets.size(); i++) {
                     if (i > 0) displayMessage("| "); // if not first target hit
                     if (hasInflictStatusEffectOnTargetThisTurn)
-                        printTargetImpact(targets.get(i).name, targets.get(i).currentHP,
-                                actor.atk, targets.get(i).defence, (targets.size() == 1),
-                                targets.get(i).afflictedStatusEffects.get(targets.get(i).afflictedStatusEffects.size() - 1)); // last status effect taken as most recently inflicted
+                        if (targets.get(i).afflictedStatusEffects.size() <= 0) {
+
+                            printTargetImpact(targets.get(i).name, targets.get(i).currentHP,
+                                    actor.atk, targets.get(i).defence, (targets.size() == 1),
+                                    null);
+                        }
+                        else {
+                            printTargetImpact(targets.get(i).name, targets.get(i).currentHP,
+                                    actor.atk, targets.get(i).defence, (targets.size() == 1),
+                                    targets.get(i).afflictedStatusEffects.get(targets.get(i).afflictedStatusEffects.size() - 1)); // last status effect taken as most recently inflicted
+                        }
                     else
                         printTargetImpact(targets.get(i).name, targets.get(i).currentHP,
                                 actor.atk, targets.get(i).defence, (targets.size() == 1));
