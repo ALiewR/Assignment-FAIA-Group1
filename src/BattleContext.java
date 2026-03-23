@@ -118,7 +118,7 @@ public class BattleContext {
         enemies = spawnEnemies(level, false);
         level.resetLevel();
 
-        // reset items used count -- TODO: depending on how Items is designed, might also need reset item effect duration
+        // reset items use (count and item effect duration)
         for(Item eachItem: items) eachItem.resetUse();
     }
 

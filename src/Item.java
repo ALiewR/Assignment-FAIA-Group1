@@ -6,7 +6,7 @@ public class Item {
     public final int maxDuration = 2;
     public ITEM_TYPE itemType = ITEM_TYPE.SMOKE_BOMB;
     public void use() { isUsed = true; currentDurationLeft = maxDuration; }
-    public void resetUse() { isUsed = false; }
+    public void resetUse() { isUsed = false; currentDurationLeft = 0; }
     public boolean getIsUsed() { return isUsed; }
     public void depleteDuration() {
         if (isUsed) currentDurationLeft--;
