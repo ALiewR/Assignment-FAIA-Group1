@@ -10,8 +10,6 @@ public class Main {
         // player won, exit game
         boolean isGameWon = battleEngine.executeBattle();
         while (!isGameWon) {
-            // TEMP
-            printer.printLine("You lost!.", true);
             NEXT_GAME_OPTION_TYPE nextGameOption = gameCompletion.handleGameResult(false, battleContext);
             switch(nextGameOption) {
                 case EXIT: return;
