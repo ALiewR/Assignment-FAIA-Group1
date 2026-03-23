@@ -5,14 +5,16 @@ public class Main {
         BattleContext battleContext = new BattleContext();
         BattleEngine battleEngine = new BattleEngine(battleContext, printer);
 
+        GameCompletion gameCompletion = new GameCompletion(printer);
+
         // player won, exit game
         while (!battleEngine.executeBattle()) {
             // TEMP
             printer.printLine("You lost!.", true);
+            gameCompletion.handleGameResult(false, battleContext);
             return;
             //battleEngine.executeBattle();
         }
-        // TEMP
-        printer.printLine("You win!", true);
+        gameCompletion.handleGameResult(true, battleContext);
     }
 }

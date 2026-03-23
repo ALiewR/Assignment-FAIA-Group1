@@ -24,6 +24,7 @@ public class BattleEngine {
         while (!checkBattleComplete()) {
             executeRound();
         }
+        currentBattleContext.setFinalRoundCount(roundCount);
 
         // battle complete. now figure out whose victory
         return !currentBattleContext.isAllPlayersDefeated();

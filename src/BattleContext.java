@@ -9,12 +9,13 @@ public class BattleContext {
     private Level level;
     private TurnOrderStrategy turnOrderStrategy;
     private boolean isSmokeBombActive = false;
+    private int finalRoundCount = 0;
 
     // TEMP
     public BattleContext() {
         players.add(new Player());
         items.add(new Item("smoke bomb"));
-        level = new Level(2);
+        level = new Level(1);
         enemies = spawnEnemies(level, false);
         turnOrderStrategy = new TurnOrderStrategy();
     }
@@ -107,6 +108,8 @@ public class BattleContext {
         }
         return aliveCombatants;
     }
+    public void setFinalRoundCount(int roundCount) { finalRoundCount = roundCount; }
+    public int getFinalRoundCount() { return finalRoundCount; }
     // used when player wants to restart game with same setting
     public void reset() {
         isSmokeBombActive = false;

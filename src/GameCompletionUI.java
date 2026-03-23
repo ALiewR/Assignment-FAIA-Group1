@@ -85,7 +85,7 @@ public class GameCompletionUI extends UI {
     }
     private void printRemainingItem(String itemName, int itemCount) {
         displayMessage("| Remaining " + itemName + ": ", true);
-        displayMessage(itemName + " ");
+        displayMessage(itemCount + " ");
         if (itemCount > 0) displayMessage("<-- unused ");
     }
 }
