@@ -67,17 +67,22 @@ public class BattleEngineUI extends UI {
         displayMessage(actor.name + " --> ", true);
         // TODO: adjust how to get action type based on how its implemented
         switch(action.actionType) {
-            case ATTACK:
-            case SPECIAL_SKILL: {
+            case ATTACK: {
                 printAttacking(action.name);
                 printingAttackImpacts(actor, targets,hasInflictStatusEffectOnTargetThisTurn, isSmokeBombActive, isSmokeBombExpiringThisTurn, false);
                 break;
             }
+            case SPECIAL_SKILL: {
+                printAttacking(action.name);
+                printingAttackImpacts(actor, targets,hasInflictStatusEffectOnTargetThisTurn, isSmokeBombActive, isSmokeBombExpiringThisTurn, false);
+                displayMessage("| Cooldown set to " + actor.currentSkillMaxCooldown + " ");
+                break;
+            }
             case ARCANE_BLAST: { // hits all enemies & increases atk
-                // TODO: print info of ATK bonus if ArcaneBlast used
                 printAttacking(action.name);
                 displayMessage("All Enemies: ", true);
                 printingAttackImpacts(actor,targets,hasInflictStatusEffectOnTargetThisTurn, isSmokeBombActive, isSmokeBombExpiringThisTurn, true);
+                displayMessage("| Cooldown set to " + actor.currentSkillMaxCooldown + " ");
                 break;
             }
             case USE_POWER_STONE: {
