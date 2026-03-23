@@ -73,7 +73,7 @@ public class BattleEngineUI extends UI {
                     if (hasInflictStatusEffectOnTargetThisTurn)
                         printTargetImpact(targets.get(i).name, targets.get(i).currentHP,
                                 actor.atk, targets.get(i).defence, (targets.size() == 1),
-                                targets.get(i).afflictedStatusEffects.get(targets.get(i).afflictedStatusEffects.size() - 1)); // last status effect taken as most recently inflicted
+                                targets.get(i).afflictedStatusEffects.getLast()); // last status effect taken as most recently inflicted
                     else
                         printTargetImpact(targets.get(i).name, targets.get(i).currentHP,
                                 actor.atk, targets.get(i).defence, (targets.size() == 1));
