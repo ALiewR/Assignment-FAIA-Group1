@@ -8,12 +8,22 @@ public class Main {
         GameCompletion gameCompletion = new GameCompletion(printer);
 
         // player won, exit game
-        while (!battleEngine.executeBattle()) {
+        boolean isGameWon = battleEngine.executeBattle();
+        while (!isGameWon) {
             // TEMP
             printer.printLine("You lost!.", true);
-            gameCompletion.handleGameResult(false, battleContext);
-            return;
-            //battleEngine.executeBattle();
+            NEXT_GAME_OPTION_TYPE nextGameOption = gameCompletion.handleGameResult(false, battleContext);
+            switch(nextGameOption) {
+                case EXIT: return;
+                case REPLAY: {
+                    isGameWon = battleEngine.executeBattle();
+                    break;
+                }
+                case START_NEW: {
+                    // TODO: go back to LoadingScreen
+                    break;
+                }
+            }
         }
         gameCompletion.handleGameResult(true, battleContext);
     }

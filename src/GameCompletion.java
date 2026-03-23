@@ -18,6 +18,8 @@ public class GameCompletion {
         gameCompletionUI.displayBattleVerdict(isVictory, battleContext.getPlayers(), enemiesLeftNames, battleContext.getFinalRoundCount(), battleContext.getItems());
 
         if (isVictory) return NEXT_GAME_OPTION_TYPE.EXIT;
-        return NEXT_GAME_OPTION_TYPE.EXIT; //TEMP
+
+        // let player pick next option
+        return gameCompletionUI.selectNextGameOption(); 
     }
 }

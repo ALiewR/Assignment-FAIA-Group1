@@ -15,7 +15,7 @@ public class BattleContext {
     public BattleContext() {
         players.add(new Player());
         items.add(new Item("smoke bomb"));
-        level = new Level(1);
+        level = new Level(2);
         enemies = spawnEnemies(level, false);
         turnOrderStrategy = new TurnOrderStrategy();
     }
@@ -35,8 +35,11 @@ public class BattleContext {
     }
 
     private List<Combatant> spawnEnemies(Level lvl, boolean isBackup) {
+        // make sure stats are full, untouched, reset before duplicating
+        for(Combatant eachEnemy: lvl.spawnBackup()) eachEnemy.resetCondition();
         if (isBackup) return new ArrayList<>(lvl.spawnBackup());
-        else return new ArrayList<>(lvl.getInitialEnemies());
+        for(Combatant eachEnemy: lvl.getInitialEnemies()) eachEnemy.resetCondition();
+        return new ArrayList<>(lvl.getInitialEnemies());
             // uses copy so when changing stats (eg HP),
         // the original "options" are left untouched (good for replay game with same settings)
     }

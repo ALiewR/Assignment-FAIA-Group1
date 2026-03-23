@@ -31,7 +31,10 @@ public class GameCompletionUI extends UI {
         for (Map.Entry<String, Integer> entry: mapItemsToQuantity(items).entrySet()) {
             printRemainingItem(entry.getKey(), entry.getValue());
         }
+
+        displayLineMessage("");
     }
+
     /*
     * used to build displayBattleVerdict
     */
@@ -87,5 +90,31 @@ public class GameCompletionUI extends UI {
         displayMessage("| Remaining " + itemName + ": ", true);
         displayMessage(itemCount + " ");
         if (itemCount > 0) displayMessage("<-- unused ");
+    }
+
+    /*
+    * used to get player to choose next opion
+    */
+    public NEXT_GAME_OPTION_TYPE selectNextGameOption() {
+        int userChoice = -1;
+
+        while (userChoice < 0 || userChoice > 2) {
+            displayLineMessage("Would you like to...", true);
+            displayLineMessage("0: Exit");
+            displayLineMessage("1: Replay with Same Settings");
+            displayLineMessage("2: Start a New Game (return to home screen)");
+            displayLineMessage("Select your choice: ", true);
+            userChoice = getUIInt();
+
+            switch (userChoice) {
+                case 0: return NEXT_GAME_OPTION_TYPE.EXIT;
+                case 1: return NEXT_GAME_OPTION_TYPE.REPLAY;
+                case 2: return NEXT_GAME_OPTION_TYPE.START_NEW;
+                default: {
+                    displayLineMessage("Sorry, that's not one of the options. Try keying in a number corresponding to the options mentioned!");
+                }
+            }
+        }
+        return NEXT_GAME_OPTION_TYPE.EXIT;
     }
 }
