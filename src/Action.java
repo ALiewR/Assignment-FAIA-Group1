@@ -6,7 +6,7 @@ public class Action {
     public ACTION_TYPE actionType = ACTION_TYPE.ATTACK;
     public int numOfTargets = 1;
     public boolean doesInflictStatusEffectOnTarget = false;
-    public Item associatedItem; //should only be under UseItem
+    public TARGET_TYPE targetType = TARGET_TYPE.ENEMIES;
     public Action() {};
     public Action(boolean inflictSE) {
         doesInflictStatusEffectOnTarget = inflictSE;
@@ -19,6 +19,7 @@ public class Action {
     };
     public void execute(Combatant actor, List<Combatant> targets, BattleContext battleContext) {
         for (Combatant eachTarget: targets) {
+            eachTarget.oldHP = eachTarget.currentHP;
             eachTarget.currentHP -= actor.atk - eachTarget.defence;
             if (doesInflictStatusEffectOnTarget) eachTarget.afflictedStatusEffects.add(new StatusEffect());
         }

@@ -119,17 +119,26 @@ public class BattleEngine {
 
         // selects targets
         List<Combatant> targets = new ArrayList<>();
-        // TODO: adjust to get list of possible enemies from action based of its target type
-        List<Combatant> possibleTargets = new ArrayList<>(currentBattleContext.getEnemies()); // copy so you won't edit original list
-        // if num of targets >= num of possible targets, auto use on possible targets (no need select)
-        if (actionToTake.numOfTargets >= possibleTargets.size()) targets = possibleTargets;
-        else {
-            // user selects targets
-            // TODO: adjust how to get num of targets based on how other parts are done
-            for (int i = 0; i < actionToTake.numOfTargets && !possibleTargets.isEmpty(); i++) {
-                Combatant target = battleEngineUI.selectTarget(actionToTake.name, possibleTargets);
-                targets.add(target);
-                possibleTargets.remove(target);
+        // TODO: adjust based on target type accessibility in Action class
+        switch(actionToTake.targetType) {
+            case ENEMIES: {
+                List<Combatant> possibleTargets = new ArrayList<>(currentBattleContext.getEnemies()); // copy so you won't edit original list
+                // if num of targets >= num of possible targets, auto use on possible targets (no need select)
+                if (actionToTake.numOfTargets >= possibleTargets.size()) targets = possibleTargets;
+                else {
+                    // user selects targets
+                    // TODO: adjust how to get num of targets based on how other parts are done
+                    for (int i = 0; i < actionToTake.numOfTargets && !possibleTargets.isEmpty(); i++) {
+                        Combatant target = battleEngineUI.selectTarget(actionToTake.name, possibleTargets);
+                        targets.add(target);
+                        possibleTargets.remove(target);
+                    }
+                }
+                break;
+            }
+            case SELF: {
+                targets.add(player);
+                break;
             }
         }
 

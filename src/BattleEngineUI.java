@@ -78,17 +78,17 @@ public class BattleEngineUI extends UI {
                     else if (hasInflictStatusEffectOnTargetThisTurn)
                         if (targets.get(i).afflictedStatusEffects.size() <= 0) {
 
-                            printTargetImpact(targets.get(i).name, targets.get(i).currentHP,
+                            printTargetImpact(targets.get(i).name, targets.get(i).oldHP, targets.get(i).currentHP,
                                     actor.atk, targets.get(i).defence, (targets.size() == 1),
                                     null);
                         }
                         else {
-                            printTargetImpact(targets.get(i).name, targets.get(i).currentHP,
+                            printTargetImpact(targets.get(i).name, targets.get(i).oldHP, targets.get(i).currentHP,
                                     actor.atk, targets.get(i).defence, (targets.size() == 1),
                                     targets.get(i).afflictedStatusEffects.get(targets.get(i).afflictedStatusEffects.size() - 1)); // last status effect taken as most recently inflicted
                         }
                     else
-                        printTargetImpact(targets.get(i).name, targets.get(i).currentHP,
+                        printTargetImpact(targets.get(i).name, targets.get(i).oldHP, targets.get(i).currentHP,
                                 actor.atk, targets.get(i).defence, (targets.size() == 1));
                 }
                 break;
@@ -107,9 +107,10 @@ public class BattleEngineUI extends UI {
                 break;
             }
             case USE_POTION: {
-                // TODO
                 if (!(action instanceof UseItem useItemAction)) return;
                 printUsingItem(useItemAction.associatedItem.name);
+                // print own health increase - yes, hardcoded potion effect to 100
+                displayMessage("HP: " + actor.oldHP + " --> " + actor.currentHP + " (+100) ");
                 break;
             }
         }
@@ -144,11 +145,11 @@ public class BattleEngineUI extends UI {
         displayMessage(attackName + " --> ", true);
     }
     // used for impact of ATTACKS
-    private void printTargetImpact(String targetName, int currentHP,
+    private void printTargetImpact(String targetName, int oldHP, int currentHP,
                                    int attackerAtk, int targetDef, boolean isOnlyTarget) {
         displayMessage(targetName + ": ", true);
         int damageDealt = attackerAtk - targetDef;
-        displayMessage("HP: " + (currentHP + damageDealt) + " --> " + currentHP + " ");
+        displayMessage("HP: " + oldHP + " --> " + currentHP + " ");
         // if target eliminated, print extra tag
         if (currentHP <= 0) displayMessage("X ELIMINATED ");
         displayMessage("(dmg: " + attackerAtk + "-" + targetDef + "=" + damageDealt + ") ");
@@ -157,10 +158,10 @@ public class BattleEngineUI extends UI {
             displayMessage("| " + targetName + " survives ");
     }
     // if inflicts status effect on target this turn
-    private void printTargetImpact(String targetName, int currentHP,
+    private void printTargetImpact(String targetName, int oldHP, int currentHP,
                                    int attackerAtk, int targetDef, boolean isOnlyTarget,
                                    StatusEffect statusEffectAfflicted) {
-        printTargetImpact(targetName, currentHP, attackerAtk, targetDef, isOnlyTarget);
+        printTargetImpact(targetName, oldHP, currentHP, attackerAtk, targetDef, isOnlyTarget);
         displayMessage("| " + targetName + " ");
         if (statusEffectAfflicted == null) return;
         if (statusEffectAfflicted.statusEffectType == STATUS_EFFECT_TYPE.STUNNED) {

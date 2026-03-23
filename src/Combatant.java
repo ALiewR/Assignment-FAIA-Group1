@@ -3,6 +3,7 @@ import java.util.List;
 
 public abstract class Combatant {
     public String name;
+    public int oldHP = 10;
     public int currentHP = 10;
     public int baseHP = 10;
     public int atk = 10;
