@@ -3,6 +3,7 @@ public class Player extends Combatant {
         combatantType = COMBATANT_TYPE.PLAYER;
         availableActions.add(new Action(true));
         availableActions.add(new Action());
+        availableActions.add(new Action("arcane blast", "increase atk upon kill", ACTION_TYPE.ARCANE_BLAST, 10));
         availableActions.add(new UseItem("smoke bomb", "enemies deal no damage", ACTION_TYPE.USE_SMOKE_BOMB, 0));
         availableActions.add(new UseItem("potion", "heal player 100 HP", ACTION_TYPE.USE_POTION, 0));
         availableActions.add(new UseItem("power stone", "Power Stone does nto affect cooldown", ACTION_TYPE.USE_POWER_STONE, 1));

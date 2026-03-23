@@ -6,6 +6,7 @@ public abstract class Combatant {
     public int oldHP = 10;
     public int currentHP = 10;
     public int baseHP = 10;
+    public int oldAtk = 10; // before any arcane blast increases FOR THAT TURN
     public int atk = 10;
     public int defence = 5;
     public COMBATANT_TYPE combatantType;

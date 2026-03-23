@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -67,9 +68,16 @@ public class BattleEngineUI extends UI {
         // TODO: adjust how to get action type based on how its implemented
         switch(action.actionType) {
             case ATTACK:
-            case SPECIAL_SKILL: { // TODO: print info of ATK bonus if ArcaneBlast used
+            case SPECIAL_SKILL: {
                 printAttacking(action.name);
-                printingAttackImpacts(actor, targets,hasInflictStatusEffectOnTargetThisTurn, isSmokeBombActive, isSmokeBombExpiringThisTurn);
+                printingAttackImpacts(actor, targets,hasInflictStatusEffectOnTargetThisTurn, isSmokeBombActive, isSmokeBombExpiringThisTurn, false);
+                break;
+            }
+            case ARCANE_BLAST: { // hits all enemies & increases atk
+                // TODO: print info of ATK bonus if ArcaneBlast used
+                printAttacking(action.name);
+                displayMessage("All Enemies: ", true);
+                printingAttackImpacts(actor,targets,hasInflictStatusEffectOnTargetThisTurn, isSmokeBombActive, isSmokeBombExpiringThisTurn, true);
                 break;
             }
             case USE_POWER_STONE: {
@@ -77,7 +85,7 @@ public class BattleEngineUI extends UI {
                 printUsingItem(useItemAction.associatedItem.name);
                 displayMessage("--> " + actor.getSpecialSkill().name + " triggered --> ", true);
                 // call same printing functionality as special skill
-                printingAttackImpacts(actor, targets,hasInflictStatusEffectOnTargetThisTurn, isSmokeBombActive, isSmokeBombExpiringThisTurn);
+                printingAttackImpacts(actor, targets,hasInflictStatusEffectOnTargetThisTurn, isSmokeBombActive, isSmokeBombExpiringThisTurn, false);
                 displayMessage("Cooldown unchanged --> " + actor.currentSkillMaxCooldown + " (" +
                         useItemAction.associatedItem.description + ") | " + useItemAction.associatedItem.name + " consumed ");
                 break;
@@ -143,14 +151,16 @@ public class BattleEngineUI extends UI {
     // used for impact of ATTACKS
     private void printingAttackImpacts(Combatant actor, List<Combatant> targets,
                                        boolean hasInflictStatusEffectOnTargetThisTurn,
-                                       boolean isSmokeBombActive, boolean isSmokeBombExpiringThisTurn) {
+                                       boolean isSmokeBombActive, boolean isSmokeBombExpiringThisTurn,
+                                       boolean isArcaneBlast) {
+        int oldAtk = actor.oldAtk;
         for (int i = 0; i < targets.size(); i++) {
             if (i > 0) displayMessage("| "); // if not first target hit
             if (isSmokeBombActive) {
                 // attack doesn't even hit
                 printTargetImpactSmokeBomb(targets.get(i).name, targets.get(i).currentHP, (targets.size() == 1), isSmokeBombExpiringThisTurn);
             }
-            else if (hasInflictStatusEffectOnTargetThisTurn)
+            else if (hasInflictStatusEffectOnTargetThisTurn) {
                 if (targets.get(i).afflictedStatusEffects.size() <= 0) {
 
                     printTargetImpact(targets.get(i).name, targets.get(i).oldHP, targets.get(i).currentHP,
@@ -162,9 +172,19 @@ public class BattleEngineUI extends UI {
                             actor.atk, targets.get(i).defence, (targets.size() == 1),
                             targets.get(i).afflictedStatusEffects.get(targets.get(i).afflictedStatusEffects.size() - 1)); // last status effect taken as most recently inflicted
                 }
+            }
             else
                 printTargetImpact(targets.get(i).name, targets.get(i).oldHP, targets.get(i).currentHP,
                         actor.atk, targets.get(i).defence, (targets.size() == 1));
+
+            // if arcane blast, print atk increase info
+            if (isArcaneBlast && targets.get(i).currentHP <= 0) {
+                int newAtk = oldAtk + 10; // yes hardcoded 10 effect
+                if (newAtk > actor.atk) newAtk = actor.atk;
+                displayMessage("| ATK: " + oldAtk + " --> " + newAtk +
+                        " (+10 per Arcane Blast kill) ");
+                oldAtk = newAtk;
+            }
         }
     }
     private void printTargetImpact(String targetName, int oldHP, int currentHP,
