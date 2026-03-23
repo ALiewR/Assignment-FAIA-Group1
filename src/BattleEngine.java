@@ -79,7 +79,7 @@ public class BattleEngine {
 
         // display end of turn info
         battleEngineUI.displayEndOfRoundInfo(currentBattleContext, roundCount,
-                currentBattleContext.getPlayers().getFirst().currentSkillMaxCooldown); // only takes first player's cooldown
+                currentBattleContext.getPlayers().get(0).currentSkillMaxCooldown); // only takes first player's cooldown
 
     }
     private void executeTurn(Combatant actor) {
@@ -150,7 +150,7 @@ public class BattleEngine {
     private void executeEnemyTurn(Combatant enemy) {
         // TODO: change if using EnemyStrategy class
         if (enemy.availableActions.isEmpty()) return;
-        Action actionToTake = enemy.availableActions.getFirst();
+        Action actionToTake = enemy.availableActions.get(0);
 
         // auto pick targets based on first in player list
         List<Combatant> targets = new ArrayList<>();
