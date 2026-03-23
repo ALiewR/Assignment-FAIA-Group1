@@ -8,11 +8,12 @@ public class BattleContext {
     private List<Item> items = new ArrayList<>();
     private Level level;
     private TurnOrderStrategy turnOrderStrategy;
+    private boolean isSmokeBombActive = false;
 
     // TEMP
     public BattleContext() {
         players.add(new Player());
-        items.add(new Item());
+        items.add(new Item("smoke bomb"));
         level = new Level(2);
         enemies = spawnEnemies(level, false);
         turnOrderStrategy = new TurnOrderStrategy();
@@ -42,6 +43,16 @@ public class BattleContext {
     /*
     * getters used by BattleEngine
     */
+    public boolean getIsSmokeBombActive() { return isSmokeBombActive; }
+    public boolean getIsSmokeBombExpiringThisTurn() {
+        if (!isSmokeBombActive) return false; // not active, can't expire
+        for (Item eachItem: items) {
+            if (eachItem.getIsUsed() && eachItem.itemType == ITEM_TYPE.SMOKE_BOMB && eachItem.currentDurationLeft == 1) return true;
+        }
+        return false;
+    }
+    public void activateSmokeBomb() { isSmokeBombActive = true; }
+    public void deactivateSmokeBomb() { isSmokeBombActive = false; }
     public List<Combatant> getPlayers() { return players; }
     public List<Combatant> getEnemies() { return enemies; }
     public List<Combatant> getBackupEnemies() { return backupEnemies; } // only used for printing
@@ -53,6 +64,14 @@ public class BattleContext {
         return turnOrderStrategy.determineOrder(combatants);
     }
     public List<Item> getItems() { return items; }
+    public List<Item> getActiveItems() {
+        List<Item> activeItems = new ArrayList<>();
+        for (Item eachItem: items) {
+            // item has been used but duration is still ongoing
+            if (eachItem.getIsUsed() && eachItem.currentDurationLeft > 0) activeItems.add(eachItem);
+        }
+        return activeItems;
+    }
     public boolean isAllPlayersDefeated() {
         return isAllCombatantDefeated(players);
     }
@@ -90,6 +109,8 @@ public class BattleContext {
     }
     // used when player wants to restart game with same setting
     public void reset() {
+        isSmokeBombActive = false;
+
         // reset player's stats n status effects
         for(Combatant eachPlayer: players) eachPlayer.resetCondition();
 

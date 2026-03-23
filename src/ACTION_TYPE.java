@@ -2,5 +2,6 @@ public enum ACTION_TYPE {
     ATTACK,
     SPECIAL_SKILL,
     USE_ITEM,
+    USE_SMOKE_BOMB,
     USE_POTION
 }

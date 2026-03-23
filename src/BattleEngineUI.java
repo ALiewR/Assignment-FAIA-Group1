@@ -59,7 +59,8 @@ public class BattleEngineUI extends UI {
         return possibleTargets.get(userChoice);
     }
     public void displayTurnOutcome(Combatant actor, Action action, List<Combatant> targets,
-                                   boolean hasInflictStatusEffectOnTargetThisTurn) {
+                                   boolean hasInflictStatusEffectOnTargetThisTurn,
+                                   boolean isSmokeBombActive, boolean isSmokeBombExpiringThisTurn) {
         // TODO: adjust based on how to get each info needed from each class
         // whose turn is this
         displayMessage(actor.name + " --> ", true);
@@ -70,7 +71,11 @@ public class BattleEngineUI extends UI {
                 printAttacking(action.name);
                 for (int i = 0; i < targets.size(); i++) {
                     if (i > 0) displayMessage("| "); // if not first target hit
-                    if (hasInflictStatusEffectOnTargetThisTurn)
+                    if (isSmokeBombActive) {
+                        // attack doesn't even hit
+                        printTargetImpactSmokeBomb(targets.get(i).name, targets.get(i).currentHP, (targets.size() == 1), isSmokeBombExpiringThisTurn);
+                    }
+                    else if (hasInflictStatusEffectOnTargetThisTurn)
                         if (targets.get(i).afflictedStatusEffects.size() <= 0) {
 
                             printTargetImpact(targets.get(i).name, targets.get(i).currentHP,
@@ -90,16 +95,24 @@ public class BattleEngineUI extends UI {
             }
             case USE_ITEM: {
                 // TODO
+                if (!(action instanceof UseItem useItemAction)) return;
+                printUsingItem(useItemAction.associatedItem.name);
+                break;
+            }
+            case USE_SMOKE_BOMB: {
+                if (!(action instanceof UseItem useItemAction)) return;
+                printUsingItem(useItemAction.associatedItem.name);
+                // no targets. just need print info line
+                displayMessage("Enemy attacks deal 0 damage this turn + next ");
                 break;
             }
             case USE_POTION: {
                 // TODO
+                if (!(action instanceof UseItem useItemAction)) return;
+                printUsingItem(useItemAction.associatedItem.name);
                 break;
             }
         }
-    }
-    public void displayTurnOutcomeSmokeBomb(Combatant actor, Action action, List<Combatant> targets) {
-        // TODO
     }
     public void displayBackupSpawnedInfo(List<Combatant> backupEnemies) {
         displayMessage("All initial enemies eliminated --> ");
@@ -155,6 +168,20 @@ public class BattleEngineUI extends UI {
         }
         // print duration
         displayMessage("(" + statusEffectAfflicted.maxDuration + " turns) ");
+    }
+    // if attack misses due to smoke bomb
+    private void printTargetImpactSmokeBomb(String targetName, int currentHP, boolean isOnlyTarget, boolean isExpiring) {
+        displayMessage(targetName + ": ", true);
+        displayMessage("0 damage (Smoke Bomb ");
+        if (isExpiring) displayMessage("last use) | Smoke Bomb effect expires ");
+        else displayMessage("active) ");
+        displayMessage("| " + targetName + " HP: " + currentHP + " ");
+        // if not the only target, print extra to acknowledge that this target is still alive
+        if (currentHP > 0 && !isOnlyTarget)
+            displayMessage("| " + targetName + " survives ");
+    }
+    private void printUsingItem(String itemName) {
+        displayMessage( "Item --> " + itemName + " used: ", true);
     }
     private void printCombatantsCondition(List<Combatant> players, List<Combatant> enemies) {
         // print players
