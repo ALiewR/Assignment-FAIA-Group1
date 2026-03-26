@@ -114,7 +114,8 @@ public class BattleEngine {
     }
     private void executePlayerTurn(Combatant player) {
         // user selects action to take
-        Action actionToTake = battleEngineUI.selectAction(player);
+        List<Action> availableActions = player.availableActions; // TODO: shift to use getAvailableActions while passing in items
+        Action actionToTake = battleEngineUI.selectAction(player.name, availableActions);
         // TODO: check if the action is valid (eg no item but wanna use item) -- should be done within player to return only list of available actions
         //  -- ADJUST ACCORDING TO HOW OTHER PARTS ARE DONE
 

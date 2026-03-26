@@ -16,24 +16,24 @@ public class BattleEngineUI extends UI {
     public void displayRoundHeader(int round) {
         displayLineMessage("Round " + round, true);
     }
-    public Action selectAction(Combatant player) {
+    public Action selectAction(String playerName, List<Action> availableActions) {
         int userChoice = -1;
 
-        while (userChoice < 0 || userChoice >= player.availableActions.size()) {
+        while (userChoice < 0 || userChoice >= availableActions.size()) {
             // display info for user to know
-            displayLineMessage(player.name + " can perform one of the following actions...");
-            for (int i = 0; i < player.availableActions.size(); i++) {
-                displayLineMessage(i + ": " + player.availableActions.get(i).name + " - " + player.availableActions.get(i).description);
+            displayLineMessage(playerName + " can perform one of the following actions...");
+            for (int i = 0; i < availableActions.size(); i++) {
+                displayLineMessage(i + ": " + availableActions.get(i).name + " - " + availableActions.get(i).description);
             }
             displayMessage("Select action you wish to take: ", true);
             userChoice = getUIInt();
         }
 
-        displayLineMessage(player.availableActions.get(userChoice).name + " can be used on "
-                + player.availableActions.get(userChoice).numOfTargets + " target(s).");
+        displayLineMessage(availableActions.get(userChoice).name + " can be used on "
+                + availableActions.get(userChoice).numOfTargets + " target(s).");
 
         // input is valid
-        return player.availableActions.get(userChoice);
+        return availableActions.get(userChoice);
     }
     public void displayTurnStunned(String combatantName) {
         displayMessage(combatantName + " --> STUNNED: ", true);
