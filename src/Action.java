@@ -51,6 +51,7 @@ public class Action {
         return name;
     }
     public int getNumOfTargets()
+    {
         return numOfTargets;
     }
     public TARGET_TYPE getTargetType()
