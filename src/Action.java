@@ -46,4 +46,19 @@ public class Action {
             if (doesInflictStatusEffectOnTarget) eachTarget.afflictedStatusEffects.add(new StatusEffect());
         }
     }
+    public String getName()
+    {
+        return name;
+    }
+    public int getNumOfTargets()
+        return numOfTargets;
+    }
+    public TARGET_TYPE getTargetType()
+    {
+        return targetType;
+    }
+    public boolean doesInflictStatusEffect()
+    {
+        return doesInflictStatusEffectOnTarget;
+    }
 }
