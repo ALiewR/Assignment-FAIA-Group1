@@ -10,17 +10,17 @@ public class Level {
     public Level(int levelNum) {
         levelNumber = levelNum;
         switch(levelNumber) {
-            case 1: { // easy
+            case 1: { //easy
                 initialEnemies.add(new Enemy());
                 break;
             }
-            case 2: { // med
+            case 2: { //med
                 initialEnemies.add(new Enemy());
                 initialEnemies.add(new Enemy());
                 backupEnemies.add(new Enemy());
                 break;
             }
-            case 3: { // dif
+            case 3: { //hard
                 initialEnemies.add(new Enemy());
                 initialEnemies.add(new Enemy());
                 initialEnemies.add(new Enemy());
@@ -28,7 +28,7 @@ public class Level {
                 backupEnemies.add(new Enemy());
                 break;
             }
-            default: {} // no enemies spawned
+            default: {} //no enemies spawned
         }
     }
 
