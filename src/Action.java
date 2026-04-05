@@ -1,9 +1,9 @@
 import java.util.List;
 
 public class Action {
-        actionType = ACTION_TYPE.SPECIAL_SKILL;
     public String name;
     public String description;
+    public ACTION_TYPE actionType;
     public int numOfTargets;
     public boolean doesInflictStatusEffectOnTarget;
     public TARGET_TYPE targetType;
