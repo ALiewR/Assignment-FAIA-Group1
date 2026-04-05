@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,24 +16,24 @@ public class BattleEngineUI extends UI {
     public void displayRoundHeader(int round) {
         displayLineMessage("Round " + round, true);
     }
-    public Action selectAction(Combatant player) {
+    public Action selectAction(String playerName, List<Action> availableActions) {
         int userChoice = -1;
 
-        while (userChoice < 0 || userChoice >= player.availableActions.size()) {
+        while (userChoice < 0 || userChoice >= availableActions.size()) {
             // display info for user to know
-            displayLineMessage(player.name + " can perform one of the following actions...");
-            for (int i = 0; i < player.availableActions.size(); i++) {
-                displayLineMessage(i + ": " + player.availableActions.get(i).name + " - " + player.availableActions.get(i).description);
+            displayLineMessage(playerName + " can perform one of the following actions...");
+            for (int i = 0; i < availableActions.size(); i++) {
+                displayLineMessage(i + ": " + availableActions.get(i).name + " - " + availableActions.get(i).description);
             }
             displayMessage("Select action you wish to take: ", true);
             userChoice = getUIInt();
         }
 
-        displayLineMessage(player.availableActions.get(userChoice).name + " can be used on "
-                + player.availableActions.get(userChoice).numOfTargets + " target(s).");
+        displayLineMessage(availableActions.get(userChoice).name + " can be used on "
+                + availableActions.get(userChoice).numOfTargets + " target(s).");
 
         // input is valid
-        return player.availableActions.get(userChoice);
+        return availableActions.get(userChoice);
     }
     public void displayTurnStunned(String combatantName) {
         displayMessage(combatantName + " --> STUNNED: ", true);
@@ -59,47 +60,56 @@ public class BattleEngineUI extends UI {
         return possibleTargets.get(userChoice);
     }
     public void displayTurnOutcome(Combatant actor, Action action, List<Combatant> targets,
-                                   boolean hasInflictStatusEffectOnTargetThisTurn) {
+                                   boolean hasInflictStatusEffectOnTargetThisTurn,
+                                   boolean isSmokeBombActive, boolean isSmokeBombExpiringThisTurn) {
         // TODO: adjust based on how to get each info needed from each class
         // whose turn is this
         displayMessage(actor.name + " --> ", true);
         // TODO: adjust how to get action type based on how its implemented
         switch(action.actionType) {
-            case ATTACK:
-            case SPECIAL_SKILL: { // TODO: print info of ATK bonus if ArcaneBlast used
+            case ATTACK: {
                 printAttacking(action.name);
-                for (int i = 0; i < targets.size(); i++) {
-                    if (i > 0) displayMessage("| "); // if not first target hit
-                    if (hasInflictStatusEffectOnTargetThisTurn)
-                        if (targets.get(i).afflictedStatusEffects.size() <= 0) {
-
-                            printTargetImpact(targets.get(i).name, targets.get(i).currentHP,
-                                    actor.atk, targets.get(i).defence, (targets.size() == 1),
-                                    null);
-                        }
-                        else {
-                            printTargetImpact(targets.get(i).name, targets.get(i).currentHP,
-                                    actor.atk, targets.get(i).defence, (targets.size() == 1),
-                                    targets.get(i).afflictedStatusEffects.get(targets.get(i).afflictedStatusEffects.size() - 1)); // last status effect taken as most recently inflicted
-                        }
-                    else
-                        printTargetImpact(targets.get(i).name, targets.get(i).currentHP,
-                                actor.atk, targets.get(i).defence, (targets.size() == 1));
-                }
+                printingAttackImpacts(actor, targets,hasInflictStatusEffectOnTargetThisTurn, isSmokeBombActive, isSmokeBombExpiringThisTurn, false);
                 break;
             }
-            case USE_ITEM: {
-                // TODO
+            case SPECIAL_SKILL: {
+                printAttacking(action.name);
+                printingAttackImpacts(actor, targets,hasInflictStatusEffectOnTargetThisTurn, isSmokeBombActive, isSmokeBombExpiringThisTurn, false);
+                displayMessage("| Cooldown set to " + actor.currentSkillMaxCooldown + " ");
+                break;
+            }
+            case ARCANE_BLAST: { // hits all enemies & increases atk
+                printAttacking(action.name);
+                displayMessage("All Enemies: ", true);
+                printingAttackImpacts(actor,targets,hasInflictStatusEffectOnTargetThisTurn, isSmokeBombActive, isSmokeBombExpiringThisTurn, true);
+                displayMessage("| Cooldown set to " + actor.currentSkillMaxCooldown + " ");
+                break;
+            }
+            case USE_POWER_STONE: {
+                if (!(action instanceof UseItem useItemAction)) return;
+                printUsingItem(useItemAction.associatedItem.name);
+                displayMessage("--> " + actor.getSpecialSkill().name + " triggered --> ", true);
+                // call same printing functionality as special skill
+                printingAttackImpacts(actor, targets,hasInflictStatusEffectOnTargetThisTurn, isSmokeBombActive, isSmokeBombExpiringThisTurn, false);
+                displayMessage("Cooldown unchanged --> " + actor.currentSkillMaxCooldown + " (" +
+                        useItemAction.associatedItem.description + ") | " + useItemAction.associatedItem.name + " consumed ");
+                break;
+            }
+            case USE_SMOKE_BOMB: {
+                if (!(action instanceof UseItem useItemAction)) return;
+                printUsingItem(useItemAction.associatedItem.name);
+                // no targets. just need print info line
+                displayMessage("Enemy attacks deal 0 damage this turn + next ");
                 break;
             }
             case USE_POTION: {
-                // TODO
+                if (!(action instanceof UseItem useItemAction)) return;
+                printUsingItem(useItemAction.associatedItem.name);
+                // print own health increase - yes, hardcoded potion effect to 100
+                displayMessage("HP: " + actor.oldHP + " --> " + actor.currentHP + " (+100) ");
                 break;
             }
         }
-    }
-    public void displayTurnOutcomeSmokeBomb(Combatant actor, Action action, List<Combatant> targets) {
-        // TODO
     }
     public void displayBackupSpawnedInfo(List<Combatant> backupEnemies) {
         displayMessage("All initial enemies eliminated --> ");
@@ -121,6 +131,19 @@ public class BattleEngineUI extends UI {
         // display item info
         printItems(battleContext.getItems());
 
+        // display item effect turn lasting info
+        if (battleContext.getIsSmokeBombActive()) {
+            int durationLeft = 0;
+            // find smoke bomb & get its duration left
+            for (Item eachItem: battleContext.getActiveItems()) {
+                if (eachItem.itemType == ITEM_TYPE.SMOKE_BOMB &&
+                        durationLeft < eachItem.currentDurationLeft) { // eg 2 smoke bombs used, use the one with longest duration left
+                    durationLeft = eachItem.currentDurationLeft;
+                }
+            }
+            displayMessage("| Effect: " + durationLeft + " turn remaining ");
+        }
+
         // display cooldown info
         displayLineMessage("| Special Skills Cooldown: " + specialSkillsCooldown + " rounds ");
 
@@ -131,11 +154,49 @@ public class BattleEngineUI extends UI {
         displayMessage(attackName + " --> ", true);
     }
     // used for impact of ATTACKS
-    private void printTargetImpact(String targetName, int currentHP,
+    private void printingAttackImpacts(Combatant actor, List<Combatant> targets,
+                                       boolean hasInflictStatusEffectOnTargetThisTurn,
+                                       boolean isSmokeBombActive, boolean isSmokeBombExpiringThisTurn,
+                                       boolean isArcaneBlast) {
+        int oldAtk = actor.oldAtk;
+        for (int i = 0; i < targets.size(); i++) {
+            if (i > 0) displayMessage("| "); // if not first target hit
+            if (isSmokeBombActive) {
+                // attack doesn't even hit
+                printTargetImpactSmokeBomb(targets.get(i).name, targets.get(i).currentHP, (targets.size() == 1), isSmokeBombExpiringThisTurn);
+            }
+            else if (hasInflictStatusEffectOnTargetThisTurn) {
+                if (targets.get(i).afflictedStatusEffects.size() <= 0) {
+
+                    printTargetImpact(targets.get(i).name, targets.get(i).oldHP, targets.get(i).currentHP,
+                            actor.atk, targets.get(i).defence, (targets.size() == 1),
+                            null);
+                }
+                else {
+                    printTargetImpact(targets.get(i).name, targets.get(i).oldHP, targets.get(i).currentHP,
+                            actor.atk, targets.get(i).defence, (targets.size() == 1),
+                            targets.get(i).afflictedStatusEffects.get(targets.get(i).afflictedStatusEffects.size() - 1)); // last status effect taken as most recently inflicted
+                }
+            }
+            else
+                printTargetImpact(targets.get(i).name, targets.get(i).oldHP, targets.get(i).currentHP,
+                        actor.atk, targets.get(i).defence, (targets.size() == 1));
+
+            // if arcane blast, print atk increase info
+            if (isArcaneBlast && targets.get(i).currentHP <= 0) {
+                int newAtk = oldAtk + 10; // yes hardcoded 10 effect
+                if (newAtk > actor.atk) newAtk = actor.atk;
+                displayMessage("| ATK: " + oldAtk + " --> " + newAtk +
+                        " (+10 per Arcane Blast kill) ");
+                oldAtk = newAtk;
+            }
+        }
+    }
+    private void printTargetImpact(String targetName, int oldHP, int currentHP,
                                    int attackerAtk, int targetDef, boolean isOnlyTarget) {
         displayMessage(targetName + ": ", true);
         int damageDealt = attackerAtk - targetDef;
-        displayMessage("HP: " + (currentHP + damageDealt) + " --> " + currentHP + " ");
+        displayMessage("HP: " + oldHP + " --> " + currentHP + " ");
         // if target eliminated, print extra tag
         if (currentHP <= 0) displayMessage("X ELIMINATED ");
         displayMessage("(dmg: " + attackerAtk + "-" + targetDef + "=" + damageDealt + ") ");
@@ -144,16 +205,31 @@ public class BattleEngineUI extends UI {
             displayMessage("| " + targetName + " survives ");
     }
     // if inflicts status effect on target this turn
-    private void printTargetImpact(String targetName, int currentHP,
+    private void printTargetImpact(String targetName, int oldHP, int currentHP,
                                    int attackerAtk, int targetDef, boolean isOnlyTarget,
                                    StatusEffect statusEffectAfflicted) {
-        printTargetImpact(targetName, currentHP, attackerAtk, targetDef, isOnlyTarget);
+        printTargetImpact(targetName, oldHP, currentHP, attackerAtk, targetDef, isOnlyTarget);
         displayMessage("| " + targetName + " ");
+        if (statusEffectAfflicted == null) return;
         if (statusEffectAfflicted.statusEffectType == STATUS_EFFECT_TYPE.STUNNED) {
             displayMessage("STUNNED ");
         }
         // print duration
         displayMessage("(" + statusEffectAfflicted.maxDuration + " turns) ");
+    }
+    // if attack misses due to smoke bomb
+    private void printTargetImpactSmokeBomb(String targetName, int currentHP, boolean isOnlyTarget, boolean isExpiring) {
+        displayMessage(targetName + ": ", true);
+        displayMessage("0 damage (Smoke Bomb ");
+        if (isExpiring) displayMessage("last use) | Smoke Bomb effect expires ");
+        else displayMessage("active) ");
+        displayMessage("| " + targetName + " HP: " + currentHP + " ");
+        // if not the only target, print extra to acknowledge that this target is still alive
+        if (currentHP > 0 && !isOnlyTarget)
+            displayMessage("| " + targetName + " survives ");
+    }
+    private void printUsingItem(String itemName) {
+        displayMessage( "Item --> " + itemName + " used: ", true);
     }
     private void printCombatantsCondition(List<Combatant> players, List<Combatant> enemies) {
         // print players
@@ -181,6 +257,7 @@ public class BattleEngineUI extends UI {
     }
     private void printItems(List<Item> items) {
         Map<String, Integer> nameCountMap = new HashMap<>();
+        Map<String, Boolean> nameConsumedThisTurnMap = new HashMap<>();
         for (int i = 0; i < items.size(); i++) {
             // put into a dict of item: quantity then individually print
             // TODO: adjust according to accessibility in Item class
@@ -188,19 +265,33 @@ public class BattleEngineUI extends UI {
                 int quantity = 0;
                 if (!(items.get(i).getIsUsed())) quantity = 1; // not yet used so should be 1
                 nameCountMap.put(items.get(i).name, quantity);
+
+                // check if item was consumed this turn
+                if (items.get(i).getIsUsed() &&
+                        items.get(i).currentDurationLeft == items.get(i).maxDuration) {
+                    nameConsumedThisTurnMap.put(items.get(i).name, true);
+                }
+                else nameConsumedThisTurnMap.put(items.get(i).name, false);
             }
             else { // add to count for said item
                 nameCountMap.replace(items.get(i).name, nameCountMap.get(items.get(i).name) + 1);
+                // check if item was consumed this turn
+                if (items.get(i).getIsUsed() &&
+                        items.get(i).currentDurationLeft == items.get(i).maxDuration) {
+                    nameConsumedThisTurnMap.replace(items.get(i).name, true);
+                } // no replacing else since don't want to override and old true with new false
             }
         }
 
         // print all items
         for (Map.Entry<String, Integer> entry: nameCountMap.entrySet()) {
-            printItem(entry.getKey(), entry.getValue());
+            printItem(entry.getKey(), entry.getValue(), nameConsumedThisTurnMap.get(entry.getKey()));
         }
     }
-    private void printItem(String itemName, int itemCount) {
+    private void printItem(String itemName, int itemCount, boolean isConsumedThisTurn) {
         displayMessage("| " + itemName + ": " + itemCount + " ");
+        if (isConsumedThisTurn)
+            displayMessage("<-- consumed ");
     }
     public void printStatusEffectExpires(String statusEffectName) {
         displayMessage("| " + statusEffectName + " expires ");

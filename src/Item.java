@@ -1,12 +1,17 @@
 public class Item {
     boolean isUsed = false;
     public String name = "item";
+    public String description = "Power Stone does not affect cooldown";
     public int currentDurationLeft = 0;
     public final int maxDuration = 2;
+    public ITEM_TYPE itemType = ITEM_TYPE.SMOKE_BOMB;
     public void use() { isUsed = true; currentDurationLeft = maxDuration; }
-    public void resetUse() { isUsed = false; }
+    public void resetUse() { isUsed = false; currentDurationLeft = 0; }
     public boolean getIsUsed() { return isUsed; }
     public void depleteDuration() {
         if (isUsed) currentDurationLeft--;
+    }
+    public Item(String name) {
+        this.name = name;
     }
 }

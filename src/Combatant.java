@@ -3,8 +3,10 @@ import java.util.List;
 
 public abstract class Combatant {
     public String name;
+    public int oldHP = 10;
     public int currentHP = 10;
     public int baseHP = 10;
+    public int oldAtk = 10; // before any arcane blast increases FOR THAT TURN
     public int atk = 10;
     public int defence = 5;
     public COMBATANT_TYPE combatantType;
@@ -39,5 +41,11 @@ public abstract class Combatant {
             if (eachStatusEffect.statusEffectType == STATUS_EFFECT_TYPE.STUNNED) return true;
         }
         return false;
+    }
+    public Action getSpecialSkill() {
+        for (Action eachAction: availableActions) {
+            if (eachAction.actionType == ACTION_TYPE.SPECIAL_SKILL) return eachAction;
+        }
+        return new Action();
     }
 }

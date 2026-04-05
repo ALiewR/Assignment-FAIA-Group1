@@ -5,9 +5,6 @@ public class BattleEngine {
     private BattleContext currentBattleContext;
     private BattleEngineUI battleEngineUI;
     private int roundCount = 0; // gets added to at the START of the round --> avoid ending round 1 with 2 as roundCount
-    //TEMP TODO: adjust how to check this based on how Items is done
-    private boolean isSmokeBombActive = false;
-
 
     public BattleEngine(BattleContext battleContext) {
         currentBattleContext = battleContext;
@@ -27,6 +24,7 @@ public class BattleEngine {
         while (!checkBattleComplete()) {
             executeRound();
         }
+        currentBattleContext.setFinalRoundCount(roundCount);
 
         // battle complete. now figure out whose victory
         return !currentBattleContext.isAllPlayersDefeated();
@@ -72,7 +70,11 @@ public class BattleEngine {
             eachCombatant.depleteCooldown();
         }
         // once everyone has had a turn, deplete item duration
-        for (Item eachItem: currentBattleContext.getItems()) eachItem.depleteDuration();
+        for (Item eachItem: currentBattleContext.getActiveItems()) {
+            eachItem.depleteDuration();
+            if (eachItem.itemType == ITEM_TYPE.SMOKE_BOMB && eachItem.currentDurationLeft <= 0
+                    && currentBattleContext.getIsSmokeBombActive()) currentBattleContext.deactivateSmokeBomb();
+        }
 
         // see if can spawn back up if needed (placed here for order of printing)
         trySpawnBackup();
@@ -112,36 +114,41 @@ public class BattleEngine {
     }
     private void executePlayerTurn(Combatant player) {
         // user selects action to take
-        Action actionToTake = battleEngineUI.selectAction(player);
-        // TODO: check if the action is valid (eg no item but wanna use item)
+        List<Action> availableActions = player.availableActions; // TODO: shift to use getAvailableActions while passing in items
+        Action actionToTake = battleEngineUI.selectAction(player.name, availableActions);
+        // TODO: check if the action is valid (eg no item but wanna use item) -- should be done within player to return only list of available actions
         //  -- ADJUST ACCORDING TO HOW OTHER PARTS ARE DONE
 
         // selects targets
         List<Combatant> targets = new ArrayList<>();
-        List<Combatant> possibleTargets = new ArrayList<>(currentBattleContext.getEnemies()); // copy so you won't edit original list
-        // if num of targets >= num of possible targets, auto use on possible targets (no need select)
-        if (actionToTake.numOfTargets >= possibleTargets.size()) targets = possibleTargets;
-        else {
-            // user selects targets
-            // TODO: adjust how to get num of targets based on how other parts are done
-            for (int i = 0; i < actionToTake.numOfTargets && !possibleTargets.isEmpty(); i++) {
-                Combatant target = battleEngineUI.selectTarget(actionToTake.name, possibleTargets);
-                targets.add(target);
-                possibleTargets.remove(target);
+        // TODO: adjust based on target type accessibility in Action class
+        switch(actionToTake.targetType) {
+            case ENEMIES: {
+                List<Combatant> possibleTargets = new ArrayList<>(currentBattleContext.getEnemies()); // copy so you won't edit original list
+                // if num of targets >= num of possible targets, auto use on possible targets (no need select)
+                if (actionToTake.numOfTargets >= possibleTargets.size()) targets = possibleTargets;
+                else {
+                    // user selects targets
+                    // TODO: adjust how to get num of targets based on how other parts are done
+                    for (int i = 0; i < actionToTake.numOfTargets && !possibleTargets.isEmpty(); i++) {
+                        Combatant target = battleEngineUI.selectTarget(actionToTake.name, possibleTargets);
+                        targets.add(target);
+                        possibleTargets.remove(target);
+                    }
+                }
+                break;
+            }
+            case SELF: {
+                targets.add(player);
+                break;
             }
         }
 
         // for each target, execute action
-        if (!isSmokeBombActive) actionToTake.execute(player, targets);
+        actionToTake.execute(player, targets, currentBattleContext);
 
-        // print turn outcome
-        // TODO: check if smoke bomb is active. if so, print different action msg
-        if (isSmokeBombActive) {
-            // TODO
-        }
-        else {
-            battleEngineUI.displayTurnOutcome(player, actionToTake, targets, actionToTake.doesInflictStatusEffectOnTarget);
-        }
+        // print turn outcome (different based on if smoke bomb is active)
+        battleEngineUI.displayTurnOutcome(player, actionToTake, targets, actionToTake.doesInflictStatusEffectOnTarget, false, false); //smoke bomb doesn't matter here since it only shields players
 
         // if action taken is special skill, print cooldown update
         // TODO: adjust based on accessibility from other classes
@@ -159,9 +166,12 @@ public class BattleEngine {
             targets.add(currentBattleContext.getPlayers().get(i));
         }
 
-        // execute action
-        actionToTake.execute(enemy, targets);
+        // execute action (but not if is an attack with smoke bomb active)
+        if (!currentBattleContext.getIsSmokeBombActive() &&
+                (actionToTake.actionType == ACTION_TYPE.ATTACK || actionToTake.actionType == ACTION_TYPE.SPECIAL_SKILL))
+            actionToTake.execute(enemy, targets, currentBattleContext);
         // print turn outcome
-        battleEngineUI.displayTurnOutcome(enemy, actionToTake, targets, actionToTake.doesInflictStatusEffectOnTarget);
+        battleEngineUI.displayTurnOutcome(enemy, actionToTake, targets, actionToTake.doesInflictStatusEffectOnTarget,
+                currentBattleContext.getIsSmokeBombActive(), currentBattleContext.getIsSmokeBombExpiringThisTurn());
     }
 }

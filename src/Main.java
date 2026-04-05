@@ -5,14 +5,24 @@ public class Main {
         BattleContext battleContext = new BattleContext();
         BattleEngine battleEngine = new BattleEngine(battleContext, printer);
 
+        GameCompletion gameCompletion = new GameCompletion(printer);
+
         // player won, exit game
-        while (!battleEngine.executeBattle()) {
-            // TEMP
-            printer.printLine("You lost!.", true);
-            return;
-            //battleEngine.executeBattle();
+        boolean isGameWon = battleEngine.executeBattle();
+        while (!isGameWon) {
+            NEXT_GAME_OPTION_TYPE nextGameOption = gameCompletion.handleGameResult(false, battleContext);
+            switch(nextGameOption) {
+                case EXIT: return;
+                case REPLAY: {
+                    isGameWon = battleEngine.executeBattle();
+                    break;
+                }
+                case START_NEW: {
+                    // TODO: go back to LoadingScreen
+                    break;
+                }
+            }
         }
-        // TEMP
-        printer.printLine("You win!", true);
+        if (isGameWon) gameCompletion.handleGameResult(true, battleContext);
     }
 }

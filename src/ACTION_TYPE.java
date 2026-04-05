@@ -1,6 +1,8 @@
 public enum ACTION_TYPE {
     ATTACK,
     SPECIAL_SKILL,
-    USE_ITEM,
+    ARCANE_BLAST, // used really only for printing
+    USE_POWER_STONE,
+    USE_SMOKE_BOMB,
     USE_POTION
 }
