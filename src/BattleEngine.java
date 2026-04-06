@@ -148,7 +148,7 @@ public class BattleEngine {
         actionToTake.execute(player, targets, currentBattleContext);
 
         // print turn outcome (different based on if smoke bomb is active)
-        battleEngineUI.displayTurnOutcome(player, actionToTake, targets, actionToTake.doesInflictStatusEffectOnTarget, false, false); //smoke bomb doesn't matter here since it only shields players
+        battleEngineUI.displayTurnOutcome(player, actionToTake, targets, actionToTake.doesInflictStatusEffect(), false, false); //smoke bomb doesn't matter here since it only shields players
 
         // if action taken is special skill, print cooldown update
         // TODO: adjust based on accessibility from other classes
@@ -171,7 +171,7 @@ public class BattleEngine {
                 (actionToTake.actionType == ACTION_TYPE.ATTACK || actionToTake.actionType == ACTION_TYPE.SPECIAL_SKILL))
             actionToTake.execute(enemy, targets, currentBattleContext);
         // print turn outcome
-        battleEngineUI.displayTurnOutcome(enemy, actionToTake, targets, actionToTake.doesInflictStatusEffectOnTarget,
+        battleEngineUI.displayTurnOutcome(enemy, actionToTake, targets, actionToTake.doesInflictStatusEffect(),
                 currentBattleContext.getIsSmokeBombActive(), currentBattleContext.getIsSmokeBombExpiringThisTurn());
     }
 }
