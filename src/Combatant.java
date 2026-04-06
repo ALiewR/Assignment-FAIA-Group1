@@ -25,7 +25,8 @@ public abstract class Combatant {
         List<String> expiredStatusEffectNames = new ArrayList<>();
         List<StatusEffect> statusEffectsToRemove = new ArrayList<>();
         for (StatusEffect eachStatusEffect: afflictedStatusEffects) {
-            if (eachStatusEffect.updateDuration()) {
+            eachStatusEffect.decreaseDuration();
+            if (eachStatusEffect.isExpired()) {
                 expiredStatusEffectNames.add(eachStatusEffect.name);
                 statusEffectsToRemove.add(eachStatusEffect);
             }
