@@ -34,4 +34,8 @@ public abstract class Action {
     {
         return doesInflictStatusEffectOnTarget;
     }
+    public String getDescription()
+    {
+        return description;
+    }
 }

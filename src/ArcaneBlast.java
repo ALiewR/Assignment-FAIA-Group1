@@ -4,6 +4,9 @@ public class ArcaneBlast extends SpecialSkill
     public ArcaneBlast()
     {
         super("Arcane Blast");
+        this.description="Deals heavy damage to multiple enemies";
+        this.numOfTargets=10;
+        this.targetType=TARGET_TYPE.ENEMIES;
 
     }
     @Override

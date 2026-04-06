@@ -1,11 +1,13 @@
 import java.util.List;
-public class BasicAttack extends Action
+public class ShieldBash extends SpecialSkill
 {
-    public BasicAttack()
+    public ShieldBash()
     {
-        super("Basic Attack", "Deals standard damage to one enemy", ACTION_TYPE.ATTACK,1);
+        super("Shield Bash");
+        this.description="Deals damage and inflicts a status effect";
+        this.numOfTargets=1;
         this.targetType=TARGET_TYPE.ENEMIES;
-
+        
     }
     @Override
     public void execute(Combatant actor, List<Combatant> targets, BattleContext battleContext) {
@@ -13,6 +15,7 @@ public class BasicAttack extends Action
             eachTarget.oldHP = eachTarget.currentHP;
             int damage=actor.atk - eachTarget.defence;
             eachTarget.currentHP-=Math.max(damage,0);
+            eachTarget.afflictedStatusEffects.add(new StatusEffect());
         }
 }
 }
