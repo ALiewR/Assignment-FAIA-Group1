@@ -15,7 +15,7 @@ public class ArcaneBlast extends SpecialSkill
             eachTarget.oldHP = eachTarget.currentHP;
             int damage=actor.atk*2- eachTarget.defence;
             eachTarget.currentHP-=Math.max(damage,0);
-            eachTarget.afflictedStatusEffects.add(new StatusEffect());
+            //eachTarget.afflictedStatusEffects.add(new StatusEffect());
         }
 }
 }
