@@ -1,12 +1,12 @@
 import java.util.List;
 
 public class Action {
-    public String name;
-    public String description;
-    public ACTION_TYPE actionType;
-    public int numOfTargets;
-    public boolean doesInflictStatusEffectOnTarget;
-    public TARGET_TYPE targetType;
+    protected String name;
+    protected String description;
+    protected ACTION_TYPE actionType;
+    protected int numOfTargets;
+    protected boolean doesInflictStatusEffectOnTarget;
+    protected TARGET_TYPE targetType;
     public Action()
     {
         this.name="Basic Action";
@@ -38,10 +38,6 @@ public class Action {
         for (Combatant eachTarget: targets) {
             eachTarget.oldHP = eachTarget.currentHP;
             int damage=actor.atk - eachTarget.defence;
-            if (actionType==ACTION_TYPE.ARCANE_BLAST)
-            {
-                damage=actor.atk * 2 - eachTarget.defence;
-            }
             eachTarget.currentHP-=Math.max(damage,0);
             if (doesInflictStatusEffectOnTarget) eachTarget.afflictedStatusEffects.add(new StatusEffect());
         }
