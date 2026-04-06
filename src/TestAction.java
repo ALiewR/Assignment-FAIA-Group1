@@ -11,7 +11,8 @@ public class TestAction {
         List<Combatant>targets=new ArrayList<>();
         targets.add(target);
 
-        Action action = new Action("Basic Attack", "Deals damage", ACTION_TYPE.ATTACK,1);
+        //Action action = new Action("Basic Attack", "Deals damage", ACTION_TYPE.ATTACK,1);
+        Action action = new BasicAttack();
 
         BattleContext context= new BattleContext();
         System.out.println("Before Attack:");
