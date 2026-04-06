@@ -126,12 +126,12 @@ public class BattleEngine {
             case ENEMIES: {
                 List<Combatant> possibleTargets = new ArrayList<>(currentBattleContext.getEnemies()); // copy so you won't edit original list
                 // if num of targets >= num of possible targets, auto use on possible targets (no need select)
-                if (actionToTake.numOfTargets >= possibleTargets.size()) targets = possibleTargets;
+                if (actionToTake.getNumOfTargets() >= possibleTargets.size()) targets = possibleTargets;
                 else {
                     // user selects targets
                     // TODO: adjust how to get num of targets based on how other parts are done
-                    for (int i = 0; i < actionToTake.numOfTargets && !possibleTargets.isEmpty(); i++) {
-                        Combatant target = battleEngineUI.selectTarget(actionToTake.name, possibleTargets);
+                    for (int i = 0; i < actionToTake.getNumOfTargets() && !possibleTargets.isEmpty(); i++) {
+                        Combatant target = battleEngineUI.selectTarget(actionToTake.getName(), possibleTargets);
                         targets.add(target);
                         possibleTargets.remove(target);
                     }
@@ -161,7 +161,7 @@ public class BattleEngine {
 
         // auto pick targets based on first in player list
         List<Combatant> targets = new ArrayList<>();
-        for (int i = 0; i < actionToTake.numOfTargets
+        for (int i = 0; i < actionToTake.getNumOfTargets()
                 && i < currentBattleContext.getPlayers().size(); i++) {
             targets.add(currentBattleContext.getPlayers().get(i));
         }
