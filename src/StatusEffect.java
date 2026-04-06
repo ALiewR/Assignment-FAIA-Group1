@@ -1,9 +1,9 @@
-public abstract class StatusEffect {
+public class StatusEffect {
     public STATUS_EFFECT_TYPE statusEffectType;
     public String name;
     public int maxDuration;
     public int currentDuration;
-    public StatusEffect(STATUS_EFFECT_TYPE statusEffectType, String name, int maxDuration) {}
+    public StatusEffect(STATUS_EFFECT_TYPE statusEffectType, String name, int maxDuration) {
         this.statusEffectType=statusEffectType;
         this.name=name;
         this.maxDuration=maxDuration;
@@ -21,7 +21,7 @@ public abstract class StatusEffect {
         return currentDuration;
     }
     public void decreaseDuration() {
-        if (CurrentDuration>0) {
+        if (currentDuration>0) {
             currentDuration--;
         }
     }
@@ -31,12 +31,10 @@ public abstract class StatusEffect {
     public void resetDuration() {
         currentDuration=maxDuration;
     }
-    public abstract void applyEffect(Combatant target);
-    public abstract void removeEffect(Combatant target);
-
+    //public abstract void applyEffect(Combatant target);
+    //public abstract void removeEffect(Combatant target);
 
 
 
     
-    }
 }
