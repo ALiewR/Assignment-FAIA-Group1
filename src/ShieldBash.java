@@ -4,7 +4,7 @@ public class ShieldBash extends SpecialSkill
     public ShieldBash()
     {
         super("Shield Bash");
-        this.description="Deals damage and inflicts a status effect";
+        this.description="Deals damage and inflicts stun";
         this.numOfTargets=1;
         this.targetType=TARGET_TYPE.ENEMIES;
         
