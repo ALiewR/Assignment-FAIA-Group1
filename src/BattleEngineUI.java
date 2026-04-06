@@ -196,6 +196,7 @@ public class BattleEngineUI extends UI {
                                    int attackerAtk, int targetDef, boolean isOnlyTarget) {
         displayMessage(targetName + ": ", true);
         int damageDealt = attackerAtk - targetDef;
+        if (damageDealt < 0) damageDealt = 0;
         displayMessage("HP: " + oldHP + " --> " + currentHP + " ");
         // if target eliminated, print extra tag
         if (currentHP <= 0) displayMessage("X ELIMINATED ");
