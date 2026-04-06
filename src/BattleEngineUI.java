@@ -23,14 +23,14 @@ public class BattleEngineUI extends UI {
             // display info for user to know
             displayLineMessage(playerName + " can perform one of the following actions...");
             for (int i = 0; i < availableActions.size(); i++) {
-                displayLineMessage(i + ": " + availableActions.get(i).name + " - " + availableActions.get(i).description);
+                displayLineMessage(i + ": " + availableActions.get(i).getName() + " - " + availableActions.get(i).getDescription());
             }
             displayMessage("Select action you wish to take: ", true);
             userChoice = getUIInt();
         }
 
-        displayLineMessage(availableActions.get(userChoice).name + " can be used on "
-                + availableActions.get(userChoice).numOfTargets + " target(s).");
+        displayLineMessage(availableActions.get(userChoice).getName() + " can be used on "
+                + availableActions.get(userChoice).getNumOfTargets() + " target(s).");
 
         // input is valid
         return availableActions.get(userChoice);
@@ -68,18 +68,18 @@ public class BattleEngineUI extends UI {
         // TODO: adjust how to get action type based on how its implemented
         switch(action.actionType) {
             case ATTACK: {
-                printAttacking(action.name);
+                printAttacking(action.getName());
                 printingAttackImpacts(actor, targets,hasInflictStatusEffectOnTargetThisTurn, isSmokeBombActive, isSmokeBombExpiringThisTurn, false);
                 break;
             }
             case SPECIAL_SKILL: {
-                printAttacking(action.name);
+                printAttacking(action.getName());
                 printingAttackImpacts(actor, targets,hasInflictStatusEffectOnTargetThisTurn, isSmokeBombActive, isSmokeBombExpiringThisTurn, false);
                 displayMessage("| Cooldown set to " + actor.currentSkillMaxCooldown + " ");
                 break;
             }
             case ARCANE_BLAST: { // hits all enemies & increases atk
-                printAttacking(action.name);
+                printAttacking(action.getName());
                 displayMessage("All Enemies: ", true);
                 printingAttackImpacts(actor,targets,hasInflictStatusEffectOnTargetThisTurn, isSmokeBombActive, isSmokeBombExpiringThisTurn, true);
                 displayMessage("| Cooldown set to " + actor.currentSkillMaxCooldown + " ");
@@ -88,7 +88,7 @@ public class BattleEngineUI extends UI {
             case USE_POWER_STONE: {
                 if (!(action instanceof UseItem useItemAction)) return;
                 printUsingItem(useItemAction.associatedItem.name);
-                displayMessage("--> " + actor.getSpecialSkill().name + " triggered --> ", true);
+                displayMessage("--> " + actor.getSpecialSkill().getName() + " triggered --> ", true);
                 // call same printing functionality as special skill
                 printingAttackImpacts(actor, targets,hasInflictStatusEffectOnTargetThisTurn, isSmokeBombActive, isSmokeBombExpiringThisTurn, false);
                 displayMessage("Cooldown unchanged --> " + actor.currentSkillMaxCooldown + " (" +
@@ -196,6 +196,7 @@ public class BattleEngineUI extends UI {
                                    int attackerAtk, int targetDef, boolean isOnlyTarget) {
         displayMessage(targetName + ": ", true);
         int damageDealt = attackerAtk - targetDef;
+        if (damageDealt < 0) damageDealt = 0;
         displayMessage("HP: " + oldHP + " --> " + currentHP + " ");
         // if target eliminated, print extra tag
         if (currentHP <= 0) displayMessage("X ELIMINATED ");

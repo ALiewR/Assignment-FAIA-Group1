@@ -1,31 +1,13 @@
 import java.util.List;
 
-public class Action {
-    public String name;
-    public String description;
-    public ACTION_TYPE actionType;
-    public int numOfTargets;
-    public boolean doesInflictStatusEffectOnTarget;
-    public TARGET_TYPE targetType;
-    public Action()
-    {
-        this.name="Basic Action";
-        this.description="Performs a basic action";
-        this.actionType=ACTION_TYPE.ATTACK;
-        this.numOfTargets=1;
-        this.doesInflictStatusEffectOnTarget=false;
-        this.targetType=TARGET_TYPE.ENEMIES;
-    }
-        public Action(boolean inflictSE)
-    {
-        this.name = "shield bash";
-        this.description="Deals damage and applies a status effect";
-        this.actionType=ACTION_TYPE.SPECIAL_SKILL;
-        this.numOfTargets=1;
-        this.doesInflictStatusEffectOnTarget = inflictSE;
-        this.targetType = TARGET_TYPE.ENEMIES;
-        
-    }
+public abstract class Action {
+    protected String name;
+    protected String description;
+    protected ACTION_TYPE actionType;
+    protected int numOfTargets;
+    protected boolean doesInflictStatusEffectOnTarget;
+    protected TARGET_TYPE targetType;
+    
     public Action(String name, String desc, ACTION_TYPE aType, int numT) {
         this.name = name;
         this.description = desc;
@@ -33,19 +15,9 @@ public class Action {
         this.numOfTargets = numT;
         this.doesInflictStatusEffectOnTarget=false;
         this.targetType=TARGET_TYPE.ENEMIES;
-    };
-    public void execute(Combatant actor, List<Combatant> targets, BattleContext battleContext) {
-        for (Combatant eachTarget: targets) {
-            eachTarget.oldHP = eachTarget.currentHP;
-            int damage=actor.atk - eachTarget.defence;
-            if (actionType==ACTION_TYPE.ARCANE_BLAST)
-            {
-                damage=actor.atk * 2 - eachTarget.defence;
-            }
-            eachTarget.currentHP-=Math.max(damage,0);
-            if (doesInflictStatusEffectOnTarget) eachTarget.afflictedStatusEffects.add(new StatusEffect());
-        }
     }
+    public abstract void execute(Combatant actor, List<Combatant> targets, BattleContext battleContext);
+
     public String getName()
     {
         return name;
@@ -61,5 +33,13 @@ public class Action {
     public boolean doesInflictStatusEffect()
     {
         return doesInflictStatusEffectOnTarget;
+    }
+    public String getDescription()
+    {
+        return description;
+    }
+    public ACTION_TYPE getActionType()
+    {
+        return actionType;
     }
 }
