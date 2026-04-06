@@ -38,4 +38,8 @@ public abstract class Action {
     {
         return description;
     }
+    public ACTION_TYPE getActionType()
+    {
+        return actionType;
+    }
 }
