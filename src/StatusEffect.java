@@ -1,4 +1,4 @@
-public class StatusEffect {
+public abstract class StatusEffect {
     public STATUS_EFFECT_TYPE statusEffectType;
     public String name;
     public int maxDuration;
@@ -7,6 +7,7 @@ public class StatusEffect {
         this.statusEffectType=statusEffectType;
         this.name=name;
         this.maxDuration=maxDuration;
+        this.currentDuration=maxDuration;
     }
     public STATUS_EFFECT_TYPE getStatusEffectType() {
         return statusEffectType;
@@ -31,10 +32,6 @@ public class StatusEffect {
     public void resetDuration() {
         currentDuration=maxDuration;
     }
-    //public abstract void applyEffect(Combatant target);
-    //public abstract void removeEffect(Combatant target);
-
-
-
-
+    public abstract void applyEffect(Combatant target);
+    public abstract void removeEffect(Combatant target);
 }
