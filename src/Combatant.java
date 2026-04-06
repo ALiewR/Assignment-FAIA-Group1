@@ -46,6 +46,6 @@ public abstract class Combatant {
         for (Action eachAction: availableActions) {
             if (eachAction.actionType == ACTION_TYPE.SPECIAL_SKILL) return eachAction;
         }
-        return new ArcaneBlast();
+        return null;
     }
 }
