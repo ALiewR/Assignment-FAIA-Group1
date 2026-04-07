@@ -8,10 +8,10 @@ public class PowerStone extends Item {
     @Override
     public void use(Combatant user, Combatant target) {
         if(!used && user!=null) {
-            Action specialSkill=user.getSpecialSkill();
-            if(specialSkill!=null) {
-                specialSkill.execute(user, target);
-            }
+            //Action specialSkill=user.getSpecialSkill();
+            //if(specialSkill!=null) {
+            //   specialSkill.execute(user, target);
+            //}
             markAsUsed();
         }
     }

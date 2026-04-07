@@ -7,7 +7,7 @@ public class ShieldBash extends SpecialSkill
         this.description="Deals damage and inflicts stun";
         this.numOfTargets=1;
         this.targetType=TARGET_TYPE.ENEMIES;
-        
+        this.doesInflictStatusEffectOnTarget = true;
     }
     @Override
     public void execute(Combatant actor, List<Combatant> targets, BattleContext battleContext) {
@@ -15,7 +15,7 @@ public class ShieldBash extends SpecialSkill
             eachTarget.oldHP = eachTarget.currentHP;
             int damage=actor.atk - eachTarget.defence;
             eachTarget.currentHP-=Math.max(damage,0);
-            //eachTarget.afflictedStatusEffects.add(new StatusEffect());
+            eachTarget.afflictedStatusEffects.add(new Stun());
         }
 }
 }

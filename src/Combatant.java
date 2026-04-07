@@ -45,7 +45,8 @@ public abstract class Combatant {
     }
     public Action getSpecialSkill() {
         for (Action eachAction: availableActions) {
-            if (eachAction.actionType == ACTION_TYPE.SPECIAL_SKILL) return eachAction;
+            if (eachAction.actionType == ACTION_TYPE.SPECIAL_SKILL ||
+                    eachAction.actionType == ACTION_TYPE.ARCANE_BLAST) return eachAction;
         }
         return null;
     }

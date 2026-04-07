@@ -7,15 +7,16 @@ public class ArcaneBlast extends SpecialSkill
         this.description="Deals heavy damage to multiple enemies and increases attack by 10 for each enemy killed";
         this.numOfTargets=10;
         this.targetType=TARGET_TYPE.ENEMIES;
+        this.actionType=ACTION_TYPE.ARCANE_BLAST;
 
     }
     @Override
     public void execute(Combatant actor, List<Combatant> targets, BattleContext battleContext) {
         for (Combatant eachTarget: targets) {
             eachTarget.oldHP = eachTarget.currentHP;
-            int damage=actor.atk*2- eachTarget.defence;
+            int damage=actor.atk- eachTarget.defence;
             eachTarget.currentHP-=Math.max(damage,0);
-            //eachTarget.afflictedStatusEffects.add(new StatusEffect());
+            actor.afflictedStatusEffects.add(new ArcaneBoost());
         }
 }
 }

@@ -14,7 +14,9 @@ public class BattleContext {
     // TEMP
     public BattleContext() {
         players.add(new Player());
-        items.add(new Item("smoke bomb"));
+        items.add(new Potion());
+        items.add(new SmokeBomb());
+        items.add(new PowerStone());
         level = new Level(2);
         enemies = spawnEnemies(level, false);
         turnOrderStrategy = new TurnOrderStrategy();
@@ -68,6 +70,13 @@ public class BattleContext {
         return turnOrderStrategy.determineOrder(combatants);
     }
     public List<Item> getItems() { return items; }
+    public List<Item> getUnusedItems() {
+        List<Item> unusedItems = new ArrayList<>();
+        for (Item eachItem: items) {
+            if (!eachItem.getIsUsed()) unusedItems.add(eachItem);
+        }
+        return unusedItems;
+    }
     public List<Item> getActiveItems() {
         List<Item> activeItems = new ArrayList<>();
         for (Item eachItem: items) {

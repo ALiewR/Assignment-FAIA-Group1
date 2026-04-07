@@ -1,8 +1,8 @@
 public class ArcaneBoost extends StatusEffect {
     private int attackIncrease;
-    public ArcaneBoost(int attackIncrease) {
+    public ArcaneBoost() {
         super(STATUS_EFFECT_TYPE.ARCANE_BOOST, "Arcane Boost", 999);  
-        this.attackIncrease=attackIncrease;
+        this.attackIncrease=10;
     }
     @Override
     public void applyEffect(Combatant target) {

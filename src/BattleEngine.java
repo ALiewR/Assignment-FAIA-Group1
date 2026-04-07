@@ -149,10 +149,6 @@ public class BattleEngine {
 
         // print turn outcome (different based on if smoke bomb is active)
         battleEngineUI.displayTurnOutcome(player, actionToTake, targets, actionToTake.doesInflictStatusEffect(), false, false); //smoke bomb doesn't matter here since it only shields players
-
-        // if action taken is special skill, print cooldown update
-        // TODO: adjust based on accessibility from other classes
-        if (actionToTake.actionType == ACTION_TYPE.SPECIAL_SKILL) battleEngineUI.printSpecialSkillCooldown(player.specialSkillMaxCooldown);
     }
     private void executeEnemyTurn(Combatant enemy) {
         // TODO: change if using EnemyStrategy class

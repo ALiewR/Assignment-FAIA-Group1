@@ -72,6 +72,12 @@ public class BattleEngineUI extends UI {
                 printingAttackImpacts(actor, targets,hasInflictStatusEffectOnTargetThisTurn, isSmokeBombActive, isSmokeBombExpiringThisTurn, false);
                 break;
             }
+            case DEFEND: {
+                printAttacking(action.getName());
+                displayMessage(actor.name + ": ", true);
+                displayMessage(" Defence increased by 10!");
+                break;
+            }
             case SPECIAL_SKILL: {
                 printAttacking(action.getName());
                 printingAttackImpacts(actor, targets,hasInflictStatusEffectOnTargetThisTurn, isSmokeBombActive, isSmokeBombExpiringThisTurn, false);
@@ -87,24 +93,24 @@ public class BattleEngineUI extends UI {
             }
             case USE_POWER_STONE: {
                 if (!(action instanceof UseItem useItemAction)) return;
-                printUsingItem(useItemAction.associatedItem.name);
+                printUsingItem(useItemAction.getAssociatedItem().name);
                 displayMessage("--> " + actor.getSpecialSkill().getName() + " triggered --> ", true);
                 // call same printing functionality as special skill
                 printingAttackImpacts(actor, targets,hasInflictStatusEffectOnTargetThisTurn, isSmokeBombActive, isSmokeBombExpiringThisTurn, false);
                 displayMessage("Cooldown unchanged --> " + actor.currentSkillMaxCooldown + " (" +
-                        useItemAction.associatedItem.description + ") | " + useItemAction.associatedItem.name + " consumed ");
+                        useItemAction.getAssociatedItem().description + ") | " + useItemAction.getAssociatedItem().name + " consumed ");
                 break;
             }
             case USE_SMOKE_BOMB: {
                 if (!(action instanceof UseItem useItemAction)) return;
-                printUsingItem(useItemAction.associatedItem.name);
+                printUsingItem(useItemAction.getAssociatedItem().name);
                 // no targets. just need print info line
                 displayMessage("Enemy attacks deal 0 damage this turn + next ");
                 break;
             }
             case USE_POTION: {
                 if (!(action instanceof UseItem useItemAction)) return;
-                printUsingItem(useItemAction.associatedItem.name);
+                printUsingItem(useItemAction.getAssociatedItem().name);
                 // print own health increase - yes, hardcoded potion effect to 100
                 displayMessage("HP: " + actor.oldHP + " --> " + actor.currentHP + " (+100) ");
                 break;
