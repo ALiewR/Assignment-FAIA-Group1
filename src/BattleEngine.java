@@ -8,7 +8,7 @@ public class BattleEngine {
 
     public BattleEngine(BattleContext battleContext) {
         currentBattleContext = battleContext;
-        battleEngineUI = new BattleEngineUI(new Printer()); // use default printer
+        battleEngineUI = new BattleEngineUI(new ConsolePrinter()); // use default printer
     }
     public BattleEngine(BattleContext battleContext, Printer printer) {
         currentBattleContext = battleContext;

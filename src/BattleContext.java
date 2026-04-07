@@ -17,7 +17,7 @@ public class BattleContext {
         items.add(new Item("smoke bomb"));
         level = new Level(2);
         enemies = spawnEnemies(level, false);
-        turnOrderStrategy = new TurnOrderStrategy();
+        turnOrderStrategy = new SpeedBasedTurnOrderStrategy();
     }
 
     public BattleContext(List<Combatant> selectedPlayers, List<Item> selectedItems, Level selectedLevel, TurnOrderStrategy selectedTurnOrderStrategy) {

@@ -8,7 +8,7 @@ public class Player extends Combatant {
         availableActions.add(new UseItem("potion", "heal player 100 HP", ACTION_TYPE.USE_POTION, 0));
         availableActions.add(new UseItem("power stone", "Power Stone does nto affect cooldown", ACTION_TYPE.USE_POWER_STONE, 1));
         name = "Player";
-        currentHP = 50;
-        baseHP = 50;
+        currentHP = 5;
+        baseHP = 5;
     }
 }

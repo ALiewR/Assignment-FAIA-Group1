@@ -31,7 +31,6 @@ public class Level {
             default: {} //no enemies spawned
         }
     }
-
     public List<Combatant> getInitialEnemies() { return initialEnemies; }
     public boolean hasBackupToSpawn() {
         return !backupEnemies.isEmpty();
