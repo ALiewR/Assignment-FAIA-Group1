@@ -7,7 +7,6 @@ public class Stun extends StatusEffect {
          //if(target!=null) {
            //     target.setStunned(true);
         }
-    }
     @Override
     public void removeEffect(Combatant target) {
          //if(target!=null) {
@@ -15,4 +14,4 @@ public class Stun extends StatusEffect {
             }
 
     }
-}
+
