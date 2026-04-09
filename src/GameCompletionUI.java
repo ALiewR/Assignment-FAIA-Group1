@@ -16,7 +16,7 @@ public class GameCompletionUI extends UI {
             displayMessage("| Remaining HP: ", true);
             for (int i = 0; i < players.size(); i++) {
                 if (i > 0) displayMessage("| "); // not first player
-                printRemainingHP(players.get(i).getCurrentHP(), players.get(i).baseHP);
+                printRemainingHP(players.get(i).getCurrentHP(), players.get(i).getBaseHP());
             }
         }
         // print remaining enemies
