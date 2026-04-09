@@ -1,23 +1,25 @@
 public class Warrior extends Player {
     public Warrior() {
-        super("Warrior",
-                260,
-                260,
-                260,
-                40,
-                20,
-                30);
+        name = "Warrior";
+        baseHP = 260;
+        currentHP = 260;
+        maxHP = 260;
+        atk = 40;
+        oldAtk = atk;
+        defence = 20;
+        speed = 30;
 
         availableActions.add(new ShieldBash());
     }
     public Warrior(String identifier) {
-        super("Warrior " + identifier,
-                260,
-                260,
-                260,
-                40,
-                20,
-                30);
+        name = "Warrior " + identifier;
+        baseHP = 260;
+        currentHP = 260;
+        maxHP = 260;
+        atk = 40;
+        oldAtk = atk;
+        defence = 20;
+        speed = 30;
 
         availableActions.add(new ShieldBash());
     }

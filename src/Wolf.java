@@ -1,20 +1,22 @@
 public class Wolf extends Enemy {
     public Wolf() {
-        super("Wolf",
-                40,
-                40,
-                40,
-                45,
-                5,
-                35);
+        name = "Wolf";
+        baseHP = 40;
+        currentHP = 40;
+        maxHP = 40;
+        atk = 45;
+        oldAtk = atk;
+        defence = 5;
+        speed = 35;
     }
     public Wolf(String identifier) {
-        super("Wolf " + identifier,
-                40,
-                40,
-                40,
-                45,
-                5,
-                35);
+        name = "Wolf " + identifier;
+        baseHP = 40;
+        currentHP = 40;
+        maxHP = 40;
+        atk = 45;
+        oldAtk = atk;
+        defence = 5;
+        speed = 35;
     }
 }

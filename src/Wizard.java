@@ -1,23 +1,25 @@
 public class Wizard extends Player {
     public Wizard() {
-        super("Wizard",
-                200,
-                200,
-                200,
-                50,
-                10,
-                20);
+        name = "Wizard";
+        baseHP = 200;
+        currentHP = 200;
+        maxHP = 200;
+        atk = 50;
+        oldAtk = atk;
+        defence = 10;
+        speed = 20;
 
         availableActions.add(new ArcaneBlast());
     }
     public Wizard(String identifier) {
-        super("Wizard " + identifier,
-                200,
-                200,
-                200,
-                50,
-                10,
-                20);
+        name = "Wizard " + identifier;
+        baseHP = 200;
+        currentHP = 200;
+        maxHP = 200;
+        atk = 50;
+        oldAtk = atk;
+        defence = 10;
+        speed = 20;
 
         availableActions.add(new ArcaneBlast());
     }

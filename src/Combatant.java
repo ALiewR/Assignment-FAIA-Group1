@@ -32,18 +32,6 @@ public abstract class Combatant {
     public List<Action> getAvailableActions()             { return availableActions; }
     public List<StatusEffect> getAfflictedStatusEffects() { return afflictedStatusEffects; }
 
-    public Combatant(String name, int baseHP, int currentHP, int maxHP,
-                     int atk, int defence, int speed) {
-        this.name = name;
-        this.baseHP = baseHP;
-        this.currentHP = currentHP;
-        this.maxHP = maxHP;
-        this.atk = atk;
-        oldAtk = this.atk;
-        this.defence = defence;
-        this.speed = speed;
-    }
-
     public boolean isAlive() {
         return currentHP > 0;
     }

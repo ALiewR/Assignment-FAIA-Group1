@@ -1,20 +1,22 @@
 public class Goblin extends Enemy {
     public Goblin() {
-        super("Goblin",
-                55,
-                55,
-                55,
-                35,
-                15,
-                25);
+        name = "Goblin";
+        baseHP = 55;
+        currentHP = 55;
+        maxHP = 55;
+        atk = 35;
+        oldAtk = atk;
+        defence = 15;
+        speed = 25;
     }
     public Goblin(String identifier) {
-        super("Goblin " + identifier,
-                55,
-                55,
-                55,
-                35,
-                15,
-                25);
+        name = "Goblin " + identifier;
+        baseHP = 55;
+        currentHP = 55;
+        maxHP = 55;
+        atk = 35;
+        oldAtk = atk;
+        defence = 15;
+        speed = 25;
     }
 }

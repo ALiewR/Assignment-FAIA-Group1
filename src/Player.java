@@ -1,8 +1,7 @@
 public class Player extends Combatant {
-    public Player(String name, int baseHP, int currentHP, int maxHP,
-                  int atk, int defence, int speed) {
-        super(name, baseHP, currentHP, maxHP, atk, defence, speed);
+    public Player() {
         combatantType = COMBATANT_TYPE.PLAYER;
+        name = "Player";
 
         availableActions.add(new BasicAttack());
         availableActions.add(new Defend());
