@@ -1,29 +1,45 @@
 import java.util.List;
 
-public class Action {
-    public String name = "action";
-    public String description = "can do this";
-    public ACTION_TYPE actionType = ACTION_TYPE.ATTACK;
-    public int numOfTargets = 1;
-    public boolean doesInflictStatusEffectOnTarget = false;
-    public TARGET_TYPE targetType = TARGET_TYPE.ENEMIES;
-    public Action() {};
-    public Action(boolean inflictSE) {
-        doesInflictStatusEffectOnTarget = inflictSE;
-        actionType = ACTION_TYPE.SPECIAL_SKILL;
-        name = "shield bash";
-    }
+public abstract class Action {
+    protected String name;
+    protected String description;
+    protected ACTION_TYPE actionType;
+    protected int numOfTargets;
+    protected boolean doesInflictStatusEffectOnTarget;
+    protected TARGET_TYPE targetType;
+    
     public Action(String name, String desc, ACTION_TYPE aType, int numT) {
         this.name = name;
-        description = desc;
-        actionType = aType;
-        numOfTargets = numT;
-    };
-    public void execute(Combatant actor, List<Combatant> targets, BattleContext battleContext) {
-        for (Combatant eachTarget: targets) {
-            eachTarget.oldHP = eachTarget.currentHP;
-            eachTarget.currentHP -= actor.atk - eachTarget.defence;
-            if (doesInflictStatusEffectOnTarget) eachTarget.afflictedStatusEffects.add(new StatusEffect());
-        }
+        this.description = desc;
+        this.actionType = aType;
+        this.numOfTargets = numT;
+        this.doesInflictStatusEffectOnTarget=false;
+        this.targetType=TARGET_TYPE.ENEMIES;
+    }
+    public abstract void execute(Combatant actor, List<Combatant> targets, BattleContext battleContext);
+
+    public String getName()
+    {
+        return name;
+    }
+    public int getNumOfTargets()
+    {
+        return numOfTargets;
+    }
+    public TARGET_TYPE getTargetType()
+    {
+        return targetType;
+    }
+    public boolean doesInflictStatusEffect()
+    {
+        return doesInflictStatusEffectOnTarget;
+    }
+    public String getDescription()
+    {
+        return description;
+    }
+    public ACTION_TYPE getActionType()
+    {
+        return actionType;
     }
 }

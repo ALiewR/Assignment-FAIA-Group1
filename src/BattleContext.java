@@ -13,8 +13,12 @@ public class BattleContext {
 
     // TEMP
     public BattleContext() {
-        players.add(new Player());
-        items.add(new Item("smoke bomb"));
+        Player player = new Warrior();
+        players.add(player);
+        items.add(new Potion());
+        items.add(new SmokeBomb());
+        items.add(new PowerStone());
+        player.addItems(items);
         level = new Level(2);
         enemies = spawnEnemies(level, false);
         turnOrderStrategy = new SpeedBasedTurnOrderStrategy();
@@ -26,6 +30,13 @@ public class BattleContext {
             // while players passed in from "options" will remain untouched
 
         items = new ArrayList<>(selectedItems);
+
+        // add in use item actions to players based on items selected
+        for (Combatant eachCombatant: players) {
+            if (eachCombatant instanceof Player eachPlayer) {
+                eachPlayer.addItems(items);
+            }
+        }
 
         // from level, spawn inital wave of enemies -- TODO: adjust according to how spawner and level is implemented
         level = selectedLevel;
@@ -68,6 +79,13 @@ public class BattleContext {
         return turnOrderStrategy.determineOrder(combatants);
     }
     public List<Item> getItems() { return items; }
+    public List<Item> getUnusedItems() {
+        List<Item> unusedItems = new ArrayList<>();
+        for (Item eachItem: items) {
+            if (!eachItem.getIsUsed()) unusedItems.add(eachItem);
+        }
+        return unusedItems;
+    }
     public List<Item> getActiveItems() {
         List<Item> activeItems = new ArrayList<>();
         for (Item eachItem: items) {
@@ -105,9 +123,8 @@ public class BattleContext {
     }
     private List<Combatant> getAliveCombatants(List<Combatant> combatantsToFilter) {
         List<Combatant> aliveCombatants = new ArrayList<>();
-        // TODO: adjust according to accessibility in Combatant class
         for (Combatant eachCombatant: combatantsToFilter) {
-            if (eachCombatant.currentHP > 0) aliveCombatants.add(eachCombatant);
+            if (eachCombatant.isAlive()) aliveCombatants.add(eachCombatant);
         }
         return aliveCombatants;
     }

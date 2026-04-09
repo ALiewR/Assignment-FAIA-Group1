@@ -1,12 +1,27 @@
-public class Warrior extends Player{
-    public Warrior(){
-        super();
-        this.name="Warrior";
-        this.baseHP=260;
-        this.currentHP=260;
-        this.atk=40;
-        this.defence=20;
-        this.speed=30;
-    }
-}
+public class Warrior extends Player {
+    public Warrior() {
+        name = "Warrior";
+        baseHP = 260;
+        currentHP = 260;
+        maxHP = 260;
+        atk = 40;
+        oldAtk = atk;
+        defence = 20;
+        speed = 30;
 
+        availableActions.add(new ShieldBash());
+    }
+    public Warrior(String identifier) {
+        name = "Warrior " + identifier;
+        baseHP = 260;
+        currentHP = 260;
+        maxHP = 260;
+        atk = 40;
+        oldAtk = atk;
+        defence = 20;
+        speed = 30;
+
+        availableActions.add(new ShieldBash());
+    }
+
+}

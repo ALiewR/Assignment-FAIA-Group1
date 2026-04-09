@@ -1,14 +1,25 @@
 public class Player extends Combatant {
     public Player() {
         combatantType = COMBATANT_TYPE.PLAYER;
-        availableActions.add(new Action(true));
-        availableActions.add(new Action());
-        availableActions.add(new Action("arcane blast", "increase atk upon kill", ACTION_TYPE.ARCANE_BLAST, 10));
-        availableActions.add(new UseItem("smoke bomb", "enemies deal no damage", ACTION_TYPE.USE_SMOKE_BOMB, 0));
-        availableActions.add(new UseItem("potion", "heal player 100 HP", ACTION_TYPE.USE_POTION, 0));
-        availableActions.add(new UseItem("power stone", "Power Stone does nto affect cooldown", ACTION_TYPE.USE_POWER_STONE, 1));
         name = "Player";
-        currentHP = 5;
-        baseHP = 5;
+
+        availableActions.add(new BasicAttack());
+        availableActions.add(new Defend());
+    }
+
+    public void addItems(java.util.List<Item> chosenItems) {
+        for (Item item : chosenItems) {
+            switch (item.itemType) {
+                case POTION:
+                    availableActions.add(new UseItem(new Potion()));
+                    break;
+                case SMOKE_BOMB:
+                    availableActions.add(new UseItem(new SmokeBomb()));
+                    break;
+                case POWER_STONE:
+                    availableActions.add(new UseItem(new PowerStone()));
+                    break;
+            }
+        }
     }
 }
