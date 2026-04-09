@@ -32,6 +32,32 @@ public abstract class Combatant {
     public List<Action> getAvailableActions()             { return availableActions; }
     public List<StatusEffect> getAfflictedStatusEffects() { return afflictedStatusEffects; }
 
+    public List<Action> getAvailableActions(List<Item> items) {
+        List<Action> filtered = new ArrayList<>();
+        for (Action action : availableActions) {
+            // filter out special skill if cooldown not ready
+            if (action.actionType == ACTION_TYPE.SPECIAL_SKILL ||
+                    action.actionType == ACTION_TYPE.ARCANE_BLAST) {
+                if (!isSkillReady()) continue;
+            }
+            // filter out UseItem actions if associated item not in items list
+            if (action instanceof UseItem) {
+                UseItem useItemAction = (UseItem) action;
+                Item associated = useItemAction.getAssociatedItem();
+                boolean found = false;
+                for (Item item : items) {
+                    if (item.itemType == associated.itemType) {
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found) continue;
+            }
+            filtered.add(action);
+        }
+        return filtered;
+    }
+
     public boolean isAlive() {
         return currentHP > 0;
     }
@@ -66,6 +92,7 @@ public abstract class Combatant {
     public void resetCooldown() {
         skillCooldown = SKILL_MAX_COOLDOWN;
     }
+
     public void depleteCooldown() {
         if (skillCooldown > 0) skillCooldown--;
     }
@@ -78,7 +105,6 @@ public abstract class Combatant {
         for (StatusEffect effect : afflictedStatusEffects) {
             switch (effect.statusEffectType) {
                 case STUNNED:
-                    // Checked via isStunned(); no per-turn stat change needed
                     break;
                 case ARCANE_BOOST:
                     effect.applyEffect(this);
@@ -95,24 +121,22 @@ public abstract class Combatant {
     public List<String> updateStatusEffectDuration() {
         List<String> expiredStatusEffectNames = new ArrayList<>();
         List<StatusEffect> statusEffectsToRemove = new ArrayList<>();
-        for (StatusEffect eachStatusEffect: afflictedStatusEffects) {
+        for (StatusEffect eachStatusEffect : afflictedStatusEffects) {
             eachStatusEffect.decreaseDuration();
             if (eachStatusEffect.isExpired()) {
                 expiredStatusEffectNames.add(eachStatusEffect.name);
                 statusEffectsToRemove.add(eachStatusEffect);
             }
         }
-        // remove expired from afflicted list
-        for (StatusEffect eachStatusEffect: statusEffectsToRemove) {
+        for (StatusEffect eachStatusEffect : statusEffectsToRemove) {
             eachStatusEffect.removeEffect(this);
             afflictedStatusEffects.remove(eachStatusEffect);
         }
         return expiredStatusEffectNames;
     }
 
-
     public Action getSpecialSkill() {
-        for (Action eachAction: availableActions) {
+        for (Action eachAction : availableActions) {
             if (eachAction.actionType == ACTION_TYPE.SPECIAL_SKILL ||
                     eachAction.actionType == ACTION_TYPE.ARCANE_BLAST) return eachAction;
         }
@@ -131,9 +155,4 @@ public abstract class Combatant {
         oldHP = currentHP;
         oldAtk = atk;
     }
-
-    /*public void depleteCooldown() {
-        currentSkillMaxCooldown--;
-        if (currentSkillMaxCooldown <= 0) currentSkillMaxCooldown = 0;
-    }*/
 }
