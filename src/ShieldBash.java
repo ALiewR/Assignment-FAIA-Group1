@@ -11,6 +11,10 @@ public class ShieldBash extends SpecialSkill
     }
     @Override
     public void execute(Combatant actor, List<Combatant> targets, BattleContext battleContext) {
+        execute(actor,targets,battleContext,true);
+    }
+    @Override
+    public void execute(Combatant actor, List<Combatant> targets, BattleContext battleContext, boolean resetCooldown) {
         for (Combatant eachTarget: targets) {
             eachTarget.savePreviousStats();
             int damage = Math.max(0, actor.atk - eachTarget.defence);
@@ -19,6 +23,9 @@ public class ShieldBash extends SpecialSkill
             eachTarget.afflictedStatusEffects.add(stun);
             stun.applyEffect(eachTarget);
         }
-        actor.resetCooldown();
+        if (resetCooldown)
+            {
+                actor.resetCooldown();
+            }
 }
 }

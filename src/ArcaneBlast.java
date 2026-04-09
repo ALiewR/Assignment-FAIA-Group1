@@ -11,7 +11,12 @@ public class ArcaneBlast extends SpecialSkill
 
     }
     @Override
-    public void execute(Combatant actor, List<Combatant> targets, BattleContext battleContext) {
+    public void execute(Combatant actor, List<Combatant> targets, BattleContext battleContext) 
+    {
+        execute(actor,targets,battleContext,true);
+    }
+    @Override
+    public void execute(Combatant actor, List<Combatant> targets, BattleContext battleContext, boolean resetCooldown) {
         for (Combatant eachTarget: targets) {
             eachTarget.savePreviousStats();
             int damage = Math.max(0, actor.atk - eachTarget.defence);
@@ -24,6 +29,9 @@ public class ArcaneBlast extends SpecialSkill
                 arcaneBoost.applyEffect(actor);
             }
         }
-        actor.resetCooldown();
+        if (resetCooldown)
+            {
+                actor.resetCooldown();
+            }
     }
 }
