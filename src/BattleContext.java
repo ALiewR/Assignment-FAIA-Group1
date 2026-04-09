@@ -102,7 +102,7 @@ public class BattleContext {
     }
     private boolean isAllCombatantDefeated(List<Combatant> combatants) {
         for (Combatant eachCombatant: combatants) {
-            if (eachCombatant.currentHP > 0) return false;
+            if (eachCombatant.isAlive()) return false;
         }
         return true;
     }

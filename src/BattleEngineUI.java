@@ -49,7 +49,7 @@ public class BattleEngineUI extends UI {
             // display info for user to know
             displayLineMessage(actionName + " can be used on...");
             for (int i = 0; i < possibleTargets.size(); i ++) {
-                displayLineMessage(i+1 + ": " + possibleTargets.get(i).name);
+                displayLineMessage(i+1 + ": " + possibleTargets.get(i).getName());
             }
             displayMessage("Select whom you wish to target: ", true);
             userChoice = getUIInt() - 1;
@@ -63,7 +63,7 @@ public class BattleEngineUI extends UI {
                                    boolean isSmokeBombActive, boolean isSmokeBombExpiringThisTurn) {
         // TODO: adjust based on how to get each info needed from each class
         // whose turn is this
-        displayMessage(actor.name + " --> ", true);
+        displayMessage(actor.getName() + " --> ", true);
         switch(action.getActionType()) {
             case ATTACK: {
                 printAttacking(action.getName());
@@ -72,7 +72,7 @@ public class BattleEngineUI extends UI {
             }
             case DEFEND: {
                 printAttacking(action.getName());
-                displayMessage(actor.name + ": ", true);
+                displayMessage(actor.getName() + ": ", true);
                 displayMessage(" Defence increased by 10!");
                 break;
             }
@@ -110,7 +110,7 @@ public class BattleEngineUI extends UI {
                 if (!(action instanceof UseItem useItemAction)) return;
                 printUsingItem(useItemAction.getAssociatedItem().getName());
                 // print own health increase - yes, hardcoded potion effect to 100
-                displayMessage("HP: " + actor.oldHP + " --> " + actor.currentHP + " (+100) ");
+                displayMessage("HP: " + actor.oldHP + " --> " + actor.getCurrentHP() + " (+100) ");
                 break;
             }
         }
@@ -120,9 +120,8 @@ public class BattleEngineUI extends UI {
         displayMessage("Backup Spawn triggered! ", true);
         for (int i = 0; i < backupEnemies.size(); i++) {
             if (i > 0) displayMessage("+ "); // not first enemy spawned
-            // TODO: adjust according to accessibility in Combatant class
-            displayMessage(backupEnemies.get(i).name + " (HP:" +
-                    backupEnemies.get(i).currentHP + ") ");
+            displayMessage(backupEnemies.get(i).getName() + " (HP:" +
+                    backupEnemies.get(i).getCurrentHP() + ") ");
         }
         displayLineMessage("enter simultaneously");
     }
@@ -167,27 +166,27 @@ public class BattleEngineUI extends UI {
             if (i > 0) displayMessage("| "); // if not first target hit
             if (isSmokeBombActive) {
                 // attack doesn't even hit
-                printTargetImpactSmokeBomb(targets.get(i).name, targets.get(i).currentHP, (targets.size() == 1), isSmokeBombExpiringThisTurn);
+                printTargetImpactSmokeBomb(targets.get(i).getName(), targets.get(i).getCurrentHP(), (targets.size() == 1), isSmokeBombExpiringThisTurn);
             }
             else if (hasInflictStatusEffectOnTargetThisTurn) {
                 if (targets.get(i).afflictedStatusEffects.size() <= 0) {
 
-                    printTargetImpact(targets.get(i).name, targets.get(i).oldHP, targets.get(i).currentHP,
+                    printTargetImpact(targets.get(i).getName(), targets.get(i).oldHP, targets.get(i).getCurrentHP(),
                             actor.atk, targets.get(i).defence, (targets.size() == 1),
                             null);
                 }
                 else {
-                    printTargetImpact(targets.get(i).name, targets.get(i).oldHP, targets.get(i).currentHP,
+                    printTargetImpact(targets.get(i).getName(), targets.get(i).oldHP, targets.get(i).getCurrentHP(),
                             actor.atk, targets.get(i).defence, (targets.size() == 1),
                             targets.get(i).afflictedStatusEffects.get(targets.get(i).afflictedStatusEffects.size() - 1)); // last status effect taken as most recently inflicted
                 }
             }
             else
-                printTargetImpact(targets.get(i).name, targets.get(i).oldHP, targets.get(i).currentHP,
+                printTargetImpact(targets.get(i).getName(), targets.get(i).oldHP, targets.get(i).getCurrentHP(),
                         actor.atk, targets.get(i).defence, (targets.size() == 1));
 
             // if arcane blast, print atk increase info
-            if (isArcaneBlast && targets.get(i).currentHP <= 0) {
+            if (isArcaneBlast && !targets.get(i).isAlive()) {
                 int newAtk = oldAtk + 10; // yes hardcoded 10 effect
                 if (newAtk > actor.atk) newAtk = actor.atk;
                 displayMessage("| ATK: " + oldAtk + " --> " + newAtk +
@@ -241,13 +240,12 @@ public class BattleEngineUI extends UI {
         for (int i = 0; i < players.size(); i++) {
             if (i > 0) displayMessage("| "); // if not first player
             // TODO: adjust according to accessibility in Combatant class
-            printPlayerCondition(players.get(i).name, players.get(i).currentHP, players.get(i).baseHP);
+            printPlayerCondition(players.get(i).getName(), players.get(i).getCurrentHP(), players.get(i).baseHP);
             if (players.get(i).isStunned()) printStunnedModified();
         }
         // print enemies
         for (Combatant eachEnemy: enemies) {
-            // TODO: adjust according to accessibility in Combatant class
-            printEnemyCondition(eachEnemy.name, eachEnemy.currentHP);
+            printEnemyCondition(eachEnemy.getName(), eachEnemy.getCurrentHP());
             if (eachEnemy.isStunned()) printStunnedModified();
         }
     }
