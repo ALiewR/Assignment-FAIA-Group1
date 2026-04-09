@@ -83,6 +83,9 @@ public abstract class Combatant {
                 case ARCANE_BOOST:
                     effect.applyEffect(this);
                     break;
+                case DEFENCE_BOOST:
+                    effect.applyEffect(this);
+                    break;
                 default:
                     break;
             }
@@ -101,6 +104,7 @@ public abstract class Combatant {
         }
         // remove expired from afflicted list
         for (StatusEffect eachStatusEffect: statusEffectsToRemove) {
+            eachStatusEffect.removeEffect(this);
             afflictedStatusEffects.remove(eachStatusEffect);
         }
         return expiredStatusEffectNames;

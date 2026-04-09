@@ -1,4 +1,5 @@
 public enum STATUS_EFFECT_TYPE {
     STUNNED,
-    ARCANE_BOOST;
+    ARCANE_BOOST,
+    DEFENCE_BOOST
 }
