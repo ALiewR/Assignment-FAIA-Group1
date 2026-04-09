@@ -17,6 +17,7 @@ public class DefenceBoost extends StatusEffect {
     public void removeEffect(Combatant target) {
         if(target!=null && applied) {
             target.defence-=defenceIncrease;
+            applied=false;
         }
     }
     public int getDefenceIncrease() {
