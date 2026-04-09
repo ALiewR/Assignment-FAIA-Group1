@@ -2,7 +2,7 @@ public class DefenceBoost extends StatusEffect {
     private int defenceIncrease;
     private boolean applied;
     public DefenceBoost() {
-        super(STATUS_EFFECT_TYPE.DEFENCE_BOOST,"Defence Boost", 2);
+        super(STATUS_EFFECT_TYPE.DEFENCE_BOOST,"Defence Boost", 3);
         this.defenceIncrease=10;
         this.applied=false;
     }

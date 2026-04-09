@@ -9,7 +9,9 @@ public class Defend extends Action{
     @Override
     public void execute(Combatant actor, List<Combatant> targets, BattleContext battlecontext)
     {
-        actor.afflictedStatusEffects.add(new DefenceBoost());
+        StatusEffect defBoost = new DefenceBoost();
+        actor.afflictedStatusEffects.add(defBoost);
+        defBoost.applyEffect(actor);
     }
 
 }
