@@ -9,7 +9,7 @@ public class Player extends Combatant {
         availableActions.add(new UseItem(new PowerStone()));
         availableActions.add(new UseItem(new SmokeBomb()));
         name = "Player";
-        currentHP = 5;
-        baseHP = 5;
+        currentHP = 50;
+        baseHP = 50;
     }
 }

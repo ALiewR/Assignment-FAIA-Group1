@@ -23,10 +23,10 @@ public class BattleEngineUI extends UI {
             // display info for user to know
             displayLineMessage(playerName + " can perform one of the following actions...");
             for (int i = 0; i < availableActions.size(); i++) {
-                displayLineMessage(i + ": " + availableActions.get(i).getName() + " - " + availableActions.get(i).getDescription());
+                displayLineMessage(i+1 + ": " + availableActions.get(i).getName() + " - " + availableActions.get(i).getDescription());
             }
             displayMessage("Select action you wish to take: ", true);
-            userChoice = getUIInt();
+            userChoice = getUIInt() - 1;
         }
 
         displayLineMessage(availableActions.get(userChoice).getName() + " can be used on "
@@ -50,10 +50,10 @@ public class BattleEngineUI extends UI {
             // display info for user to know
             displayLineMessage(actionName + " can be used on...");
             for (int i = 0; i < possibleTargets.size(); i ++) {
-                displayLineMessage(i + ": " + possibleTargets.get(i).name);
+                displayLineMessage(i+1 + ": " + possibleTargets.get(i).name);
             }
             displayMessage("Select whom you wish to target: ", true);
-            userChoice = getUIInt();
+            userChoice = getUIInt() - 1;
         }
 
         // input is valid
