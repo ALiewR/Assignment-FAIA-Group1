@@ -4,8 +4,4 @@ public class Enemy extends Combatant {
         availableActions.add(new Action());
         name = "Enemy";
     }
-    public Enemy(String name){
-        this();
-        this.name=name;
-    }
 }

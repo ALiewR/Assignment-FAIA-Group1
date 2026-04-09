@@ -9,15 +9,12 @@ public class Main {
             //loading screen
             LoadingScreen loadingScreen=new LoadingScreen(printer);
             loadingScreen.showWelcome();
-
             Player player=loadingScreen.choosePlayer();
             List<Combatant> players=new ArrayList<>();
             players.add(player);
 
             List<Item> items=loadingScreen.chooseItems();
             Level level=loadingScreen.chooseLevel();
-
-            loadingScreen.showEnteringBattleMessage();
 
             TurnOrderStrategy turnOrderStrategy=new SpeedBasedTurnOrderStrategy();
 
@@ -36,29 +33,21 @@ public class Main {
 
             while(stayInSameSetting){
                 boolean isGameWon=battleEngine.executeBattle();
+                NEXT_GAME_OPTION_TYPE nextGameOption=gameCompletion.handleGameResult(isGameWon,battleContext);
+                switch(nextGameOption){
+                    case EXIT:
+                        return;
+                    case REPLAY:
+                        break;//same settings
+                    case START_NEW://leave inner loop, outer loop restarts loading screen
+                        stayInSameSetting=false;
+                        break;
 
-                if (isGameWon){
-                    gameCompletion.handleVictory(battleContext);
-                    return;//end after winning
-                } else{
-                    NEXT_GAME_OPTION_TYPE nextGameOption=gameCompletion.handleDefeat(battleContext);
-
-                    switch(nextGameOption){
-                        case EXIT:
-                            return;
-                        case REPLAY:
-                            break; //replay with the same settings
-                        case START_NEW:
-                            stayInSameSetting=false;
-                            break;
-                    }
                 }
             }
         }
     }
 }
-              
-                
             
                   
             

@@ -6,48 +6,26 @@ public class GameCompletion {
     GameCompletionUI gameCompletionUI;
 
     public GameCompletion() {
-        gameCompletionUI = new GameCompletionUI(new ConsolePrinter()); 
+        gameCompletionUI = new GameCompletionUI(new ConsolePrinter()); // use default printer
     }
-
     public GameCompletion(Printer printer) {
         gameCompletionUI = new GameCompletionUI(printer);
     }
-
-    public void handleVictory(BattleContext battleContext){
+    public NEXT_GAME_OPTION_TYPE handleGameResult(boolean isVictory, BattleContext battleContext) {
         List<String> enemiesLeftNames = new ArrayList<>();
-
-        for (Combatant enemy: battleContext.getEnemies()){
-            if (enemy.currentHP>0){
-                enemiesLeftNames.add(enemy.name);
-            }
+        for (Combatant enemy: battleContext.getEnemies()) {
+            if (enemy.currentHP > 0) enemiesLeftNames.add(enemy.name);
         }
-
         gameCompletionUI.displayBattleVerdict(
-            true,
-            battleContext.getPlayers(),
-            enemiesLeftNames,
-            battleContext.getFinalRoundCount(),
-            battleContext.getItems()
-        );
-    }
-
-    public NEXT_GAME_OPTION_TYPE handleDefeat(BattleContext battleContext) {
-        List<String> enemiesLeftNames = new ArrayList<>();
-
-        for (Combatant enemy: battleContext.getEnemies()){
-            if (enemy.currentHP>0){
-                enemiesLeftNames.add(enemy.name);
-            }
-        }
-
-        gameCompletionUI.displayBattleVerdict(
-            false,
-            battleContext.getPlayers(),
-            enemiesLeftNames,
-            battleContext.getFinalRoundCount(),
+            isVictory, 
+            battleContext.getPlayers(), 
+            enemiesLeftNames, 
+            battleContext.getFinalRoundCount(), 
             battleContext.getItems()
         );
 
-        return gameCompletionUI.selectNextGameOption();
+
+        // let player pick next option
+        return gameCompletionUI.selectNextGameOption(); 
     }
 }
