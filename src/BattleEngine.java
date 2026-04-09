@@ -124,7 +124,10 @@ public class BattleEngine {
             case ENEMIES: {
                 List<Combatant> possibleTargets = new ArrayList<>(currentBattleContext.getEnemies()); // copy so you won't edit original list
                 // if num of targets >= num of possible targets, auto use on possible targets (no need select)
-                if (actionToTake.getNumOfTargets() >= possibleTargets.size()) targets = possibleTargets;
+                if (actionToTake.getNumOfTargets() >= possibleTargets.size() ||
+                        // account for power stone triggering an AOE attack
+                        (actionToTake.actionType == ACTION_TYPE.USE_POWER_STONE && player.getSpecialSkill().getNumOfTargets() >= possibleTargets.size()))
+                    targets = possibleTargets;
                 else {
                     // user selects targets
                     // TODO: adjust how to get num of targets based on how other parts are done
