@@ -86,13 +86,13 @@ public class BattleEngine {
     private void executeTurn(Combatant actor) {
         // if eliminated, turn skipped (different message printed)
         if (!actor.isAlive()) {
-            battleEngineUI.displayTurnEliminated(actor.name);
+            battleEngineUI.displayTurnEliminated(actor.getName());
             return;
         }
         // if stunned, turn skipped
         for (StatusEffect eachStatusEffect: actor.afflictedStatusEffects) {
             if (eachStatusEffect.statusEffectType == STATUS_EFFECT_TYPE.STUNNED) {
-                battleEngineUI.displayTurnStunned(actor.name);
+                battleEngineUI.displayTurnStunned(actor.getName());
                 return;
             }
         }
@@ -111,7 +111,7 @@ public class BattleEngine {
     private void executePlayerTurn(Combatant player) {
         // user selects action to take
         List<Action> availableActions = player.getAvailableActions(currentBattleContext.getUnusedItems());
-        Action actionToTake = battleEngineUI.selectAction(player.name, availableActions);
+        Action actionToTake = battleEngineUI.selectAction(player.getName(), availableActions);
 
         // selects targets
         List<Combatant> targets = new ArrayList<>();

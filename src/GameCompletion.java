@@ -17,8 +17,8 @@ public class GameCompletion {
         List<String> enemiesLeftNames = new ArrayList<>();
 
         for (Combatant enemy: battleContext.getEnemies()){
-            if (enemy.currentHP>0){
-                enemiesLeftNames.add(enemy.name);
+            if (enemy.isAlive()){
+                enemiesLeftNames.add(enemy.getName());
             }
         }
 
@@ -35,8 +35,8 @@ public class GameCompletion {
         List<String> enemiesLeftNames = new ArrayList<>();
 
         for (Combatant enemy: battleContext.getEnemies()){
-            if (enemy.currentHP>0){
-                enemiesLeftNames.add(enemy.name);
+            if (enemy.isAlive()){
+                enemiesLeftNames.add(enemy.getName());
             }
         }
 
