@@ -64,8 +64,7 @@ public class BattleEngineUI extends UI {
         // TODO: adjust based on how to get each info needed from each class
         // whose turn is this
         displayMessage(actor.name + " --> ", true);
-        // TODO: adjust how to get action type based on how its implemented
-        switch(action.actionType) {
+        switch(action.getActionType()) {
             case ATTACK: {
                 printAttacking(action.getName());
                 printingAttackImpacts(actor, targets,hasInflictStatusEffectOnTargetThisTurn, isSmokeBombActive, isSmokeBombExpiringThisTurn, false);
@@ -92,24 +91,24 @@ public class BattleEngineUI extends UI {
             }
             case USE_POWER_STONE: {
                 if (!(action instanceof UseItem useItemAction)) return;
-                printUsingItem(useItemAction.getAssociatedItem().name);
+                printUsingItem(useItemAction.getAssociatedItem().getName());
                 displayMessage("--> " + actor.getSpecialSkill().getName() + " triggered --> ", true);
                 // call same printing functionality as special skill
                 printingAttackImpacts(actor, targets,hasInflictStatusEffectOnTargetThisTurn, isSmokeBombActive, isSmokeBombExpiringThisTurn, false);
                 displayMessage("Cooldown unchanged --> " + actor.skillCooldown + " (" +
-                        useItemAction.getAssociatedItem().description + ") | " + useItemAction.getAssociatedItem().name + " consumed ");
+                        useItemAction.getAssociatedItem().description + ") | " + useItemAction.getAssociatedItem().getName() + " consumed ");
                 break;
             }
             case USE_SMOKE_BOMB: {
                 if (!(action instanceof UseItem useItemAction)) return;
-                printUsingItem(useItemAction.getAssociatedItem().name);
+                printUsingItem(useItemAction.getAssociatedItem().getName());
                 // no targets. just need print info line
                 displayMessage("Enemy attacks deal 0 damage this turn + next ");
                 break;
             }
             case USE_POTION: {
                 if (!(action instanceof UseItem useItemAction)) return;
-                printUsingItem(useItemAction.getAssociatedItem().name);
+                printUsingItem(useItemAction.getAssociatedItem().getName());
                 // print own health increase - yes, hardcoded potion effect to 100
                 displayMessage("HP: " + actor.oldHP + " --> " + actor.currentHP + " (+100) ");
                 break;
@@ -266,25 +265,24 @@ public class BattleEngineUI extends UI {
         Map<String, Boolean> nameConsumedThisTurnMap = new HashMap<>();
         for (int i = 0; i < items.size(); i++) {
             // put into a dict of item: quantity then individually print
-            // TODO: adjust according to accessibility in Item class
-            if (!(nameCountMap.containsKey(items.get(i).name))) {
+            if (!(nameCountMap.containsKey(items.get(i).getName()))) {
                 int quantity = 0;
                 if (!(items.get(i).getIsUsed())) quantity = 1; // not yet used so should be 1
-                nameCountMap.put(items.get(i).name, quantity);
+                nameCountMap.put(items.get(i).getName(), quantity);
 
                 // check if item was consumed this turn
                 if (items.get(i).getIsUsed() &&
                         items.get(i).currentDurationLeft == items.get(i).maxDuration) {
-                    nameConsumedThisTurnMap.put(items.get(i).name, true);
+                    nameConsumedThisTurnMap.put(items.get(i).getName(), true);
                 }
-                else nameConsumedThisTurnMap.put(items.get(i).name, false);
+                else nameConsumedThisTurnMap.put(items.get(i).getName(), false);
             }
             else { // add to count for said item
-                nameCountMap.replace(items.get(i).name, nameCountMap.get(items.get(i).name) + 1);
+                nameCountMap.replace(items.get(i).getName(), nameCountMap.get(items.get(i).getName()) + 1);
                 // check if item was consumed this turn
                 if (items.get(i).getIsUsed() &&
                         items.get(i).currentDurationLeft == items.get(i).maxDuration) {
-                    nameConsumedThisTurnMap.replace(items.get(i).name, true);
+                    nameConsumedThisTurnMap.replace(items.get(i).getName(), true);
                 } // no replacing else since don't want to override and old true with new false
             }
         }

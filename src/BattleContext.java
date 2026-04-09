@@ -13,7 +13,7 @@ public class BattleContext {
 
     // TEMP
     public BattleContext() {
-        Player player = new Wizard();
+        Player player = new Warrior();
         players.add(player);
         items.add(new Potion());
         items.add(new SmokeBomb());
@@ -123,9 +123,8 @@ public class BattleContext {
     }
     private List<Combatant> getAliveCombatants(List<Combatant> combatantsToFilter) {
         List<Combatant> aliveCombatants = new ArrayList<>();
-        // TODO: adjust according to accessibility in Combatant class
         for (Combatant eachCombatant: combatantsToFilter) {
-            if (eachCombatant.currentHP > 0) aliveCombatants.add(eachCombatant);
+            if (eachCombatant.isAlive()) aliveCombatants.add(eachCombatant);
         }
         return aliveCombatants;
     }

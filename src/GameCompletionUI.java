@@ -74,14 +74,13 @@ public class GameCompletionUI extends UI {
         Map<String, Integer> nameCountMap = new HashMap<>();
         for (int i = 0; i < items.size(); i++) {
             // put into a dict of item: quantity then individually print
-            // TODO: adjust according to accessibility in Item class
-            if (!(nameCountMap.containsKey(items.get(i).name))) {
+            if (!(nameCountMap.containsKey(items.get(i).getName()))) {
                 int quantity = 0;
                 if (!(items.get(i).getIsUsed())) quantity = 1; // not yet used so should be 1
-                nameCountMap.put(items.get(i).name, quantity);
+                nameCountMap.put(items.get(i).getName(), quantity);
             }
             else { // add to count for said item
-                nameCountMap.replace(items.get(i).name, nameCountMap.get(items.get(i).name) + 1);
+                nameCountMap.replace(items.get(i).getName(), nameCountMap.get(items.get(i).getName()) + 1);
             }
         }
         return nameCountMap;

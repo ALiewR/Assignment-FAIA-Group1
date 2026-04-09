@@ -61,12 +61,11 @@ public class BattleEngine {
         for (Combatant eachCombatant: currentBattleContext.getCombatantsInTurnOrder()) {
             executeTurn(eachCombatant);
             // once turn is up, deplete duration of status effect
-            // TODO: adjust according to how to update duration and check if expired
             for (String eachStatusEffectName: eachCombatant.updateStatusEffectDuration()) {
                 battleEngineUI.printStatusEffectExpires(eachStatusEffectName);
             }
             battleEngineUI.displayLineMessage(""); // to move on to next line in printing
-            // and reduce skill cooldown TODO: adjust according to how cooldown works
+            // and reduce skill cooldown
             eachCombatant.depleteCooldown();
         }
         // once everyone has had a turn, deplete item duration
@@ -86,8 +85,7 @@ public class BattleEngine {
     }
     private void executeTurn(Combatant actor) {
         // if eliminated, turn skipped (different message printed)
-        // TODO: edit health check depending on how Combatant class is structured
-        if (actor.currentHP <= 0) {
+        if (actor.isAlive()) {
             battleEngineUI.displayTurnEliminated(actor.name);
             return;
         }
@@ -98,10 +96,8 @@ public class BattleEngine {
                 return;
             }
         }
-
         // else, take turn
-            // TODO: only used if Combatant has tag to say whether it is player or enemy
-        switch(actor.combatantType) {
+        switch(actor.getType()) {
             case PLAYER: {
                 executePlayerTurn(actor);
                 break;
@@ -119,18 +115,16 @@ public class BattleEngine {
 
         // selects targets
         List<Combatant> targets = new ArrayList<>();
-        // TODO: adjust based on target type accessibility in Action class
-        switch(actionToTake.targetType) {
+        switch(actionToTake.getTargetType()) {
             case ENEMIES: {
                 List<Combatant> possibleTargets = new ArrayList<>(currentBattleContext.getEnemies()); // copy so you won't edit original list
                 // if num of targets >= num of possible targets, auto use on possible targets (no need select)
                 if (actionToTake.getNumOfTargets() >= possibleTargets.size() ||
                         // account for power stone triggering an AOE attack
-                        (actionToTake.actionType == ACTION_TYPE.USE_POWER_STONE && player.getSpecialSkill().getNumOfTargets() >= possibleTargets.size()))
+                        (actionToTake.getActionType() == ACTION_TYPE.USE_POWER_STONE && player.getSpecialSkill().getNumOfTargets() >= possibleTargets.size()))
                     targets = possibleTargets;
                 else {
                     // user selects targets
-                    // TODO: adjust how to get num of targets based on how other parts are done
                     for (int i = 0; i < actionToTake.getNumOfTargets() && !possibleTargets.isEmpty(); i++) {
                         Combatant target = battleEngineUI.selectTarget(actionToTake.getName(), possibleTargets);
                         targets.add(target);
@@ -152,9 +146,8 @@ public class BattleEngine {
         battleEngineUI.displayTurnOutcome(player, actionToTake, targets, actionToTake.doesInflictStatusEffect(), false, false); //smoke bomb doesn't matter here since it only shields players
     }
     private void executeEnemyTurn(Combatant enemy) {
-        // TODO: change if using EnemyStrategy class
-        if (enemy.availableActions.isEmpty()) return;
-        Action actionToTake = enemy.availableActions.get(0);
+        if (enemy.getAvailableActions().isEmpty()) return;
+        Action actionToTake = enemy.getAvailableActions().get(0);
 
         // auto pick targets based on first in player list
         List<Combatant> targets = new ArrayList<>();
@@ -165,7 +158,7 @@ public class BattleEngine {
 
         // execute action (but not if is an attack with smoke bomb active)
         if (!currentBattleContext.getIsSmokeBombActive() &&
-                (actionToTake.actionType == ACTION_TYPE.ATTACK || actionToTake.actionType == ACTION_TYPE.SPECIAL_SKILL))
+                (actionToTake.getActionType() == ACTION_TYPE.ATTACK || actionToTake.getActionType() == ACTION_TYPE.SPECIAL_SKILL))
             actionToTake.execute(enemy, targets, currentBattleContext);
         // print turn outcome
         battleEngineUI.displayTurnOutcome(enemy, actionToTake, targets, actionToTake.doesInflictStatusEffect(),
