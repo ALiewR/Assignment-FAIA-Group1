@@ -13,10 +13,12 @@ public class BattleContext {
 
     // TEMP
     public BattleContext() {
-        players.add(new Wizard());
+        Player player = new Wizard();
+        players.add(player);
         items.add(new Potion());
         items.add(new SmokeBomb());
         items.add(new PowerStone());
+        player.addItems(items);
         level = new Level(2);
         enemies = spawnEnemies(level, false);
         turnOrderStrategy = new TurnOrderStrategy();
@@ -28,6 +30,13 @@ public class BattleContext {
             // while players passed in from "options" will remain untouched
 
         items = new ArrayList<>(selectedItems);
+
+        // add in use item actions to players based on items selected
+        for (Combatant eachCombatant: players) {
+            if (eachCombatant instanceof Player eachPlayer) {
+                eachPlayer.addItems(items);
+            }
+        }
 
         // from level, spawn inital wave of enemies -- TODO: adjust according to how spawner and level is implemented
         level = selectedLevel;
