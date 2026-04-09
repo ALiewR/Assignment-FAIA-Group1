@@ -299,26 +299,7 @@ public class BattleEngineUI extends UI {
         displayMessage("| Cooldown set to " + newCooldown + " ");
     }
 
-    public void displayStartofRoundInfo(BattleContext battleContext, int roundNum, int specialSkillsCooldown){
-        displayMessage("Start of Round" + roundNum + ":", true);
-        printCombatantsCondition(battleContext.getPlayers(), battleContext.getEnemies());
-
-        printItems(battleContext.getItems());
-
-        if (battleContext.getIsSmokeBombActive()){
-            int durationLeft=0;
-            for (Item eachItem: battleContext.getActiveItems()){
-                if (eachItem.itemType==ITEM_TYPE.SMOKE_BOMB &&
-                    durationLeft<eachItem.currentDurationLeft){
-                        durationLeft=eachItem.currentDurationLeft;
-                    }
-                }
-                
-                displayMessage("| Effects:" + durationLeft + " turn remaining ");
-            }
-            displayLineMessage("| Special Skills Cooldown:" + specialSkillsCooldown + " rounds ");
-            displayLineMessage("----------------------------------------", true);
-        }
+   
     }
 
 

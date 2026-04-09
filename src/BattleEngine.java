@@ -53,7 +53,7 @@ public class BattleEngine {
     private void executeRound() {
         roundCount++;
         battleEngineUI.displayRoundHeader(roundCount);
-        battleEngineUI.displayStartofRoundInfo(currentBattleContext, roundCount, currentBattleContext.getPlayers().get(0).currentSkillMaxCooldown);
+        
 
         // filter the dead out of the combatant lists
         currentBattleContext.refreshCombatantList();

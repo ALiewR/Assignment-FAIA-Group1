@@ -6,6 +6,8 @@ public class Wizard extends Player{
         this.currentHP=200;
         this.atk=50;
         this.defence=10;
+        this.speed=20;
+        
     }
 }
 

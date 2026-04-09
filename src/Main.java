@@ -17,7 +17,6 @@ public class Main {
             List<Item> items=loadingScreen.chooseItems();
             Level level=loadingScreen.chooseLevel();
 
-            loadingScreen.showEnteringBattleMessage();
 
             TurnOrderStrategy turnOrderStrategy=new SpeedBasedTurnOrderStrategy();
 
@@ -28,6 +27,17 @@ public class Main {
                 level,
                 turnOrderStrategy
             );
+            List<Combatant> enemies=battleContext.getEnemies();
+            List<Combatant>allCombatants=new ArrayList<>();
+            allCombatants.addAll(players);
+            allCombatants.addAll(enemies);
+
+            List<Combatant> turnOrder= turnOrderStrategy.determineOrder(allCombatants);
+
+            loadingScreen.showBattleSetup(player,items,level,enemies,turnOrder);
+            loadingScreen.showEnteringBattleMessage();
+
+
             GameCompletion gameCompletion= new GameCompletion(printer);
             BattleEngine battleEngine=new BattleEngine (battleContext,printer);
         

@@ -9,6 +9,7 @@ public abstract class Combatant {
     public int oldAtk = 10; // before any arcane blast increases FOR THAT TURN
     public int atk = 10;
     public int defence = 5;
+    public int speed = 10; //temporary
     public COMBATANT_TYPE combatantType;
     public List<Action> availableActions = new ArrayList<>();
     public List<StatusEffect> afflictedStatusEffects = new ArrayList<>();
