@@ -10,28 +10,31 @@ public class Level {
     public Level(int levelNum) {
         levelNumber = levelNum;
         switch(levelNumber) {
-            case 1: { // easy
-                initialEnemies.add(new Goblin("A"));
+            case 1: { //easy
+                initialEnemies.add(new Enemy("Goblin A"));
+                initialEnemies.add(new Enemy("Goblin B"));
+                initialEnemies.add(new Enemy("Goblin C"));
                 break;
             }
-            case 2: { // med
-                initialEnemies.add(new Goblin("A"));
-                initialEnemies.add(new Goblin("B"));
-                backupEnemies.add(new Goblin("C"));
+            case 2: { //med
+                initialEnemies.add(new Enemy("Goblin A"));
+                initialEnemies.add(new Enemy("Wolf A"));
+                backupEnemies.add(new Enemy("Wolf B"));
+                backupEnemies.add(new Enemy("Wolf C"));
+            
                 break;
             }
-            case 3: { // dif
-                initialEnemies.add(new Wolf("A"));
-                initialEnemies.add(new Wolf("B"));
-                initialEnemies.add(new Goblin("A"));
-                backupEnemies.add(new Goblin("B"));
-                backupEnemies.add(new Wolf("C"));
+            case 3: { //hard
+                initialEnemies.add(new Enemy("Goblin A"));
+                initialEnemies.add(new Enemy("Goblin B"));
+                backupEnemies.add(new Enemy("Goblin C"));
+                backupEnemies.add(new Enemy("Wolf A"));
+                backupEnemies.add(new Enemy("Wolf B"));
                 break;
             }
-            default: {} // no enemies spawned
+            default: {} //no enemies spawned
         }
     }
-
     public List<Combatant> getInitialEnemies() { return initialEnemies; }
     public boolean hasBackupToSpawn() {
         return !backupEnemies.isEmpty();

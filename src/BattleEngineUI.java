@@ -303,4 +303,8 @@ public class BattleEngineUI extends UI {
     public void printSpecialSkillCooldown(int newCooldown) {
         displayMessage("| Cooldown set to " + newCooldown + " ");
     }
-}
+
+   
+    }
+
+

@@ -1,7 +1,6 @@
 import java.util.List;
 
-public class TurnOrderStrategy {
-    public List<Combatant> determineOrder(List<Combatant> combatants) {
-        return combatants;
-    }
+public interface TurnOrderStrategy {
+    List<Combatant> determineOrder(List<Combatant> combatants);
+    String getName();
 }

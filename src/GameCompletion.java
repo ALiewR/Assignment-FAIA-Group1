@@ -1,25 +1,53 @@
+//My Imports for this 
 import java.util.ArrayList;
 import java.util.List;
-
+ 
 public class GameCompletion {
     GameCompletionUI gameCompletionUI;
 
     public GameCompletion() {
-        gameCompletionUI = new GameCompletionUI(new Printer()); // use default printer
+        gameCompletionUI = new GameCompletionUI(new ConsolePrinter()); 
     }
+
     public GameCompletion(Printer printer) {
         gameCompletionUI = new GameCompletionUI(printer);
     }
-    public NEXT_GAME_OPTION_TYPE handleGameResult(boolean isVictory, BattleContext battleContext) {
+
+    public void handleVictory(BattleContext battleContext){
         List<String> enemiesLeftNames = new ArrayList<>();
-        for (Combatant enemy: battleContext.getEnemies()) {
-            if (enemy.currentHP > 0) enemiesLeftNames.add(enemy.name);
+
+        for (Combatant enemy: battleContext.getEnemies()){
+            if (enemy.currentHP>0){
+                enemiesLeftNames.add(enemy.name);
+            }
         }
-        gameCompletionUI.displayBattleVerdict(isVictory, battleContext.getPlayers(), enemiesLeftNames, battleContext.getFinalRoundCount(), battleContext.getItems());
 
-        if (isVictory) return NEXT_GAME_OPTION_TYPE.EXIT;
+        gameCompletionUI.displayBattleVerdict(
+            true,
+            battleContext.getPlayers(),
+            enemiesLeftNames,
+            battleContext.getFinalRoundCount(),
+            battleContext.getItems()
+        );
+    }
 
-        // let player pick next option
-        return gameCompletionUI.selectNextGameOption(); 
+    public NEXT_GAME_OPTION_TYPE handleDefeat(BattleContext battleContext) {
+        List<String> enemiesLeftNames = new ArrayList<>();
+
+        for (Combatant enemy: battleContext.getEnemies()){
+            if (enemy.currentHP>0){
+                enemiesLeftNames.add(enemy.name);
+            }
+        }
+
+        gameCompletionUI.displayBattleVerdict(
+            false,
+            battleContext.getPlayers(),
+            enemiesLeftNames,
+            battleContext.getFinalRoundCount(),
+            battleContext.getItems()
+        );
+
+        return gameCompletionUI.selectNextGameOption();
     }
 }

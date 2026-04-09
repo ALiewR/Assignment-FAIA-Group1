@@ -25,7 +25,7 @@ public abstract class UI {
         printer.printLine(msg, isBold);
     }
     private void checkPrinter() {
-        if (printer == null) printer = new Printer(); // use default printer if no printer assigned
+        if (printer == null) printer = new ConsolePrinter(); // use default printer if no printer assigned
     }
     public int getUIInt() {
         return scanner.nextInt();

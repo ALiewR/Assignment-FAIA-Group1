@@ -21,7 +21,7 @@ public class BattleContext {
         player.addItems(items);
         level = new Level(2);
         enemies = spawnEnemies(level, false);
-        turnOrderStrategy = new TurnOrderStrategy();
+        turnOrderStrategy = new SpeedBasedTurnOrderStrategy();
     }
 
     public BattleContext(List<Combatant> selectedPlayers, List<Item> selectedItems, Level selectedLevel, TurnOrderStrategy selectedTurnOrderStrategy) {
