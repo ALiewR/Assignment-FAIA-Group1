@@ -90,17 +90,17 @@ public List<Item> chooseItems(){
             displayMessage("Your choice (1-3): ");
             int choice=getUIInt();
             if (choice==1){
-                selectedItems.add(new Item("smoke bomb"));
+                selectedItems.add(new SmokeBomb());
                 displayLineMessage("  >> You have chosen: Smoke Bomb");
                 if (i==1) displayLineMessage("Please choose another item.");
                 break;
             } else if (choice==2){
-                selectedItems.add(new Item("potion"));
+                selectedItems.add(new Potion());
                 displayLineMessage("  >> You have chosen: Potion");
                 if (i==1) displayLineMessage("Please choose another item.");
                 break;
             } else if (choice==3){
-                selectedItems.add(new Item("power stone"));
+                selectedItems.add(new PowerStone());
                 displayLineMessage(">> You have chosen: Power Stone");
                 if (i==1) displayLineMessage("Please choose another item.");
                 break;
@@ -150,7 +150,7 @@ private String getLevelName(Level level){
         return "Easy";
     } 
     if (initalEnemies.size()==2){
-        if (initalEnemies.get(1).name.startsWith("Wolf")){
+        if (initalEnemies.get(1).getName().startsWith("Wolf")){
             return "Medium";
         } else{
             return "Hard";
@@ -165,7 +165,7 @@ private String formatLevel(Level level){
         return "Easy - 3 Goblins"; 
     }
     if (initialEnemies.size()==2){
-        if (initialEnemies.get(1).name.startsWith("Wolf")){
+        if (initialEnemies.get(1).getName().startsWith("Wolf")){
             return "Medium - 1 Goblin + 1 Wolf | Backup: Wolf B + Wolf C";
         } else{
             return "Hard - 2 Goblins | Backup: Goblin C + Wolf A + Wolf B"; 
@@ -205,18 +205,18 @@ public void showBattleSetup(Player player, List<Item> items, Level level, List<C
 
     //players
     displayLineMessage("  PLAYER");
-        displayLineMessage("  Name : " + player.name);
-        displayLineMessage("  HP   : " + player.currentHP +
-                           "  |  ATK : " + player.atk +
-                           "  |  DEF : " + player.defence +
-                           "  |  SPD : " + player.speed);
+        displayLineMessage("  Name : " + player.getName());
+        displayLineMessage("  HP   : " + player.getCurrentHP() +
+                           "  |  ATK : " + player.getAttack() +
+                           "  |  DEF : " + player.getDefence() +
+                           "  |  SPD : " + player.getSpeed());
         displayLineMessage("");
     
     
     //items
     displayMessage("Items: ");
     for (int i = 0; i < items.size(); i++) {
-        displayMessage(formatItemName(items.get(i).name));
+        displayMessage(formatItemName(items.get(i).getName()));
         if (i < items.size() - 1) {
             displayMessage(" + ");
         }
@@ -231,11 +231,11 @@ public void showBattleSetup(Player player, List<Item> items, Level level, List<C
     //enemy stats
     for (Combatant enemy : enemies) {
         displayLineMessage("  ENEMIES");
-        displayLineMessage("  Name : " + enemy.name);
-        displayLineMessage("  HP   : " + enemy.currentHP +
-                           "  |  ATK : " + enemy.atk +
-                           "  |  DEF : " + enemy.defence +
-                           "  |  SPD : " + enemy.speed);
+        displayLineMessage("  Name : " + enemy.getName());
+        displayLineMessage("  HP   : " + enemy.getCurrentHP() +
+                           "  |  ATK : " + enemy.getAttack() +
+                           "  |  DEF : " + enemy.getDefence() +
+                           "  |  SPD : " + enemy.getSpeed());
         displayLineMessage("");
      
     }
@@ -243,7 +243,7 @@ public void showBattleSetup(Player player, List<Item> items, Level level, List<C
     displayMessage("Turn Order: ");
     for (int i = 0; i < turnOrder.size(); i++) {
         Combatant c = turnOrder.get(i);
-        displayMessage(c.name+"(SPD "+c.speed+")");
+        displayMessage(c.getName()+"(SPD "+c.getSpeed()+")");
         if (i < turnOrder.size() - 1) {
             displayMessage(" -> ");
         }

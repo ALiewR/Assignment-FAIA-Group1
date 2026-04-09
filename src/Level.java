@@ -11,25 +11,25 @@ public class Level {
         levelNumber = levelNum;
         switch(levelNumber) {
             case 1: { //easy
-                initialEnemies.add(new Enemy("Goblin A"));
-                initialEnemies.add(new Enemy("Goblin B"));
-                initialEnemies.add(new Enemy("Goblin C"));
+                initialEnemies.add(new Goblin("A"));
+                initialEnemies.add(new Goblin("B"));
+                initialEnemies.add(new Goblin("C"));
                 break;
             }
             case 2: { //med
-                initialEnemies.add(new Enemy("Goblin A"));
-                initialEnemies.add(new Enemy("Wolf A"));
-                backupEnemies.add(new Enemy("Wolf B"));
-                backupEnemies.add(new Enemy("Wolf C"));
+                initialEnemies.add(new Goblin("A"));
+                initialEnemies.add(new Wolf("A"));
+                backupEnemies.add(new Wolf("B"));
+                backupEnemies.add(new Wolf("C"));
             
                 break;
             }
             case 3: { //hard
-                initialEnemies.add(new Enemy("Goblin A"));
-                initialEnemies.add(new Enemy("Goblin B"));
-                backupEnemies.add(new Enemy("Goblin C"));
-                backupEnemies.add(new Enemy("Wolf A"));
-                backupEnemies.add(new Enemy("Wolf B"));
+                initialEnemies.add(new Goblin("A"));
+                initialEnemies.add(new Goblin("B"));
+                backupEnemies.add(new Goblin("C"));
+                backupEnemies.add(new Wolf("A"));
+                backupEnemies.add(new Wolf("B"));
                 break;
             }
             default: {} //no enemies spawned
