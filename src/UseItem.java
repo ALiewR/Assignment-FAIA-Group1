@@ -63,9 +63,10 @@ public class UseItem extends Action {
         else if (associatedItem.itemType== ITEM_TYPE.POWER_STONE)
         {
             Action special=actor.getSpecialSkill();
-            if (special != null)
+            if (special instanceof SpecialSkill)
             {
-                special.execute(actor,targets,battleContext);
+                SpecialSkill skill = (SpecialSkill) special;
+                skill.execute(actor,targets,battleContext,false);
             }
         }
 
