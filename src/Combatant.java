@@ -2,25 +2,105 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class Combatant {
-    public String name;
-    public int oldHP = 10;
-    public int currentHP = 10;
-    public int baseHP = 10;
-    public int oldAtk = 10; // before any arcane blast increases FOR THAT TURN
-    public int atk = 10;
-    public int defence = 5;
-    public COMBATANT_TYPE combatantType;
-    public List<Action> availableActions = new ArrayList<>();
-    public List<StatusEffect> afflictedStatusEffects = new ArrayList<>();
+    protected String name;
+    protected int currentHP;
+    protected int baseHP;
+    protected int maxHP;
+    protected int oldHP;
+    protected int atk;
+    protected int oldAtk;
+    protected int defence;
+    protected int speed;
+    protected COMBATANT_TYPE combatantType;
+    protected List<Action> availableActions = new ArrayList<>();
+    protected List<StatusEffect> afflictedStatusEffects = new ArrayList<>();
+
+    public static final int SKILL_MAX_COOLDOWN = 3;
+    protected int skillCooldown = 0;
+
+    public String getName()           { return name; }
+    public COMBATANT_TYPE getType()   { return combatantType; }
+    public int getCurrentHP()         { return currentHP; }
+    public int getMaxHP()             { return maxHP; }
+    public int getBaseHP()            { return baseHP; }
+    public int getAttack()            { return atk; }
+    public int getDefence()           { return defence; }
+    public int getSpeed()             { return speed; }
+    public int getSkillCooldown()     { return skillCooldown; }
+    public int getPreviousHP()        { return oldHP; }
+    public int getPreviousAttack()    { return oldAtk; }
+    public List<Action> getAvailableActions()             { return availableActions; }
+    public List<StatusEffect> getAfflictedStatusEffects() { return afflictedStatusEffects; }
+
+    public Combatant(String name, int baseHP, int currentHP, int maxHP,
+                     int atk, int defence, int speed) {
+        this.name = name;
+        this.baseHP = baseHP;
+        this.currentHP = currentHP;
+        this.maxHP = maxHP;
+        this.atk = atk;
+        oldAtk = this.atk;
+        this.defence = defence;
+        this.speed = speed;
+    }
+
+    public boolean isAlive() {
+        return currentHP > 0;
+    }
+
+    public boolean isStunned() {
+        for (StatusEffect effect : afflictedStatusEffects) {
+            if (effect.statusEffectType == STATUS_EFFECT_TYPE.STUNNED) return true;
+        }
+        return false;
+    }
+
+    public boolean isSkillReady() {
+        return skillCooldown == 0;
+    }
+
+    public void takeDamage(int amount) {
+        currentHP = Math.max(0, currentHP - amount);
+    }
+
+    public void heal(int amount) {
+        currentHP = Math.min(currentHP + amount, maxHP);
+    }
+
     public void resetCondition() {
         currentHP = baseHP;
+        maxHP = baseHP;
+        atk = oldAtk;
+        skillCooldown = 0;
+        afflictedStatusEffects.clear();
     }
-    public final int specialSkillMaxCooldown = 2;
-    public int currentSkillMaxCooldown = 2;
+
+    public void resetCooldown() {
+        skillCooldown = SKILL_MAX_COOLDOWN;
+    }
     public void depleteCooldown() {
-        currentSkillMaxCooldown--;
-        if (currentSkillMaxCooldown <= 0) currentSkillMaxCooldown = 0;
+        if (skillCooldown > 0) skillCooldown--;
     }
+
+    public void addStatusEffect(StatusEffect effect) {
+        afflictedStatusEffects.add(effect);
+    }
+
+    public void applyStatusEffects() {
+        for (StatusEffect effect : afflictedStatusEffects) {
+            switch (effect.statusEffectType) {
+                case STUNNED:
+                    // Checked via isStunned(); no per-turn stat change needed
+                    break;
+                case ARCANE_BOOST:
+                    effect.applyEffect(this);
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+
     public List<String> updateStatusEffectDuration() {
         List<String> expiredStatusEffectNames = new ArrayList<>();
         List<StatusEffect> statusEffectsToRemove = new ArrayList<>();
@@ -37,12 +117,8 @@ public abstract class Combatant {
         }
         return expiredStatusEffectNames;
     }
-    public boolean isStunned() {
-        for (StatusEffect eachStatusEffect: afflictedStatusEffects) {
-            if (eachStatusEffect.statusEffectType == STATUS_EFFECT_TYPE.STUNNED) return true;
-        }
-        return false;
-    }
+
+
     public Action getSpecialSkill() {
         for (Action eachAction: availableActions) {
             if (eachAction.actionType == ACTION_TYPE.SPECIAL_SKILL ||
@@ -50,4 +126,22 @@ public abstract class Combatant {
         }
         return null;
     }
+
+    public List<String> getExpiredEffectNames() {
+        List<String> expired = new ArrayList<>();
+        for (StatusEffect effect : afflictedStatusEffects) {
+            if (effect.currentDuration <= 0) expired.add(effect.name);
+        }
+        return expired;
+    }
+
+    public void savePreviousStats() {
+        oldHP = currentHP;
+        oldAtk = atk;
+    }
+
+    /*public void depleteCooldown() {
+        currentSkillMaxCooldown--;
+        if (currentSkillMaxCooldown <= 0) currentSkillMaxCooldown = 0;
+    }*/
 }

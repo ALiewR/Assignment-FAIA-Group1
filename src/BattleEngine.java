@@ -81,7 +81,7 @@ public class BattleEngine {
 
         // display end of turn info
         battleEngineUI.displayEndOfRoundInfo(currentBattleContext, roundCount,
-                currentBattleContext.getPlayers().get(0).currentSkillMaxCooldown); // only takes first player's cooldown
+                currentBattleContext.getPlayers().get(0).skillCooldown); // only takes first player's cooldown
 
     }
     private void executeTurn(Combatant actor) {

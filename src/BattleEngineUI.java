@@ -1,4 +1,3 @@
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -81,14 +80,14 @@ public class BattleEngineUI extends UI {
             case SPECIAL_SKILL: {
                 printAttacking(action.getName());
                 printingAttackImpacts(actor, targets,hasInflictStatusEffectOnTargetThisTurn, isSmokeBombActive, isSmokeBombExpiringThisTurn, false);
-                displayMessage("| Cooldown set to " + actor.currentSkillMaxCooldown + " ");
+                displayMessage("| Cooldown set to " + actor.skillCooldown + " ");
                 break;
             }
             case ARCANE_BLAST: { // hits all enemies & increases atk
                 printAttacking(action.getName());
                 displayMessage("All Enemies: ", true);
                 printingAttackImpacts(actor,targets,hasInflictStatusEffectOnTargetThisTurn, isSmokeBombActive, isSmokeBombExpiringThisTurn, true);
-                displayMessage("| Cooldown set to " + actor.currentSkillMaxCooldown + " ");
+                displayMessage("| Cooldown set to " + actor.skillCooldown + " ");
                 break;
             }
             case USE_POWER_STONE: {
@@ -97,7 +96,7 @@ public class BattleEngineUI extends UI {
                 displayMessage("--> " + actor.getSpecialSkill().getName() + " triggered --> ", true);
                 // call same printing functionality as special skill
                 printingAttackImpacts(actor, targets,hasInflictStatusEffectOnTargetThisTurn, isSmokeBombActive, isSmokeBombExpiringThisTurn, false);
-                displayMessage("Cooldown unchanged --> " + actor.currentSkillMaxCooldown + " (" +
+                displayMessage("Cooldown unchanged --> " + actor.skillCooldown + " (" +
                         useItemAction.getAssociatedItem().description + ") | " + useItemAction.getAssociatedItem().name + " consumed ");
                 break;
             }

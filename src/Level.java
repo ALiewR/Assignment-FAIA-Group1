@@ -11,21 +11,21 @@ public class Level {
         levelNumber = levelNum;
         switch(levelNumber) {
             case 1: { // easy
-                initialEnemies.add(new Enemy());
+                initialEnemies.add(new Goblin("A"));
                 break;
             }
             case 2: { // med
-                initialEnemies.add(new Enemy());
-                initialEnemies.add(new Enemy());
-                backupEnemies.add(new Enemy());
+                initialEnemies.add(new Goblin("A"));
+                initialEnemies.add(new Goblin("B"));
+                backupEnemies.add(new Goblin("C"));
                 break;
             }
             case 3: { // dif
-                initialEnemies.add(new Enemy());
-                initialEnemies.add(new Enemy());
-                initialEnemies.add(new Enemy());
-                backupEnemies.add(new Enemy());
-                backupEnemies.add(new Enemy());
+                initialEnemies.add(new Wolf("A"));
+                initialEnemies.add(new Wolf("B"));
+                initialEnemies.add(new Goblin("A"));
+                backupEnemies.add(new Goblin("B"));
+                backupEnemies.add(new Wolf("C"));
                 break;
             }
             default: {} // no enemies spawned

@@ -13,7 +13,7 @@ public class BattleContext {
 
     // TEMP
     public BattleContext() {
-        players.add(new Player());
+        players.add(new Wizard());
         items.add(new Potion());
         items.add(new SmokeBomb());
         items.add(new PowerStone());

@@ -1,15 +1,26 @@
 public class Player extends Combatant {
-    public Player() {
+    public Player(String name, int baseHP, int currentHP, int maxHP,
+                  int atk, int defence, int speed) {
+        super(name, baseHP, currentHP, maxHP, atk, defence, speed);
         combatantType = COMBATANT_TYPE.PLAYER;
+
         availableActions.add(new BasicAttack());
-        availableActions.add(new ArcaneBlast());
-        availableActions.add(new ShieldBash());
         availableActions.add(new Defend());
-        availableActions.add(new UseItem(new Potion()));
-        availableActions.add(new UseItem(new PowerStone()));
-        availableActions.add(new UseItem(new SmokeBomb()));
-        name = "Player";
-        currentHP = 50;
-        baseHP = 50;
+    }
+
+    public void addItems(java.util.List<Item> chosenItems) {
+        for (Item item : chosenItems) {
+            switch (item.itemType) {
+                case POTION:
+                    availableActions.add(new UseItem(new Potion()));
+                    break;
+                case SMOKE_BOMB:
+                    availableActions.add(new UseItem(new SmokeBomb()));
+                    break;
+                case POWER_STONE:
+                    availableActions.add(new UseItem(new PowerStone()));
+                    break;
+            }
+        }
     }
 }

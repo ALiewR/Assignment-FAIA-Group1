@@ -13,10 +13,17 @@ public class ArcaneBlast extends SpecialSkill
     @Override
     public void execute(Combatant actor, List<Combatant> targets, BattleContext battleContext) {
         for (Combatant eachTarget: targets) {
-            eachTarget.oldHP = eachTarget.currentHP;
-            int damage=actor.atk- eachTarget.defence;
-            eachTarget.currentHP-=Math.max(damage,0);
-            actor.afflictedStatusEffects.add(new ArcaneBoost());
+            eachTarget.savePreviousStats();
+            int damage = Math.max(0, actor.atk - eachTarget.defence);
+            eachTarget.takeDamage(damage);
+            if (!eachTarget.isAlive()) {
+                // only save before any adding
+                if (targets.indexOf(eachTarget) == 0) actor.savePreviousStats();
+                StatusEffect arcaneBoost = new ArcaneBoost();
+                actor.afflictedStatusEffects.add(arcaneBoost);
+                arcaneBoost.applyEffect(actor);
+            }
         }
-}
+        actor.resetCooldown();
+    }
 }
