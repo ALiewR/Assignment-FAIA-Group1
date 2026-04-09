@@ -16,8 +16,8 @@ public class ShieldBash extends SpecialSkill
             int damage = Math.max(0, actor.atk - eachTarget.defence);
             eachTarget.takeDamage(damage);
             StatusEffect stun = new Stun();
-            actor.afflictedStatusEffects.add(stun);
-            stun.applyEffect(actor);
+            eachTarget.afflictedStatusEffects.add(stun);
+            stun.applyEffect(eachTarget);
         }
         actor.resetCooldown();
 }
