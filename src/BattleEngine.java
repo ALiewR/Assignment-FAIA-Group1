@@ -53,7 +53,6 @@ public class BattleEngine {
     private void executeRound() {
         roundCount++;
         battleEngineUI.displayRoundHeader(roundCount);
-        
 
         // filter the dead out of the combatant lists
         currentBattleContext.refreshCombatantList();
@@ -86,7 +85,7 @@ public class BattleEngine {
     }
     private void executeTurn(Combatant actor) {
         // if eliminated, turn skipped (different message printed)
-        if (actor.isAlive()) {
+        if (!actor.isAlive()) {
             battleEngineUI.displayTurnEliminated(actor.name);
             return;
         }
