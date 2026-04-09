@@ -80,7 +80,7 @@ public class BattleEngine {
 
         // display end of turn info
         battleEngineUI.displayEndOfRoundInfo(currentBattleContext, roundCount,
-                currentBattleContext.getPlayers().get(0).skillCooldown); // only takes first player's cooldown
+                currentBattleContext.getPlayers().get(0).getSkillCooldown()); // only takes first player's cooldown
 
     }
     private void executeTurn(Combatant actor) {
@@ -90,7 +90,7 @@ public class BattleEngine {
             return;
         }
         // if stunned, turn skipped
-        for (StatusEffect eachStatusEffect: actor.afflictedStatusEffects) {
+        for (StatusEffect eachStatusEffect: actor.getAfflictedStatusEffects()) {
             if (eachStatusEffect.statusEffectType == STATUS_EFFECT_TYPE.STUNNED) {
                 battleEngineUI.displayTurnStunned(actor.getName());
                 return;

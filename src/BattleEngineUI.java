@@ -79,14 +79,14 @@ public class BattleEngineUI extends UI {
             case SPECIAL_SKILL: {
                 printAttacking(action.getName());
                 printingAttackImpacts(actor, targets,hasInflictStatusEffectOnTargetThisTurn, isSmokeBombActive, isSmokeBombExpiringThisTurn, false);
-                displayMessage("| Cooldown set to " + actor.skillCooldown + " ");
+                displayMessage("| Cooldown set to " + actor.getSkillCooldown() + " ");
                 break;
             }
             case ARCANE_BLAST: { // hits all enemies & increases atk
                 printAttacking(action.getName());
                 displayMessage("All Enemies: ", true);
                 printingAttackImpacts(actor,targets,hasInflictStatusEffectOnTargetThisTurn, isSmokeBombActive, isSmokeBombExpiringThisTurn, true);
-                displayMessage("| Cooldown set to " + actor.skillCooldown + " ");
+                displayMessage("| Cooldown set to " + actor.getSkillCooldown() + " ");
                 break;
             }
             case USE_POWER_STONE: {
@@ -95,7 +95,7 @@ public class BattleEngineUI extends UI {
                 displayMessage("--> " + actor.getSpecialSkill().getName() + " triggered --> ", true);
                 // call same printing functionality as special skill
                 printingAttackImpacts(actor, targets,hasInflictStatusEffectOnTargetThisTurn, isSmokeBombActive, isSmokeBombExpiringThisTurn, false);
-                displayMessage("Cooldown unchanged --> " + actor.skillCooldown + " (" +
+                displayMessage("Cooldown unchanged --> " + actor.getSkillCooldown() + " (" +
                         useItemAction.getAssociatedItem().description + ") | " + useItemAction.getAssociatedItem().getName() + " consumed ");
                 break;
             }
@@ -110,7 +110,7 @@ public class BattleEngineUI extends UI {
                 if (!(action instanceof UseItem useItemAction)) return;
                 printUsingItem(useItemAction.getAssociatedItem().getName());
                 // print own health increase - yes, hardcoded potion effect to 100
-                displayMessage("HP: " + actor.oldHP + " --> " + actor.getCurrentHP() + " (+100) ");
+                displayMessage("HP: " + actor.getPreviousHP() + " --> " + actor.getCurrentHP() + " (+100) ");
                 break;
             }
         }
@@ -161,7 +161,7 @@ public class BattleEngineUI extends UI {
                                        boolean hasInflictStatusEffectOnTargetThisTurn,
                                        boolean isSmokeBombActive, boolean isSmokeBombExpiringThisTurn,
                                        boolean isArcaneBlast) {
-        int oldAtk = actor.oldAtk;
+        int oldAtk = actor.getPreviousAttack();
         for (int i = 0; i < targets.size(); i++) {
             if (i > 0) displayMessage("| "); // if not first target hit
             if (isSmokeBombActive) {
@@ -169,26 +169,26 @@ public class BattleEngineUI extends UI {
                 printTargetImpactSmokeBomb(targets.get(i).getName(), targets.get(i).getCurrentHP(), (targets.size() == 1), isSmokeBombExpiringThisTurn);
             }
             else if (hasInflictStatusEffectOnTargetThisTurn) {
-                if (targets.get(i).afflictedStatusEffects.size() <= 0) {
+                if (targets.get(i).getAfflictedStatusEffects().size() <= 0) {
 
-                    printTargetImpact(targets.get(i).getName(), targets.get(i).oldHP, targets.get(i).getCurrentHP(),
-                            actor.atk, targets.get(i).defence, (targets.size() == 1),
+                    printTargetImpact(targets.get(i).getName(), targets.get(i).getPreviousHP(), targets.get(i).getCurrentHP(),
+                            actor.getAttack(), targets.get(i).getDefence(), (targets.size() == 1),
                             null);
                 }
                 else {
-                    printTargetImpact(targets.get(i).getName(), targets.get(i).oldHP, targets.get(i).getCurrentHP(),
-                            actor.atk, targets.get(i).defence, (targets.size() == 1),
-                            targets.get(i).afflictedStatusEffects.get(targets.get(i).afflictedStatusEffects.size() - 1)); // last status effect taken as most recently inflicted
+                    printTargetImpact(targets.get(i).getName(), targets.get(i).getPreviousHP(), targets.get(i).getCurrentHP(),
+                            actor.getAttack(), targets.get(i).getDefence(), (targets.size() == 1),
+                            targets.get(i).getAfflictedStatusEffects().get(targets.get(i).getAfflictedStatusEffects().size() - 1)); // last status effect taken as most recently inflicted
                 }
             }
             else
-                printTargetImpact(targets.get(i).getName(), targets.get(i).oldHP, targets.get(i).getCurrentHP(),
-                        actor.atk, targets.get(i).defence, (targets.size() == 1));
+                printTargetImpact(targets.get(i).getName(), targets.get(i).getPreviousHP(), targets.get(i).getCurrentHP(),
+                        actor.getAttack(), targets.get(i).getDefence(), (targets.size() == 1));
 
             // if arcane blast, print atk increase info
             if (isArcaneBlast && !targets.get(i).isAlive()) {
                 int newAtk = oldAtk + 10; // yes hardcoded 10 effect
-                if (newAtk > actor.atk) newAtk = actor.atk;
+                if (newAtk > actor.getAttack()) newAtk = actor.getAttack();
                 displayMessage("| ATK: " + oldAtk + " --> " + newAtk +
                         " (+10 per Arcane Blast kill) ");
                 oldAtk = newAtk;
@@ -239,8 +239,7 @@ public class BattleEngineUI extends UI {
         // print players
         for (int i = 0; i < players.size(); i++) {
             if (i > 0) displayMessage("| "); // if not first player
-            // TODO: adjust according to accessibility in Combatant class
-            printPlayerCondition(players.get(i).getName(), players.get(i).getCurrentHP(), players.get(i).baseHP);
+            printPlayerCondition(players.get(i).getName(), players.get(i).getCurrentHP(), players.get(i).getBaseHP());
             if (players.get(i).isStunned()) printStunnedModified();
         }
         // print enemies
