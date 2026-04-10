@@ -11,19 +11,6 @@ public class BattleContext {
     private boolean isSmokeBombActive = false;
     private int finalRoundCount = 0;
 
-    // TEMP
-    public BattleContext() {
-        Player player = new Warrior();
-        players.add(player);
-        items.add(new Potion());
-        items.add(new SmokeBomb());
-        items.add(new PowerStone());
-        player.addItems(items);
-        level = new Level(2);
-        enemies = spawnEnemies(level, false);
-        turnOrderStrategy = new SpeedBasedTurnOrderStrategy();
-    }
-
     public BattleContext(List<Combatant> selectedPlayers, List<Item> selectedItems, Level selectedLevel, TurnOrderStrategy selectedTurnOrderStrategy) {
         players = new ArrayList<>(selectedPlayers);
             // create a copy where players' stats will be modified
