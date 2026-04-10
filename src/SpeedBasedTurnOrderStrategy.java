@@ -10,7 +10,7 @@ public class SpeedBasedTurnOrderStrategy implements TurnOrderStrategy{
         Collections.sort(sorted,new Comparator<Combatant>(){
             @Override
             public int compare(Combatant c1, Combatant c2){
-                return c2.atk-c1.atk; //higher speed goes first
+                return c2.getSpeed()-c1.getSpeed(); //higher speed goes first
 
             }
         
