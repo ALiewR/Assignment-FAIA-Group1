@@ -61,7 +61,6 @@ public class BattleEngineUI extends UI {
     public void displayTurnOutcome(Combatant actor, Action action, List<Combatant> targets,
                                    boolean hasInflictStatusEffectOnTargetThisTurn,
                                    boolean isSmokeBombActive, boolean isSmokeBombExpiringThisTurn) {
-        // TODO: adjust based on how to get each info needed from each class
         // whose turn is this
         displayMessage(actor.getName() + " --> ", true);
         switch(action.getActionType()) {

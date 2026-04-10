@@ -38,7 +38,7 @@ public class BattleContext {
             }
         }
 
-        // from level, spawn inital wave of enemies -- TODO: adjust according to how spawner and level is implemented
+        // from level, spawn initial wave of enemies
         level = selectedLevel;
         enemies = spawnEnemies(level, false);
 
