@@ -1,8 +1,8 @@
 public abstract class StatusEffect {
-    public STATUS_EFFECT_TYPE statusEffectType;
-    public String name;
-    public int maxDuration;
-    public int currentDuration;
+    protected STATUS_EFFECT_TYPE statusEffectType;
+    protected String name;
+    protected int maxDuration;
+    protected int currentDuration;
     public StatusEffect(STATUS_EFFECT_TYPE statusEffectType, String name, int maxDuration) {
         this.statusEffectType=statusEffectType;
         this.name=name;
