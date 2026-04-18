@@ -1,0 +1,758 @@
+commit a02fbb49729c3b9fe24695693f2a15bde3c3a344
+Author: ALiewR <arielliewrui@gmail.com>
+Date:   Sat Apr 18 14:04:37 2026 +0800
+
+    added diagram pdfs
+
+commit a3efb1105610ad53385ed96614b8624c427b9233
+Author: Bharat_12345 <devcricaggarwal29@gmail.com>
+Date:   Fri Apr 17 01:38:40 2026 +0800
+
+    edited access specifiers
+
+commit c30542d84bd1d68a8dce77bb811b1438434471dc
+Author: alfrxd2 <alfrxd2@gmail.com>
+Date:   Fri Apr 10 19:22:20 2026 +0800
+
+    Update SpeedBasedTurnOrderStrategy.java
+    
+    change to getSpeed() to match the getter
+
+commit aaf6d3ed91714ec06f86809aacbaa5fffd6b5500
+Author: ALiewR <arielliewrui@gmail.com>
+Date:   Fri Apr 10 12:03:02 2026 +0800
+
+    removed temp constructor for battle context previously used for testing purposes
+
+commit aaa0d5138f25530a5fa15130fd809d665ae69849
+Author: ALiewR <arielliewrui@gmail.com>
+Date:   Fri Apr 10 11:46:59 2026 +0800
+
+    cleaned up some comments in battle
+
+commit 94100af5fde6bca9cda8dfa3edbb0563b59f4f4e
+Author: D3VYXNSH <devyansh002@e.ntu.edu.sg>
+Date:   Fri Apr 10 02:26:12 2026 +0800
+
+    SpecialSkill subclasses updated to use an overload execute method with boolean parameter to control cooldown resetting allowing power sfone to trigger skills without affecting cooldown
+
+commit 0b28e337ed5acc091e2edeb59d16fe2e1bf54aeb
+Merge: cdb397f 09cbc0a
+Author: alfrxd2 <alfrxd2@gmail.com>
+Date:   Fri Apr 10 00:22:22 2026 +0800
+
+    Merge branch 'main' of https://github.com/ALiewR/Assignment-FAIA-Group1
+
+commit 09cbc0a39b3d5cebd5e769e70ec8ae178208710d
+Author: ALiewR <arielliewrui@gmail.com>
+Date:   Fri Apr 10 00:15:26 2026 +0800
+
+    finished updated battle and game completion to use Combatant's getters
+
+commit cdb397f3d1ac0bf3a97afa4e4416536fac89d360
+Merge: a7737c5 b978dd2
+Author: alfrxd2 <alfrxd2@gmail.com>
+Date:   Fri Apr 10 00:10:34 2026 +0800
+
+    Merge branch 'main' of https://github.com/ALiewR/Assignment-FAIA-Group1
+
+commit a7737c586b0d9be91fa2f671a102bb6223da34a0
+Author: alfrxd2 <alfrxd2@gmail.com>
+Date:   Fri Apr 10 00:09:38 2026 +0800
+
+    aligning the getters methods
+    
+    1.from enemy("Goblin A) to Golblin("A)
+    2. from item("smoke bomb") to SmokeBomb()
+    3. .name to getName()
+
+commit b978dd20ad051297c0c82dcd46a995a86a33ea0c
+Author: ALiewR <arielliewrui@gmail.com>
+Date:   Fri Apr 10 00:03:33 2026 +0800
+
+    updated battle and game completion to use Combatant's getters
+
+commit 32e1a2168dd34c608a4f92d3f59fe89480206f79
+Author: ALiewR <arielliewrui@gmail.com>
+Date:   Thu Apr 9 23:53:07 2026 +0800
+
+    fixed battle run unending with no user prompt issue
+
+commit 2b43972eef43a67315686420357bfdcef1a5fa42
+Merge: 6cf2eca 36d993b
+Author: alfrxd2 <alfrxd2@gmail.com>
+Date:   Thu Apr 9 23:24:09 2026 +0800
+
+    Merge pull request #1 from ALiewR/Alfred
+    
+    LoadingScreen, Level,  UI(integration), main(integration), printer (integration)
+
+commit 36d993b19be15e287f42f6e6e3be79892294739e
+Merge: 1bed9ba 6cf2eca
+Author: alfrxd2 <alfrxd2@gmail.com>
+Date:   Thu Apr 9 23:23:46 2026 +0800
+
+    Merge branch 'main' into Alfred
+
+commit 6cf2ecaee8c1be7fce838704f06e82a4d8d5da18
+Merge: c961b3d e8bf4e5
+Author: ALiewR <arielliewrui@gmail.com>
+Date:   Thu Apr 9 23:03:21 2026 +0800
+
+    Merge branch 'main' of https://github.com/ALiewR/Assignment-FAIA-Group1
+
+commit c961b3d53017cd49493f40d72b69219471b9cbba
+Author: ALiewR <arielliewrui@gmail.com>
+Date:   Thu Apr 9 23:03:12 2026 +0800
+
+    updated battle and game completion side to use Action and Item's getters
+
+commit e8bf4e5637fb3c01847ffa62ca4614a79deb0fe1
+Merge: 4a5c4a8 8914443
+Author: D3VYXNSH <devyansh002@e.ntu.edu.sg>
+Date:   Thu Apr 9 23:02:53 2026 +0800
+
+    Merge branch 'main' of https://github.com/ALiewR/Assignment-FAIA-Group1
+
+commit 4a5c4a847984f5e7b2e34f881770227f733de434
+Author: D3VYXNSH <devyansh002@e.ntu.edu.sg>
+Date:   Thu Apr 9 23:02:38 2026 +0800
+
+    invoke cooldown method for power stone so that special skills are triggered without affecting cooldown
+
+commit 8a9a99014a816601b443beefb558d157b81c7547
+Author: D3VYXNSH <devyansh002@e.ntu.edu.sg>
+Date:   Thu Apr 9 23:02:07 2026 +0800
+
+    added overloaded execute to control cooldown resetting
+
+commit 8914443e38324bb86bd9be09f0ac505ef661e838
+Author: ALiewR <arielliewrui@gmail.com>
+Date:   Thu Apr 9 22:52:32 2026 +0800
+
+    updated BattleEngine so using PowerStone targets all targets the SpecialSkill triggered can
+
+commit 1bed9bae43cb6b6c348fb257947f98c9c5f4550f
+Author: alfrxd2 <alfrxd2@gmail.com>
+Date:   Thu Apr 9 22:40:31 2026 +0800
+
+    save before rebase
+
+commit a404d87232d0cb7527c8df9670ec3af31414841e
+Author: alfrxd2 <alfrxd2@gmail.com>
+Date:   Thu Apr 9 19:51:05 2026 +0800
+
+    9apr
+
+commit 5a5176976b37d7baa1000d4a24d12cbcad0294a7
+Author: ALiewR <arielliewrui@gmail.com>
+Date:   Thu Apr 9 22:38:11 2026 +0800
+
+    slight Def adjustments to make it functionally last 2 turns
+
+commit 1b14e986e44a427c28f0ee129709996b59710637
+Merge: de64a96 630bbb5
+Author: ALiewR <arielliewrui@gmail.com>
+Date:   Thu Apr 9 22:29:34 2026 +0800
+
+    Merge branch 'main' of https://github.com/ALiewR/Assignment-FAIA-Group1
+
+commit de64a9646042dd6234d7a0cb2643b368abcb2682
+Author: ALiewR <arielliewrui@gmail.com>
+Date:   Thu Apr 9 22:29:27 2026 +0800
+
+    adjusted Battle to follow Player's way of getting/setting UseItem actions based on available items
+
+commit 630bbb5ab5901b85e35ef506dce10ac08e055967
+Author: D3VYXNSH <devyansh002@e.ntu.edu.sg>
+Date:   Thu Apr 9 22:26:46 2026 +0800
+
+    edited execute to incorporate the new DefenceBoost class
+
+commit b469ece3f71bd7e2b3d50df1b68f1c64ee0f093c
+Author: D3VYXNSH <devyansh002@e.ntu.edu.sg>
+Date:   Thu Apr 9 22:24:55 2026 +0800
+
+    added applied=false to handle edge case of same object being used again
+
+commit 30cef6f4ce3234bdd8099c2a705d86f28c6116b6
+Author: sushmithabalaji <sushmithabalaji2007@gmail.com>
+Date:   Thu Apr 9 20:48:53 2026 +0800
+
+    Add getAvailableActions() to Combatant
+    
+    Added overloaded getAvailableActions(List<Item> items) that filters available actions
+
+commit a492bc82f41f7d010a4ee2b702240ad3e9c98ee9
+Author: Bharat_12345 <devcricaggarwal29@gmail.com>
+Date:   Thu Apr 9 19:21:10 2026 +0800
+
+    created and edited child class DefenceBoost
+
+commit 5c709d0a92ada571d3d98f961ed4962f1714a78f
+Author: ALiewR <arielliewrui@gmail.com>
+Date:   Thu Apr 9 13:44:07 2026 +0800
+
+    fixed ShieldBash appling stun to actor instead of target
+
+commit 7a836293b7793df5ec40f9e0c6acae11243a2ee3
+Author: ALiewR <arielliewrui@gmail.com>
+Date:   Thu Apr 9 13:35:44 2026 +0800
+
+    replaced Combatant's constructors with stats to default constructors
+
+commit c40098d3a30fdd8ec5ea77eb5707e0e43b02dd77
+Author: ALiewR <arielliewrui@gmail.com>
+Date:   Thu Apr 9 13:30:55 2026 +0800
+
+    added Sushmirtha's files adjusted to prevent error, adjusted some Action child classes to use Combatant class methods
+
+commit 9be57a0e212d1ec0d8e0afbdb7d3b5afa7e4e220
+Author: alfrxd2 <alfrxd2@gmail.com>
+Date:   Thu Apr 9 12:14:57 2026 +0800
+
+    Reapply "8apr update"
+    
+    This reverts commit 190268fb1ecc64c1063ca2ba65d5fe1ef0d8be36.
+
+commit 190268fb1ecc64c1063ca2ba65d5fe1ef0d8be36
+Author: alfrxd2 <alfrxd2@gmail.com>
+Date:   Thu Apr 9 12:12:43 2026 +0800
+
+    Revert "8apr update"
+    
+    This reverts commit c243258efc07ce8cdfb3a3994c9a6165955724ab.
+
+commit 42b4c7ec9f1442eed37106f9e5a691ffcdfd3ee8
+Author: ALiewR <arielliewrui@gmail.com>
+Date:   Thu Apr 9 12:10:23 2026 +0800
+
+    updated battle engine UI to accept user input starting from 1 not 0
+
+commit 2383b782a45fb867ae4f05bec917243d499c03de
+Author: Bharat_12345 <devcricaggarwal29@gmail.com>
+Date:   Wed Apr 8 19:13:08 2026 +0800
+
+    Update Stun.java
+
+commit c243258efc07ce8cdfb3a3994c9a6165955724ab
+Author: alfrxd2 <alfrxd2@gmail.com>
+Date:   Wed Apr 8 15:05:47 2026 +0800
+
+    8apr update
+
+commit f55dbd596c52608db7299a0a0eb425bf1ed87f56
+Author: ALiewR <arielliewrui@gmail.com>
+Date:   Tue Apr 7 15:28:10 2026 +0800
+
+    amended items and actions to make everything work together ok
+
+commit 91f3cd587aff3f2c14a26de404ecaa1dbbab606d
+Author: alfrxd2 <alfrxd2@gmail.com>
+Date:   Tue Apr 7 14:38:55 2026 +0800
+
+    Update 7apr
+
+commit b0b931679bc51a0f8a905ac3ca68ef8b1fc77809
+Author: Bharat_12345 <devcricaggarwal29@gmail.com>
+Date:   Mon Apr 6 20:00:48 2026 +0800
+
+    child classes edited
+
+commit b0e6b9d1042ec1adfab7843496634ff800e8592d
+Merge: 249f1c4 ef68c9d
+Author: Bharat_12345 <devcricaggarwal29@gmail.com>
+Date:   Mon Apr 6 19:38:33 2026 +0800
+
+    Merge branch 'main' of https://github.com/ALiewR/Assignment-FAIA-Group1
+
+commit 249f1c47faeac4c7a3e527067e2be62a51e83d4b
+Author: Bharat_12345 <devcricaggarwal29@gmail.com>
+Date:   Mon Apr 6 19:38:08 2026 +0800
+
+    child classes edited
+
+commit ef68c9d6df3eccd3624ccc8e2f27f80190749ec0
+Author: ALiewR <arielliewrui@gmail.com>
+Date:   Mon Apr 6 19:30:19 2026 +0800
+
+    updated combatant to avoid error from changes made to status effect class
+
+commit a8782a46e5b6e9167cbb18b577108e921587c013
+Author: Bharat_12345 <devcricaggarwal29@gmail.com>
+Date:   Mon Apr 6 19:22:55 2026 +0800
+
+    edited
+
+commit 5afc8f7346d8d8031cb1451856e1f6aaba23011d
+Author: Bharat_12345 <devcricaggarwal29@gmail.com>
+Date:   Mon Apr 6 18:42:51 2026 +0800
+
+    CREATE
+
+commit 2f307e9dcb16e44480e9f4b3eceee8fb4b01d52e
+Merge: 0652e87 7b21043
+Author: Bharat_12345 <devcricaggarwal29@gmail.com>
+Date:   Mon Apr 6 18:17:02 2026 +0800
+
+    Merge branch 'main' of https://github.com/ALiewR/Assignment-FAIA-Group1
+
+commit 0652e873e335739acf0182f07ca68e6312d2cfc7
+Author: Bharat_12345 <devcricaggarwal29@gmail.com>
+Date:   Mon Apr 6 18:16:57 2026 +0800
+
+    edited
+
+commit 7b2104332193f09dd6f933cd02aae294f60baeb4
+Author: D3VYXNSH <devyansh002@e.ntu.edu.sg>
+Date:   Mon Apr 6 16:20:12 2026 +0800
+
+    incorporated getting actors special skill and using said skpecial skill on targets
+
+commit 2cd773fb228f7f1ab4f2a2112f327f6a1a76327c
+Author: D3VYXNSH <devyansh002@e.ntu.edu.sg>
+Date:   Mon Apr 6 16:19:27 2026 +0800
+
+    edited
+
+commit f2324cdbf4c4cec7a73c5fb04ea0ffa7d765773e
+Author: D3VYXNSH <devyansh002@e.ntu.edu.sg>
+Date:   Mon Apr 6 16:19:15 2026 +0800
+
+    added power stone
+
+commit 62be3ba43e1535c8dacdb74cf5b0d883393e4b85
+Author: D3VYXNSH <devyansh002@e.ntu.edu.sg>
+Date:   Mon Apr 6 16:19:04 2026 +0800
+
+    changed the getspecialskill method to handle null
+
+commit ba0b8f969bec0faed64caf999585347d40bb9159
+Author: ALiewR <arielliewrui@gmail.com>
+Date:   Mon Apr 6 14:26:38 2026 +0800
+
+    TEMP so program can run (remove status effect from shield bash)
+
+commit ff1922a869eaf08a47031905b040d2b9c76b9e8c
+Author: ALiewR <arielliewrui@gmail.com>
+Date:   Mon Apr 6 14:25:53 2026 +0800
+
+    Update StatusEffect.java
+
+commit b5cca87f898bb962957335c8f87904885313fe25
+Author: ALiewR <arielliewrui@gmail.com>
+Date:   Mon Apr 6 14:25:13 2026 +0800
+
+    temp changed SE back to non-abstract to avoid error
+
+commit 5ddddb3268faea4c992e6b1f2c95b05c2e0ceb09
+Author: ALiewR <arielliewrui@gmail.com>
+Date:   Mon Apr 6 14:20:32 2026 +0800
+
+    TEMP removed status effect use to prevent error form SE turning abstract
+
+commit 873442badb729cfe9dad467272f6f467185a246e
+Merge: c1db170 5890ddc
+Author: Bharat_12345 <devcricaggarwal29@gmail.com>
+Date:   Mon Apr 6 14:17:46 2026 +0800
+
+    Merge branch 'main' of https://github.com/ALiewR/Assignment-FAIA-Group1
+
+commit c1db170580b87fce705e1bc27327b97faa9ffe26
+Author: Bharat_12345 <devcricaggarwal29@gmail.com>
+Date:   Mon Apr 6 14:17:41 2026 +0800
+
+    edited
+
+commit 5890ddcd6c894676d4f40a8083815466d3227825
+Merge: 6e7885e 6859c80
+Author: D3VYXNSH <devyansh002@e.ntu.edu.sg>
+Date:   Mon Apr 6 14:16:43 2026 +0800
+
+    Merge branch 'main' of https://github.com/ALiewR/Assignment-FAIA-Group1
+
+commit 6e7885ea6763b15be24c39df176030125b6d800c
+Author: D3VYXNSH <devyansh002@e.ntu.edu.sg>
+Date:   Mon Apr 6 14:16:28 2026 +0800
+
+    Delete TestAction.java
+
+commit 6859c803a09a52d4d0369a143f69a91e4c4f91cc
+Merge: 0d56fe8 bf78da2
+Author: ALiewR <arielliewrui@gmail.com>
+Date:   Mon Apr 6 14:16:21 2026 +0800
+
+    Merge branch 'main' of https://github.com/ALiewR/Assignment-FAIA-Group1
+
+commit 0d56fe8fc834da250169006234998e303dec4582
+Author: ALiewR <arielliewrui@gmail.com>
+Date:   Mon Apr 6 14:16:13 2026 +0800
+
+    updated BattleEngine to use Action getters for inflict status effect bool
+
+commit bf78da23268879655929bf00e9482ed836f0241b
+Author: D3VYXNSH <devyansh002@e.ntu.edu.sg>
+Date:   Mon Apr 6 14:15:24 2026 +0800
+
+    edited description
+
+commit 51e5d519ee32a42324d02407424b3a3bd43fc9ec
+Merge: 1ace773 95ae819
+Author: ALiewR <arielliewrui@gmail.com>
+Date:   Mon Apr 6 14:13:22 2026 +0800
+
+    Merge branch 'main' of https://github.com/ALiewR/Assignment-FAIA-Group1
+
+commit 1ace773db9d248fdb02319a1a123f59462703340
+Author: ALiewR <arielliewrui@gmail.com>
+Date:   Mon Apr 6 14:13:15 2026 +0800
+
+    updated BattleEngine to use Action getters for protected variables
+
+commit 95ae819d5e66c191f7be5e3483ca8616a363244d
+Merge: becb0f6 4835285
+Author: D3VYXNSH <devyansh002@e.ntu.edu.sg>
+Date:   Mon Apr 6 14:11:54 2026 +0800
+
+    Merge branch 'main' of https://github.com/ALiewR/Assignment-FAIA-Group1
+
+commit becb0f64e52b6a0dd55b2b30d14305e232b714e3
+Author: D3VYXNSH <devyansh002@e.ntu.edu.sg>
+Date:   Mon Apr 6 14:11:34 2026 +0800
+
+    improved description
+
+commit 50a77400c846a6e511ef4c49a89ae920bb6b49c2
+Author: D3VYXNSH <devyansh002@e.ntu.edu.sg>
+Date:   Mon Apr 6 14:11:21 2026 +0800
+
+    added getter for actiontype
+
+commit 4835285997c7d19ae5fb415f234dec46eb700831
+Author: ALiewR <arielliewrui@gmail.com>
+Date:   Mon Apr 6 14:10:00 2026 +0800
+
+    changed display for damage dealt to limit min at 0
+
+commit 1e7625973706670c4f067f0abf64187cca0db295
+Merge: 4986d7b 6ded914
+Author: D3VYXNSH <devyansh002@e.ntu.edu.sg>
+Date:   Mon Apr 6 14:05:25 2026 +0800
+
+    Merge branch 'main' of https://github.com/ALiewR/Assignment-FAIA-Group1
+
+commit 4986d7b9a5a7181ead11867a8e3bb82d65243e51
+Author: D3VYXNSH <devyansh002@e.ntu.edu.sg>
+Date:   Mon Apr 6 14:04:38 2026 +0800
+
+    recent updates
+
+commit 6ded9147d0ae8c02be041ef09f814aa1e816e873
+Author: ALiewR <arielliewrui@gmail.com>
+Date:   Mon Apr 6 13:46:19 2026 +0800
+
+    edited use of Action to account for change made to Action being abstract
+
+commit 36a240204bd7e3eaaa2ca7ca4585e82d7ac81ee8
+Author: D3VYXNSH <devyansh002@e.ntu.edu.sg>
+Date:   Mon Apr 6 13:41:08 2026 +0800
+
+    edited the code in accordance with the subclasses
+
+commit 78211d2bf9aa2068b8623cfa79544cdac5b3a18e
+Author: D3VYXNSH <devyansh002@e.ntu.edu.sg>
+Date:   Mon Apr 6 13:33:11 2026 +0800
+
+    added subclasses of action class
+
+commit 1a9511b30e458e160c642714c9545ae69a82022d
+Author: D3VYXNSH <devyansh002@e.ntu.edu.sg>
+Date:   Mon Apr 6 13:32:56 2026 +0800
+
+    changed access modifiers to protected and edited execute method
+
+commit ab5dd02d63dba84f57194989701732701b9c6d8a
+Merge: 727098d c4c6153
+Author: D3VYXNSH <devyansh002@e.ntu.edu.sg>
+Date:   Mon Apr 6 13:31:21 2026 +0800
+
+    Merge branch 'main' of https://github.com/ALiewR/Assignment-FAIA-Group1
+
+commit 727098d371d41fd0f9d49a9e5af77dd6f380dbb8
+Author: D3VYXNSH <devyansh002@e.ntu.edu.sg>
+Date:   Mon Apr 6 13:29:59 2026 +0800
+
+    created subclasses for action class
+
+commit c4c615363ec3d7bc8cc72659a73bcb060ebf9612
+Author: ALiewR <arielliewrui@gmail.com>
+Date:   Mon Apr 6 12:48:24 2026 +0800
+
+    commented out tempCodeRunnerFile since it causes error
+
+commit 78342835d7d69164a2b5fd95ec59c505ebef9f53
+Merge: 85e6191 3edce0c
+Author: Bharat_12345 <devcricaggarwal29@gmail.com>
+Date:   Mon Apr 6 00:05:29 2026 +0800
+
+    Merge branch 'main' of https://github.com/ALiewR/Assignment-FAIA-Group1
+
+commit 85e6191e7c1d35ea71eda38004082ca4e5170b2b
+Author: Bharat_12345 <devcricaggarwal29@gmail.com>
+Date:   Mon Apr 6 00:05:14 2026 +0800
+
+    Create tempCodeRunnerFile.java
+
+commit 7a5bfdb7e2df566966dcd73e26d2982bf6decefd
+Author: alfrxd2 <alfrxd2@gmail.com>
+Date:   Sun Apr 5 21:11:56 2026 +0800
+
+    Updated
+
+commit 3edce0c4b4a38342d75a37f8b1480059f1100441
+Author: D3VYXNSH <devyansh002@e.ntu.edu.sg>
+Date:   Sun Apr 5 19:30:41 2026 +0800
+
+    Added a tester class
+
+commit 30159980cf2ea52db0c6c99f26f6eac6de4303d7
+Author: D3VYXNSH <devyansh002@e.ntu.edu.sg>
+Date:   Sun Apr 5 19:22:37 2026 +0800
+
+    updated the working class
+
+commit faa76c362b5eba805a64c197f3547af046ef8e43
+Author: D3VYXNSH <devyansh002@e.ntu.edu.sg>
+Date:   Sun Apr 5 18:01:53 2026 +0800
+
+    updated action class structure
+
+commit 0f054367e7708ea90e023a87db5d301b138615a8
+Author: D3VYXNSH <devyansh002@e.ntu.edu.sg>
+Date:   Sun Apr 5 16:52:07 2026 +0800
+
+    Updates
+    
+    Updated Action class structure and fields
+
+commit 8a64a51891d5599759da5261b053b037307cff96
+Author: D3VYXNSH <devyansh002@e.ntu.edu.sg>
+Date:   Sun Apr 5 16:51:03 2026 +0800
+
+    Changes
+    
+    Added action class and enums (ACTION_TYPE , TARGET_TYPE)
+
+commit ad3085e4f7e784c9e62d9248dbe2136de61cc163
+Author: alfrxd2 <alfrxd2@gmail.com>
+Date:   Fri Apr 3 15:32:38 2026 +0800
+
+    Added comments
+
+commit 04fa6ae56601e86eb5938b7f01c37ea8572b32b6
+Author: alfrxd2 <alfrxd2@gmail.com>
+Date:   Fri Apr 3 15:23:14 2026 +0800
+
+    Testing 123
+
+commit 0af395070f03a972ba53ee500f0e091ac234d99e
+Author: ALiewR <arielliewrui@gmail.com>
+Date:   Thu Mar 26 10:59:28 2026 +0800
+
+    changed selectAction param type and adjusted accordingly
+
+commit 93fd1c39bef1c6ace7b50f99bd7dbd39daef9be5
+Author: ALiewR <arielliewrui@gmail.com>
+Date:   Mon Mar 23 23:46:49 2026 +0800
+
+    added messages for each next game option
+
+commit 1d1e974ccfac93f67db9025d4593e668fe6b8fda
+Author: ALiewR <arielliewrui@gmail.com>
+Date:   Mon Mar 23 23:39:14 2026 +0800
+
+    removed temporary game los declaration
+
+commit 751aed9127fd7cb8b484bcd7fa905e60ea3db5d3
+Author: ALiewR <arielliewrui@gmail.com>
+Date:   Mon Mar 23 23:38:37 2026 +0800
+
+    added replay with same settings or exit upon game defeat functionality
+
+commit 8569b32269e3dd220e98d5473c2abaaf9966c4a2
+Author: ALiewR <arielliewrui@gmail.com>
+Date:   Mon Mar 23 23:15:17 2026 +0800
+
+    added exit functionality to game completion screen
+
+commit e0177cc81c2f2489a48318e8f6bca1ec89b51d0d
+Author: ALiewR <arielliewrui@gmail.com>
+Date:   Mon Mar 23 23:05:09 2026 +0800
+
+    game completion ui printing
+
+commit 7606df54a230152431ad690e76bcd4652129bb2f
+Author: ALiewR <arielliewrui@gmail.com>
+Date:   Mon Mar 23 22:33:54 2026 +0800
+
+    added cooldown printing to turn display when using special skill
+
+commit 0684b0e5f6af09ac5a5a705900d5ee656cec2d87
+Author: ALiewR <arielliewrui@gmail.com>
+Date:   Mon Mar 23 22:31:45 2026 +0800
+
+    added arcane blast printing in UI
+
+commit 91e12aa0e202d124cb2ec82ffd9c0a6727258512
+Author: ALiewR <arielliewrui@gmail.com>
+Date:   Mon Mar 23 22:13:33 2026 +0800
+
+    updated reset item use
+
+commit 5cd09858ce012d33247b82dc870c45b71b08b46f
+Author: ALiewR <arielliewrui@gmail.com>
+Date:   Mon Mar 23 22:12:05 2026 +0800
+
+    added item "consumed" to end of turn UI
+
+commit 600ca76b99b250e02992ed7824d4ddc4146e1737
+Author: ALiewR <arielliewrui@gmail.com>
+Date:   Mon Mar 23 21:59:53 2026 +0800
+
+    fixed smoke bomb not working issue
+
+commit 423552bbe411f7c40844f3589facb0a830b40a5a
+Author: ALiewR <arielliewrui@gmail.com>
+Date:   Mon Mar 23 21:57:07 2026 +0800
+
+    added use power stone UI
+
+commit fe0732c7cb7db6ff2921270d0be5474dc74b6ff8
+Author: ALiewR <arielliewrui@gmail.com>
+Date:   Mon Mar 23 21:41:52 2026 +0800
+
+    added hardcoded special skill for testing
+
+commit 61a881ceddce55121f9156debbb9a3fa09bd5cab
+Author: ALiewR <arielliewrui@gmail.com>
+Date:   Mon Mar 23 21:33:47 2026 +0800
+
+    added use potion UI + base functionality
+    
+    specifics should be done better in use item's child class
+
+commit 4455c6e83c294d17bcda32a0fec9c0e6ad30c507
+Author: ALiewR <arielliewrui@gmail.com>
+Date:   Mon Mar 23 21:14:01 2026 +0800
+
+    added smoke bomb UI printing + function in battle
+    
+    but not in item or actions. changes made to item and actions are superficial: done just so BattleEngine can work and test
+
+commit 716e84d9440cd824db5246f849f3417b9f396611
+Author: ALiewR <arielliewrui@gmail.com>
+Date:   Mon Mar 23 14:42:13 2026 +0800
+
+    fixed printing when stat eff null issue
+
+commit e853b0674e25ca51524b4cf9e90e8096244faf8f
+Author: ALiewR <arielliewrui@gmail.com>
+Date:   Mon Mar 23 14:28:59 2026 +0800
+
+    fix getlast issue
+
+commit 4646a6283822b6bd295a95009b7e75c735d37384
+Author: ALiewR <arielliewrui@gmail.com>
+Date:   Mon Mar 23 14:26:25 2026 +0800
+
+    redid past undo
+
+commit 9de2520b3e682bbbbfae0425832ed952b648dd3d
+Author: ALiewR <arielliewrui@gmail.com>
+Date:   Mon Mar 23 14:25:17 2026 +0800
+
+    undo changing of getfrist and getlast
+
+commit 25fd504457cc0ceb6ed234767b83d13398b5ea52
+Author: ALiewR <arielliewrui@gmail.com>
+Date:   Mon Mar 23 14:16:34 2026 +0800
+
+    replace getFirst and getLast with get index
+    
+    trying to resolve others' "getFirst" issues --> List class not importing properly?
+
+commit bfc396ae499b93646b1c646c7440e8e0a6fbcc25
+Author: ALiewR <arielliewrui@gmail.com>
+Date:   Mon Mar 23 14:04:37 2026 +0800
+
+    changed main to a class
+
+commit 23117749a56ea3559d924f3a9cdd70164382560f
+Author: ALiewR <arielliewrui@gmail.com>
+Date:   Mon Mar 23 14:04:01 2026 +0800
+
+    removed main
+
+commit 458d616aaffb9ac3f10529b920573163ac1c74f4
+Author: ALiewR <arielliewrui@gmail.com>
+Date:   Mon Mar 23 13:28:41 2026 +0800
+
+    added temp BattleEngine use in main
+    
+    should come after LoadingScreen init BattleContext
+
+commit 943f3e4e5784c217cf0264945102ae3bbbf34b94
+Author: ALiewR <arielliewrui@gmail.com>
+Date:   Mon Mar 23 13:26:32 2026 +0800
+
+    added and 70% complete BattleEngine section
+    
+    only missing item specific printing, smoke bomb implementation, adjustments according to how other classes are structured
+
+commit 41a20288da6ef55f5a9482d9adf5c0f91edf3cbb
+Author: ALiewR <arielliewrui@gmail.com>
+Date:   Mon Mar 23 13:25:28 2026 +0800
+
+    added base for TurnOrderStrategy for other classes' use
+
+commit 93410cd8bb97b192f79d065192bfc90bc7718eac
+Author: ALiewR <arielliewrui@gmail.com>
+Date:   Mon Mar 23 13:24:53 2026 +0800
+
+    Create UI.java
+
+commit c2cfa7e41b02ed4ff5f761b53070ef3992cdd65c
+Author: ALiewR <arielliewrui@gmail.com>
+Date:   Mon Mar 23 13:24:47 2026 +0800
+
+    added base for Printer & Lvl for other classes' use
+
+commit b6c065cf26adc0b915c84995c06bb95a786bb361
+Author: ALiewR <arielliewrui@gmail.com>
+Date:   Mon Mar 23 13:23:38 2026 +0800
+
+    added base for Item & Status Effect for other classes' use
+
+commit 9038e254b1fd080ea8f2a3710a080c1522892036
+Author: ALiewR <arielliewrui@gmail.com>
+Date:   Mon Mar 23 13:22:45 2026 +0800
+
+    added base for Action for other classes' use
+
+commit 4c78c70c9e52b40150389778c29a1d821865bc9d
+Author: ALiewR <arielliewrui@gmail.com>
+Date:   Mon Mar 23 13:20:54 2026 +0800
+
+    added base for Combatant for other classes' use
+
+commit 70ecc80479a56b027976a2aaa91e7d18b162d693
+Author: ALiewR <arielliewrui@gmail.com>
+Date:   Thu Mar 19 12:06:06 2026 +0800
+
+    cleared default code in main
+
+commit 182e3110dbc328ea14c406f630638d7ec3ea3df0
+Author: ALiewR <arielliewrui@gmail.com>
+Date:   Thu Mar 19 12:04:37 2026 +0800
+
+    Initial commit
