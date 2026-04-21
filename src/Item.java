@@ -17,6 +17,8 @@ public abstract class Item {
         return used;
         
     }
+    public void resetUse() { used = false; currentDurationLeft = 0; }
+    public boolean getIsUsed() { return used; }
     public void markAsUsed() {
         used=true;
         currentDurationLeft = maxDuration;
