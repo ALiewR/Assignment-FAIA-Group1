@@ -55,7 +55,6 @@ Two players each pick a class (Warrior or Wizard) and fight through waves of ene
 
 ## Sample Gameplay
 
----
 
 ## Design
 
